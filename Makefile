@@ -1,39 +1,48 @@
-NAME 	=	minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/06 13:16:58 by sasaicic          #+#    #+#              #
+#    Updated: 2021/09/06 13:17:38 by sasaicic         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRC		=   main.c test.c \
+NAME = minishell
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+SRCS = main.c test.c
+INC = -Iincludes -Ilibft
+OBJS = $(SRCS:.c=.o)
+LIBFT = libft.a
+D_LIBFT = ./libft
 
-SRCS 	= 	$(addprefix $(D_SRCS)/, $(SRC))
+vpath %.c srcs
+vpath %.o obj
+vpath %.h includes libft
 
-D_SRCS	=	./srcs
-D_LIBFT	=	./libft
-INC		=	./includes
+all: $(LIBFT) $(NAME)
 
-OBJS	=	$(SRCS:.c=.o)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
 
-CC		=	gcc
+$(LIBFT):
+	$(MAKE) -C $(D_LIBFT)
 
-CFLAGS	=	
-RM		=	rm -rf
+$(OBJS): %.o: %.c
+	mkdir -p obj
+	$(CC) -c $(CFLAGS) $< $(INC) -o obj/$@
 
-all:		$(OBJS)
-			make -C $(D_LIBFT)
-			$(CC) $(OBJS) $(CFLAGS) -I$(INC) -I$(D_LIBFT) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
+clean:
+	make clean -C $(D_LIBFT)
+	$(RM) -rf obj
 
-clean:		
-			make clean -C $(D_LIBFT)
-			$(RM) $(OBJS)
+fclean: clean
+	$(MAKE) fclean -C $(D_LIBFT)
+	$(RM) -rf $(NAME)
 
-fclean:		clean
-			make fclean -C $(D_LIBFT)
-			$(RM) $(NAME)
-
-re:			fclean
-			make re -C $(D_LIBFT)
-			make
-
-%.o:%.c
-			@gcc $(CFLAGS) -c $< -o $@ -I$(INC) -I$(D_LIBFT)
+re: fclean all
 
 .PHONY: all fclean clean re
-
-
