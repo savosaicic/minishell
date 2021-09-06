@@ -10,7 +10,6 @@
 #include "libft.h"
 
 void test_readline();
-void test_unset();
 
 
 #endif

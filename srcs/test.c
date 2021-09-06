@@ -8,9 +8,3 @@ void test_readline()
 	str = readline( "bash$ " );
 	printf("result %s", str);
 }
-
-
-void test_unset()
-{
-	
-}
