@@ -6,7 +6,7 @@
 /*   By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 10:50:30 by jboisser          #+#    #+#             */
-/*   Updated: 2020/12/19 10:50:31 by jboisser         ###   ########.fr       */
+/*   Updated: 2021/09/11 11:30:54 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putstr(char *str)
 {
-	while (str)
+	while (*str)
 	{
 		ft_putchar(*str);
 		str++;
