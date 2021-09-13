@@ -16,22 +16,22 @@ typedef enum	e_ttype
 	T_PIPE
 }				t_ttype;
 
-typedef struct	s_cmd
+typedef struct	s_tokenlst
 {
 	t_ttype			token_type;
 	char			*token;
-	struct s_cmd	*next;
-}				t_cmd;
+	struct s_tokenlst	*next;
+}				t_tokenlst;
 
-void	print_list(t_cmd *list);
-t_cmd	*new_node(char *token);
-int		lst_size(t_cmd	*head);
-t_cmd	*get_last_node(t_cmd *head);
-void	delete_list(t_cmd **head);
-void	push_front(t_cmd **head, t_cmd *new_node);
-void	push_back(t_cmd **head, t_cmd *new_node);
+void	print_list(t_tokenlst *list);
+t_tokenlst	*new_node(char *token);
+int		lst_size(t_tokenlst	*head);
+t_tokenlst	*get_last_node(t_tokenlst *head);
+void	delete_list(t_tokenlst **head);
+void	push_front(t_tokenlst **head, t_tokenlst *new_node);
+void	push_back(t_tokenlst **head, t_tokenlst *new_node);
 
-t_cmd	*get_token(char *cmd_buffer);
+t_tokenlst	*get_token(char *cmd_buffer);
 t_ttype	get_token_type(char *token);
 
 #endif

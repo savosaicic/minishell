@@ -5,7 +5,7 @@ int main(int ac, char **av)
 	(void)ac;
 	(void)av;
 	char	*cmd_buffer;
-	t_cmd	*head;
+	t_tokenlst	*head;
 	
 
 	while (1)

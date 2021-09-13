@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-t_cmd	*new_node(char *token)
+t_tokenlst	*new_node(char *token)
 {
-	t_cmd	*node;
+	t_tokenlst	*node;
 
-	node = malloc(sizeof(t_cmd));
+	node = malloc(sizeof(t_tokenlst));
 	if (!node)
 		return (NULL);
 	node->token_type = get_token_type(token);
@@ -13,7 +13,7 @@ t_cmd	*new_node(char *token)
 	return (node);
 }
 
-int		lst_size(t_cmd	*head)
+int		lst_size(t_tokenlst	*head)
 {
 	int	size;
 
@@ -26,9 +26,9 @@ int		lst_size(t_cmd	*head)
 	return (size);
 }
 
-t_cmd	*get_last_node(t_cmd *head)
+t_tokenlst	*get_last_node(t_tokenlst *head)
 {
-	t_cmd	*last;
+	t_tokenlst	*last;
 
 	while (head->next)
 		head = head->next;
@@ -36,9 +36,9 @@ t_cmd	*get_last_node(t_cmd *head)
 	return (last);
 }
 
-void	delete_list(t_cmd **head)
+void	delete_list(t_tokenlst **head)
 {
-	t_cmd	*tmp;
+	t_tokenlst	*tmp;
 
 	if (!head)
 		return ;
@@ -54,15 +54,15 @@ void	delete_list(t_cmd **head)
 	*head = NULL;
 }
 
-void	push_front(t_cmd **head, t_cmd *new_node)
+void	push_front(t_tokenlst **head, t_tokenlst *new_node)
 {
 	new_node->next = *head;
 	*head = new_node;
 }
 
-void	push_back(t_cmd **head, t_cmd *new_node)
+void	push_back(t_tokenlst **head, t_tokenlst *new_node)
 {
-	t_cmd	*last_node;
+	t_tokenlst	*last_node;
 
 	if (!head)
 		return ;

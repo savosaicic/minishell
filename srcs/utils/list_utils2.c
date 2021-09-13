@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	print_list(t_cmd *list)
+void	print_list(t_tokenlst *list)
 {
 	while (list)
 	{

@@ -26,10 +26,10 @@ static void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-t_cmd	*get_token(char *cmd_buffer)
+t_tokenlst	*get_token(char *cmd_buffer)
 {
 	char	**tokens;
-	t_cmd	*head;
+	t_tokenlst	*head;
 	int		i;
 
 	tokens = ft_split(cmd_buffer, ' ');
