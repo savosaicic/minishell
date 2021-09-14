@@ -1,13 +1,13 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-SRCS = main.c get_tokens.c list_utils.c list_utils2.c
+SRCS = main.c get_tokens.c list_utils.c list_utils2.c parser.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft.a
 D_LIBFT = ./libft
 
-vpath %.c srcs srcs/lexer srcs/utils
+vpath %.c srcs srcs/lexer srcs/utils srcs/parser
 vpath %.o obj
 vpath %.h includes libft
 
@@ -17,7 +17,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
 
 $(LIBFT):
-	$(MAKE) -C $(D_LIBFT)
+	$(MAKE) bonus -C $(D_LIBFT)
 
 $(OBJS): %.o: %.c
 	mkdir -p obj
