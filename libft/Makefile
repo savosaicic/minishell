@@ -6,7 +6,7 @@
 #    By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/20 17:28:41 by jboisser          #+#    #+#              #
-#    Updated: 2021/08/12 18:31:44 by boisseran        ###   ########.fr        #
+#    Updated: 2021/09/14 11:27:18 by sasaicic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ BONUS_OBJS		= $(BONUS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -I.
+CFLAGS			= -g -Wall -Wextra -Werror -I.
 
 NAME			= libft.a
 

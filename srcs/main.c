@@ -15,7 +15,6 @@ int main(int ac, char **av, char **env)
 	char	*cmd_buffer;
 	t_tokenlst	*head;
 	t_prg		prg;
-	
 
 	init_shell(&prg, env);
 	while (1)
@@ -32,9 +31,23 @@ int main(int ac, char **av, char **env)
 		{
 			add_history(cmd_buffer);
 			head = get_token(cmd_buffer);
+			t_list *cmdlst = parse_tokens(head);
+
+
+			int i = 0;
+			while (cmdlst)
+			{
+				printf("----------------------------------\n");
+				printf("cmd number %d\nname : %s\n\n", i, ((t_cmd*)cmdlst->content)->args[0]);
+				fflush(stdout);
+				exec_cmd((t_cmd *)cmdlst->content);
+				cmdlst = cmdlst->next;
+				i++;
+			}
+
 		}
 
-		print_list(head);
+	//	print_list(head);
 		delete_list(&head);
 		free(cmd_buffer);
 	}

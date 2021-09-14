@@ -25,4 +25,5 @@ char		*search_in_tab(char **env, char *var);
 
 void	exit_failure(t_prg *prg, char *str, int status);
 
+int		exec_cmd(t_cmd *cmd);
 #endif
