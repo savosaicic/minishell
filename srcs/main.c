@@ -8,7 +8,7 @@ int main(int ac, char **av)
 	t_tokenlst	*head;
 	
 
-	while (1)
+	while (42)
 	{
 		cmd_buffer = readline("$> ");
 
@@ -31,6 +31,7 @@ int main(int ac, char **av)
 				printf("----------------------------------\n");
 				printf("cmd number %d\nname : %s\n\n", i, ((t_cmd*)cmdlst->content)->args[0]);
 				fflush(stdout);
+				exec_cmd((t_cmd *)cmdlst->content);
 				cmdlst = cmdlst->next;
 				i++;
 			}

@@ -21,4 +21,5 @@ t_list	*parse_tokens(t_tokenlst *head);
 t_tokenlst	*get_token(char *cmd_buffer);
 t_ttype	get_token_type(char *token);
 
+int		exec_cmd(t_cmd *cmd);
 #endif
