@@ -7,21 +7,7 @@
 #include <readline/history.h>
 
 #include "libft.h"
-
-typedef enum	e_ttype
-{
-	UNIDENTIFIED,
-	T_WORD,
-	T_OPERATOR,
-	T_PIPE
-}				t_ttype;
-
-typedef struct	s_tokenlst
-{
-	t_ttype			token_type;
-	char			*token;
-	struct s_tokenlst	*next;
-}				t_tokenlst;
+#include "structures.h"
 
 void	print_list(t_tokenlst *list);
 t_tokenlst	*new_node(char *token);
@@ -30,6 +16,7 @@ t_tokenlst	*get_last_node(t_tokenlst *head);
 void	delete_list(t_tokenlst **head);
 void	push_front(t_tokenlst **head, t_tokenlst *new_node);
 void	push_back(t_tokenlst **head, t_tokenlst *new_node);
+t_list	*parsetokens(t_tokenlst **head);
 
 t_tokenlst	*get_token(char *cmd_buffer);
 t_ttype	get_token_type(char *token);
