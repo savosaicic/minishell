@@ -9,16 +9,20 @@
 #include "libft.h"
 #include "structures.h"
 
-void	print_list(t_tokenlst *list);
+void		print_list(t_tokenlst *list);
 t_tokenlst	*new_node(char *token);
-int		lst_size(t_tokenlst	*head);
+int			lst_size(t_tokenlst	*head);
 t_tokenlst	*get_last_node(t_tokenlst *head);
-void	delete_list(t_tokenlst **head);
-void	push_front(t_tokenlst **head, t_tokenlst *new_node);
-void	push_back(t_tokenlst **head, t_tokenlst *new_node);
-t_list	*parsetokens(t_tokenlst **head);
+void		delete_list(t_tokenlst **head);
+void		push_front(t_tokenlst **head, t_tokenlst *new_node);
+void		push_back(t_tokenlst **head, t_tokenlst *new_node);
+t_list		*parsetokens(t_tokenlst **head);
 
 t_tokenlst	*get_token(char *cmd_buffer);
-t_ttype	get_token_type(char *token);
+t_ttype		get_token_type(char *token);
+
+char		*search_in_tab(char **env, char *var);
+
+void	exit_failure(t_prg *prg, char *str, int status);
 
 #endif

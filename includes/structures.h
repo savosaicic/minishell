@@ -23,5 +23,9 @@ typedef struct s_cmd
 	int		fd[2];
 }				t_cmd;
 
+typedef struct s_prg
+{
+	char	*pwd;
+}				t_prg;
 
 #endif

@@ -1,13 +1,23 @@
 #include "minishell.h"
 
-int main(int ac, char **av)
+void init_shell(t_prg *prg, char **env)
+{
+	char *pwd;
+
+	pwd = search_in_tab(env, "PWD=");
+	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
+}
+
+int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
 	char	*cmd_buffer;
 	t_tokenlst	*head;
+	t_prg		prg;
 	
 
+	init_shell(&prg, env);
 	while (1)
 	{
 		cmd_buffer = readline("$> ");
@@ -28,8 +38,6 @@ int main(int ac, char **av)
 		delete_list(&head);
 		free(cmd_buffer);
 	}
-
-
 
 	return (0);
 }
