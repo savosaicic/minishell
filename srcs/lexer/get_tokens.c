@@ -3,10 +3,7 @@
 t_ttype		get_token_type(char *token)
 {
 	if (!ft_strcmp(token, "|"))
-	{
-		printf("pipe\n");
 		return (T_PIPE);
-	}
 	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
 	{
 		printf("redirection operator\n");

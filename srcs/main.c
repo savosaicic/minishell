@@ -37,9 +37,6 @@ int main(int ac, char **av, char **env)
 			int i = 0;
 			while (cmdlst)
 			{
-				printf("----------------------------------\n");
-				printf("cmd number %d\nname : %s\n\n", i, ((t_cmd*)cmdlst->content)->args[0]);
-				fflush(stdout);
 				exec_cmd((t_cmd *)cmdlst->content);
 				cmdlst = cmdlst->next;
 				i++;

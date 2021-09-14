@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-<<<<<<< HEAD
 char	*get_cmd_path(char **paths, char *cmd, char *pwd)
 {
 	int		i;
@@ -43,13 +42,16 @@ char	*search_in_tab(char **env, char *var)
 		i++;
 	}
 	return (env[i]);
-=======
-int		is_cmd_sep(t_ttype type){return (type == T_PIPE);}
+}
+
+int		is_cmd_sep(t_ttype type)
+{
+	return (type == T_PIPE);
+}
 
 /*
 ** t_list cmd_lst->content points to a t_cmd struct
 */
-
 t_list	*parse_tokens(t_tokenlst *token_lst)
 {
 	t_list	*cmd_lst;
@@ -90,7 +92,5 @@ t_list	*parse_tokens(t_tokenlst *token_lst)
 			i = 0;
 		}
 	}
-
 	return (cmd_lst);
->>>>>>> get_cmd_list
 }

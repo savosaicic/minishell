@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <errno.h>
 
 #include "libft.h"
 #include "structures.h"
@@ -16,7 +19,7 @@ t_tokenlst	*get_last_node(t_tokenlst *head);
 void		delete_list(t_tokenlst **head);
 void		push_front(t_tokenlst **head, t_tokenlst *new_node);
 void		push_back(t_tokenlst **head, t_tokenlst *new_node);
-t_list		*parsetokens(t_tokenlst **head);
+t_list		*parse_tokens(t_tokenlst *head);
 
 t_tokenlst	*get_token(char *cmd_buffer);
 t_ttype		get_token_type(char *token);
