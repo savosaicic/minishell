@@ -30,21 +30,19 @@ int main(int ac, char **av, char **env)
 		else if (ft_strlen(cmd_buffer))
 		{
 			add_history(cmd_buffer);
+
 			head = get_token(cmd_buffer);
+
+			// cmdlst is a generic linked list, void *content is pointing on a t_cmd struct
+			// parse the tokens into a structure for each command
 			t_list *cmdlst = parse_tokens(head);
 
+			exec_cmd((t_cmd *)cmdlst->content);
 
-			int i = 0;
-			while (cmdlst)
-			{
-				exec_cmd((t_cmd *)cmdlst->content);
-				cmdlst = cmdlst->next;
-				i++;
-			}
-
+			// Clean the cmdlst
+			ft_lstclear(&cmdlst, clear_cmd_struct);
 		}
 
-	//	print_list(head);
 		delete_list(&head);
 		free(cmd_buffer);
 	}
