@@ -6,7 +6,6 @@ int		exec_cmd(t_cmd *cmd)
 	pid_t	pid;
 	int		status;
 
-
 	pid = fork();
 	if (pid == -1)
 		exit_failure(NULL, strerror(errno), 1);

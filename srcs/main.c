@@ -6,6 +6,19 @@ void init_shell(t_prg *prg, char **env)
 
 	pwd = search_in_tab(env, "PWD=");
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
+	prg->env = env;
+}
+
+char	*init_cmd(t_prg *prg, char **cmd)
+{
+	char **paths;
+	char *path;
+
+	paths = ft_split(search_in_tab(prg->env, "PATH=") + ft_strlen("PATH="), ':');
+	path = get_cmd_path(paths, cmd[0], prg->pwd);
+	free_tab(paths);
+	free(cmd[0]);
+	return (path);
 }
 
 int main(int ac, char **av, char **env)
@@ -15,6 +28,7 @@ int main(int ac, char **av, char **env)
 	char	*cmd_buffer;
 	t_tokenlst	*head;
 	t_prg		prg;
+	t_list *cmdlst;
 
 	init_shell(&prg, env);
 	while (1)
@@ -33,19 +47,17 @@ int main(int ac, char **av, char **env)
 
 			head = get_token(cmd_buffer);
 
-			// cmdlst is a generic linked list, void *content is pointing on a t_cmd struct
-			// parse the tokens into a structure for each command
-			t_list *cmdlst = parse_tokens(head);
-
-			exec_cmd((t_cmd *)cmdlst->content);
-
-			// Clean the cmdlst
+			cmdlst = parse_tokens(head);
+			while (cmdlst)
+			{
+				((t_cmd*)cmdlst->content)->args[0] = init_cmd(&prg, ((t_cmd*)cmdlst->content)->args);
+				exec_cmd((t_cmd *)cmdlst->content);
+				cmdlst = cmdlst->next;
+			}
 			ft_lstclear(&cmdlst, clear_cmd_struct);
 		}
-
 		delete_list(&head);
 		free(cmd_buffer);
 	}
-
 	return (0);
 }
