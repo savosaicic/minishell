@@ -24,10 +24,10 @@ int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	char	*cmd_buffer;
-	t_tokenlst	*head;
+	char		*cmd_buffer;
 	t_prg		prg;
-	t_list *cmdlst;
+	t_list		*cmdlst;
+	t_list		*token_lst;
 
 	init_shell(&prg, env);
 	while (1)
@@ -41,17 +41,13 @@ int main(int ac, char **av, char **env)
 		else if (ft_strlen(cmd_buffer))
 		{
 			add_history(cmd_buffer);
-			head = get_token(cmd_buffer);
-			cmdlst = parse_tokens(head);
-			while (cmdlst)
-			{
-				((t_cmd*)cmdlst->content)->path = init_cmd(&prg, ((t_cmd*)cmdlst->content)->args);
-				exec_cmd(&prg, (t_cmd *)cmdlst->content);
-				cmdlst = cmdlst->next;
-			}
+			token_lst = get_token(cmd_buffer);
+			cmdlst = parse_tokens(token_lst);
+			((t_cmd*)cmdlst->content)->path = init_cmd(&prg, ((t_cmd*)cmdlst->content)->args);
+			exec_cmd(&prg, (t_cmd *)cmdlst->content);
 			ft_lstclear(&cmdlst, clear_cmd_struct);
 		}
-		delete_list(&head);
+		ft_lstclear(&token_lst, clear_token_struct);
 		free(cmd_buffer);
 	}
 	return (0);

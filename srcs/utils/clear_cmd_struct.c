@@ -19,5 +19,6 @@ void	clear_cmd_struct(void *cmd_struct)
 		i++;
 	}
 	free(((t_cmd *)cmd_struct)->args);
+	free(((t_cmd *)cmd_struct)->path);
 	free((t_cmd *)cmd_struct);
 }

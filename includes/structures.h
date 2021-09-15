@@ -9,12 +9,11 @@ typedef enum	e_ttype
 	T_PIPE
 }				t_ttype;
 
-typedef struct	s_tokenlst
+typedef struct	s_token
 {
 	t_ttype			token_type;
 	char			*token;
-	struct s_tokenlst	*next;
-}				t_tokenlst;
+}				t_token;
 
 typedef struct s_cmd
 {

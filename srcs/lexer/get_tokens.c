@@ -23,22 +23,51 @@ static void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-t_tokenlst	*get_token(char *cmd_buffer)
+
+
+
+
+
+
+
+
+
+
+
+t_token	*init_token_struct(char *token)
+{
+	t_token	*token_struct;
+
+	token_struct = malloc(sizeof(t_token));
+	if (!token_struct)
+		return (NULL);
+	token_struct->token = ft_strdup(token);
+	if (!token_struct)
+		return (NULL);
+	token_struct->token_type = UNIDENTIFIED;
+	return (token_struct);
+}
+
+
+
+
+t_list	*get_token(char *cmd_buffer)
 {
 	char	**tokens;
-	t_tokenlst	*head;
+	t_list	*token_lst;
 	int		i;
 
 	tokens = ft_split(cmd_buffer, ' ');
 	if (!tokens)
 		return (NULL);
-	head = NULL;
+
+	token_lst = NULL;
 	i = 0;
 	while (tokens[i])
 	{
-		push_back(&head, new_node(tokens[i]));
+		ft_lstadd_back(&token_lst, ft_lstnew(init_token_struct(tokens[i])));
 		i++;
 	}
 	free_tokens(tokens);
-	return (head);
+	return (token_lst);
 }
