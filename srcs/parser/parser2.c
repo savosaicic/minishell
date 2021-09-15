@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 char	*get_cmd_path(char **paths, char *cmd, char *pwd)
 {
 	int		i;
@@ -12,7 +13,9 @@ char	*get_cmd_path(char **paths, char *cmd, char *pwd)
 		pwd_cmd = ft_memjoin(pwd_cmd, "/");
 		pwd_cmd = ft_memjoin(pwd_cmd, cmd);
 		if (access(pwd_cmd, F_OK) == 0)
+		{
 			return (pwd_cmd);
+		}
 		else
 			free(pwd_cmd);
 		i++;

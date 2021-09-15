@@ -25,8 +25,16 @@ t_tokenlst	*get_token(char *cmd_buffer);
 t_ttype		get_token_type(char *token);
 
 char		*search_in_tab(char **env, char *var);
+char	*get_cmd_path(char **paths, char *cmd, char *pwd);
+
 
 void	exit_failure(t_prg *prg, char *str, int status);
 
 int		exec_cmd(t_cmd *cmd);
+
+/*
+utils perso
+*/
+void	print_tab(char **tab);
+void	free_tab(char **tab);
 #endif

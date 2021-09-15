@@ -12,7 +12,37 @@ MAGENTA="\033[35m"
 clear
 printf "${YELLOW} ============== UNIT TESTS MINISHELL ==============\n${NC}"
 
-printf "${ULINE}Testing for basic command\n${NC}"
+printf "${ULINE}Testing for basic COMMANDS\n${NC}"
+
+printf "○ echo /bin/ls ................................... "
+string=$(echo "/bin/ls" | ./minishell)
+# echo "/bin/ls" | ./minishell
+string_expected=$(/bin/ls)
+printf "\n${string}\n"
+echo "-------------------"
+printf "${string_expected}\n"
+# printf "\n${string_expected\n}"
+if [ *"$string"* == "$string_expected" ]
+then
+	printf "${GREEN}OK\n${NC}"
+else
+	printf "${RED}KO\n${NC}"
+fi
+
+printf "○ echo -n hello ................................ "
+string=$(echo "echo -n hello" | ./minishell)
+string_expected=$(echo -n hello)
+if [ "$string" == "$string_expected" ]
+then
+	printf "${GREEN}OK\n${NC}"
+else
+	printf "${RED}KO\n${NC}"
+fi
+
+printf "\n"
+
+
+printf "${ULINE}Testing for basic BUILTINS\n${NC}"
 
 printf "○ echo hello ................................... "
 string=$(echo "echo hello" | ./minishell)
