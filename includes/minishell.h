@@ -30,7 +30,7 @@ char	*get_cmd_path(char **paths, char *cmd, char *pwd);
 
 void	exit_failure(t_prg *prg, char *str, int status);
 
-int		exec_cmd(t_cmd *cmd);
+int		exec_cmd(t_prg *prg, t_cmd *cmd);
 
 void	clear_cmd_struct(void *cmd_struct);
 void	print_tab(char **tab);

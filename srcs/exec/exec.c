@@ -1,7 +1,6 @@
-
 #include "minishell.h"
 
-int		exec_cmd(t_cmd *cmd)
+int		exec_cmd(t_prg *prg, t_cmd *cmd)
 {
 	pid_t	pid;
 	int		status;
@@ -11,7 +10,7 @@ int		exec_cmd(t_cmd *cmd)
 		exit_failure(NULL, strerror(errno), 1);
 	if (!pid)
 	{
-		execve(cmd->args[0], cmd->args, NULL);
+		execve(cmd->path, cmd->args, prg->env);
 		exit_failure(NULL, strerror(errno), 127);
 	}
 	else
