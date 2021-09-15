@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-int		is_cmd_sep(t_ttype type)
-{
-	return (type == T_PIPE);
-}
-
 static t_cmd	*init_cmd_struct(int args_num)
 {
 	t_cmd	*cmd;
