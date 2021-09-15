@@ -21,6 +21,8 @@ static t_cmd	*init_cmd_struct(int args_num)
 
 /*
 ** t_list cmd_lst->content points to a t_cmd struct
+** This function parse the token list made by the lexer
+** to get a list of commands
 */
 t_list	*parse_tokens(t_tokenlst *token_lst)
 {
