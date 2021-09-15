@@ -42,8 +42,8 @@ t_list	*parse_tokens(t_list *token_lst)
 		cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
 		token_lst = token_lst->next;
 		i++;
-		ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
 	}
+	ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
 	cmd->args[i] = NULL;
 	return (cmd_lst);
 }
