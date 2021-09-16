@@ -17,6 +17,7 @@ typedef struct	s_token
 
 typedef struct s_cmd
 {
+	bool	is_builtin;
 	char	**args;
 	char	*path;
 	int		fd[2];
