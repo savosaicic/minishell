@@ -12,6 +12,9 @@
 #include "libft.h"
 #include "structures.h"
 
+# define TRUE 1
+# define FALSE 0
+
 t_list		*parse_tokens(t_list *token_lst);
 
 t_list		*get_token(char *cmd_buffer);

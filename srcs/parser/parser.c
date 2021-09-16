@@ -10,7 +10,6 @@ static t_cmd	*init_cmd_struct(int args_num)
 	cmd->args = (char **)malloc(sizeof(char *) * (args_num + 1));
 	if (!cmd->args)
 		return (NULL);
-
 	return (cmd);
 }
 

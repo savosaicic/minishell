@@ -8,7 +8,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT = libft.a
 D_LIBFT = ./libft
 
-vpath %.c srcs srcs/lexer srcs/utils srcs/parser srcs/exec srcs/error
+vpath %.c srcs srcs/lexer srcs/utils srcs/parser srcs/exec srcs/error srcs/builtins
 vpath %.o obj
 vpath %.h includes libft
 
