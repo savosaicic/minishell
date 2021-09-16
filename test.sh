@@ -43,6 +43,33 @@ else
 fi
 printf "\n"
 
+printf "○ ls -la DONOTEXIST ............................ "
+let "count_tests=count_tests+1"
+string=$(echo "ls -la DONOTEXIST" | ./minishell 2>/dev/null)
+string_expected=$(ls -la DONOTEXIST 2>/dev/null)
+if [[ "$string" == *"$string_expected"* ]]
+then
+	printf "${GREEN}OK\n${NC}"
+	let "count_valid_test=count_valid_test+1"
+else
+	printf "${RED}KO\n${NC}"
+fi
+printf "\n"
+
+printf "○ ls -la Makefile .............................. "
+let "count_tests=count_tests+1"
+string=$(echo "ls -la Makefile" | ./minishell >/dev/null)
+string_expected=$(ls -la Makefile >/dev/null)
+if [[ "$string" == *"$string_expected"* ]]
+then
+	printf "${GREEN}OK\n${NC}"
+	let "count_valid_test=count_valid_test+1"
+else
+	printf "${RED}KO\n${NC}"
+fi
+printf "\n"
+
+
 printf "${ULINE}${BOLD}Testing for basic BUILTINS\n${NC}" ################################
 
 printf "○ echo hello ................................... "
