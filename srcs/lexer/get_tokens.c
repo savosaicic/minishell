@@ -4,11 +4,8 @@ t_ttype		get_token_type(char *token)
 {
 	if (!ft_strcmp(token, "|"))
 		return (T_PIPE);
-	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
-	{
-		printf("redirection operator\n");
-		return (T_OPERATOR);
-	}
+//	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
+//		return (T_OPERATOR);
 	else
 		return (T_WORD);
 }
@@ -23,17 +20,6 @@ static void	free_tokens(char **tokens)
 	free(tokens);
 }
 
-
-
-
-
-
-
-
-
-
-
-
 t_token	*init_token_struct(char *token)
 {
 	t_token	*token_struct;
@@ -44,7 +30,7 @@ t_token	*init_token_struct(char *token)
 	token_struct->token = ft_strdup(token);
 	if (!token_struct)
 		return (NULL);
-	token_struct->token_type = UNIDENTIFIED;
+	token_struct->token_type = get_token_type(token);
 	return (token_struct);
 }
 
