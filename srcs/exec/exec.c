@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		exec_cmd(t_prg *prg, t_cmd *cmd)
+int		execute_command(t_prg *prg, t_cmd *cmd)
 {
 	pid_t	pid;
 	int		status;

@@ -22,8 +22,9 @@ char	*get_cmd_path(char **paths, char *cmd, char *pwd);
 
 
 void	exit_failure(t_prg *prg, char *str, int status);
+void	exit_success(t_prg *prg, int status);
 
-int		exec_cmd(t_prg *prg, t_cmd *cmd);
+int		execute_command(t_prg *prg, t_cmd *cmd);
 
 void	clear_cmd_struct(void *cmd_struct);
 void	clear_token_struct(void *token_struct);

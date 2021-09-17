@@ -7,9 +7,10 @@ void init_shell(t_prg *prg, char **env)
 	pwd = search_in_tab(env, "PWD=");
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
 	prg->env = env;
+	prg->cmd_buffer = NULL;
 }
 
-char	*init_cmd(t_prg *prg, char **cmd)
+char	*init_command(t_prg *prg, char **cmd)
 {
 	char **paths;
 	char *path;
@@ -20,35 +21,36 @@ char	*init_cmd(t_prg *prg, char **cmd)
 	return (path);
 }
 
+t_list 	*get_command(t_prg *prg)
+{
+	t_list		*token_lst;
+	t_list		*cmdlst;
+
+	prg->cmd_buffer = readline("$> ");
+	if (!prg->cmd_buffer)
+		exit_success(prg, 0);
+	add_history(prg->cmd_buffer);
+	token_lst = get_token(prg->cmd_buffer);
+	cmdlst = parse_tokens(token_lst);
+	ft_lstclear(&token_lst, clear_token_struct);
+	free(prg->cmd_buffer);
+	return (cmdlst);
+}
+
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	char		*cmd_buffer;
 	t_prg		prg;
 	t_list		*cmdlst;
-	t_list		*token_lst;
 
 	init_shell(&prg, env);
 	while (1)
 	{
-		cmd_buffer = readline("$> ");
-		if (!cmd_buffer)
-		{
-			rl_clear_history();
-			exit(0);
-		}
-		else if (ft_strlen(cmd_buffer))
-		{
-			add_history(cmd_buffer);
-			token_lst = get_token(cmd_buffer);
-			cmdlst = parse_tokens(token_lst);
-			((t_cmd*)cmdlst->content)->path = init_cmd(&prg, ((t_cmd*)cmdlst->content)->args);
-			exec_cmd(&prg, (t_cmd *)cmdlst->content);
-			ft_lstclear(&cmdlst, clear_cmd_struct);
-		}
-		ft_lstclear(&token_lst, clear_token_struct);
-		free(cmd_buffer);
+		cmdlst = get_command(&prg);
+		((t_cmd*)cmdlst->content)->path = init_command(&prg, ((t_cmd*)cmdlst->content)->args);
+		execute_command(&prg, (t_cmd *)cmdlst->content);
+		ft_lstclear(&cmdlst, clear_cmd_struct);
 	}
 	return (0);
 }
