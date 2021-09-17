@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #include "libft.h"
 #include "structures.h"
