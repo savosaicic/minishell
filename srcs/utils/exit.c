@@ -11,7 +11,7 @@ void	exit_failure(t_prg *prg, char *str, int status)
 void	exit_success(t_prg *prg, int status)
 {
 	(void)prg;
-	// clean
+	// clean(prg)
 	exit(status);
 
 }

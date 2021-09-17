@@ -12,22 +12,22 @@
 #include "libft.h"
 #include "structures.h"
 
-t_list		*parse_tokens(t_list *token_lst);
-
-t_list		*get_token(char *cmd_buffer);
+/*lexer.c*/
+t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
 t_ttype		get_token_type(char *token);
+t_list	*get_token(char *cmd_buffer);
 
-char		*search_in_tab(char **env, char *var);
-char	*get_cmd_path(char **paths, char *cmd, char *pwd);
+/*command.c*/
+char	*search_in_tab(char **env, char *var);
+char	*write_command(t_prg *prg, char **cmd);
+int		execute_command(t_prg *prg, t_cmd *cmd);
 
-
+/*utils.c*/
+void	clear_token_struct(void *token_struct);
+void	clear_cmd_struct(void *cmd_struct);
+void	print_tab(char **tab);
+void	free_tab(char **tab);
 void	exit_failure(t_prg *prg, char *str, int status);
 void	exit_success(t_prg *prg, int status);
 
-int		execute_command(t_prg *prg, t_cmd *cmd);
-
-void	clear_cmd_struct(void *cmd_struct);
-void	clear_token_struct(void *token_struct);
-void	print_tab(char **tab);
-void	free_tab(char **tab);
 #endif

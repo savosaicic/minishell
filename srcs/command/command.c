@@ -14,8 +14,6 @@ int		execute_command(t_prg *prg, t_cmd *cmd)
 		exit_failure(NULL, strerror(errno), 127);
 	}
 	else
-	{
 		wait(&status);
-	}
 	return (0);
 }
