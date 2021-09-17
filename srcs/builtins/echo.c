@@ -1,4 +1,4 @@
-#include "minishell"
+#include "minishell.h"
 
 int		echo(char *buffer, int n_flag, int fd)
 {
