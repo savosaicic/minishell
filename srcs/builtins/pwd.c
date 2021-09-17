@@ -6,6 +6,9 @@ int		pwd(void)
 
 	if (get_cwd(buffer, BUFFER_SIZE))
 		return (1);
+	else //If Buffer Size is too small
+		(void)buffer; //Change this
+
 	write(1, buffer, ft_strlen(buffer));
 	return (0);
 }
