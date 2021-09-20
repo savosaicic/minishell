@@ -18,8 +18,8 @@ compile_and_execute()
 	status=$?
 	if [ $status -eq 0 ]
 	then
-		printf "${GREEN}Compilation minishell success\n${NC}"
-		echo "ls" | ./$exec_name
+		printf "${GREEN}Compilation $exec_name success\nRun ${exec_name}\n${NC}"
+		echo $arguments | ./$exec_name
 	else
 		printf "${RED}Compilation minishell failure\n${NC}"
 	fi
@@ -32,7 +32,6 @@ get_timestamps()
 		timestamp=$(stat -c %Y $file)
 		timestamp_prev+=($timestamp)
 	done
-	
 }
 
 files_path()
@@ -57,8 +56,7 @@ files_path()
 	done
 }
 
-
-if [ $# -lt 3 ]
+if [ $# -lt 4 ]
 then
 	printf "autocompile: invalid option\n"
 	printf "	${BOLD}autocompile${NC}  [Make path] [Executable Name] [arguments] [Directory(ies) to watch]...\n"
@@ -71,15 +69,14 @@ working_directory=$1
 watching_directory=$4
 arguments=$3
 
-# echo $watching_directory
 files_path $watching_directory # >>> files[]
-get_timestamps # >>> timestamp_prev[]
+get_timestamps # >>> timestamp_p
 
-if [ -z ${#files[@]} ] || [ -z $timestamp ]
-then
-	printf "autocompile: No file to watch\n"
-	exit
-fi
+# if -z ${#files[@]} ] || [ -z $timestamp ]
+# then
+# 	printf "autocompile: No file to watch\n"
+# 	exit
+# fi
 
 while true
 do
