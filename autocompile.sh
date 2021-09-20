@@ -1,25 +1,96 @@
 #!/bin/bash
+#https://linuxize.com/post/bash-check-if-file-exists/
+	# echo ${#d_prev[@]}
+	# echo ${d_prev[@]}
 
-i=0
-for file in srcs/*.c
-do
-	d_prev[i]=$(stat -f %m $file)
-	let "i+=1"
-done
+NC="\033[0m"
+BOLD="\033[1m"
+ULINE="\033[4m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
 
-while [ 1 ]
-do
-	for file in srcs/*.c
+compile_and_execute()
+{
+	make > /dev/null 2>&1
+	status=$?
+	if [ $status -eq 0 ]
+	then
+		printf "${GREEN}Compilation minishell success\n${NC}"
+		echo "ls" | ./$exec_name
+	else
+		printf "${RED}Compilation minishell failure\n${NC}"
+	fi
+}
+
+get_timestamps()
+{
+	for file in ${files[@]}
 	do
-		i=0
-		d[i]=$(stat -f %m $file)
-		if [ "${d[i]}" -gt "${d_prev[i]}" ]
-		then
-			printf "compile\n"
-			./compile.sh
-			d_prev[i]=${d[i]}
-		fi
-		let "i+=1"
+		timestamp=$(stat -c %Y $file)
+		timestamp_prev+=($timestamp)
 	done
-	sleep 2
+	
+}
+
+files_path()
+{
+	directory=$1
+	directory+="/*"
+	for direct_child in $directory
+	do
+		if [ -f $direct_child ]
+		then
+			files+=($direct_child)
+		else
+			direct_child+="/*.*"
+			for indirect_child in $direct_child
+			do
+				if [ -f $indirect_child ]
+				then
+					files+=($indirect_child)
+				fi
+			done
+		fi
+	done
+}
+
+
+if [ $# -lt 3 ]
+then
+	printf "autocompile: invalid option\n"
+	printf "	${BOLD}autocompile${NC}  [Make path] [Executable Name] [arguments] [Directory(ies) to watch]...\n"
+	exit
+fi
+
+clear
+exec_name=$2
+working_directory=$1
+watching_directory=$4
+arguments=$3
+
+# echo $watching_directory
+files_path $watching_directory # >>> files[]
+get_timestamps # >>> timestamp_prev[]
+
+if [ -z ${#files[@]} ] || [ -z $timestamp ]
+then
+	printf "autocompile: No file to watch\n"
+	exit
+fi
+
+while true
+do
+	for file in ${files[@]}
+	do
+		timestamp_act=$(stat -c %Y $file)
+		if [ $timestamp_act -gt ${timestamp_prev[i]} ]
+		then
+			pkill -9 $exec_name
+			timestamp_prev[i]=$timestamp_act
+			compile_and_execute
+		fi
+	done
 done

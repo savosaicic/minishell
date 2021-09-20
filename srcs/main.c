@@ -38,16 +38,19 @@ int main(int ac, char **av, char **env)
 	t_list		*cmd_lst;
 
 	init_shell(&prg, env);
-	while (1)
+	int debug = 0;
+	while (debug < 1)
 	{
 		cmd_lst = get_command_lst(&prg);
 		while (cmd_lst)
 		{
 			((t_cmd*)cmd_lst->content)->path = write_command(&prg, ((t_cmd*)cmd_lst->content)->args);
 			execute_command(&prg, (t_cmd *)cmd_lst->content);
+			// execute_builtin(&prg, (t_cmd *)cmd_lst->content);
 			cmd_lst = cmd_lst->next;
 		}
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
+		debug++;
 	}
 	return (0);
 }
