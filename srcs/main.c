@@ -45,9 +45,10 @@ int main(int ac, char **av, char **env)
 		while (cmd_lst)
 		{
 			((t_cmd*)cmd_lst->content)->path = write_command(&prg, ((t_cmd*)cmd_lst->content)->args);
-			execute_command(&prg, (t_cmd *)cmd_lst->content);
-			// execute_builtin(&prg, (t_cmd *)cmd_lst->content);
+			// execute_command(&prg, (t_cmd *)cmd_lst->content);
+			execute_builtin(&prg, (t_cmd *)cmd_lst->content);
 			cmd_lst = cmd_lst->next;
+			// exit(0);
 		}
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
 		debug++;

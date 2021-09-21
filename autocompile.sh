@@ -22,6 +22,7 @@ compile_and_execute()
 		echo $arguments | ./$exec_name
 	else
 		printf "${RED}Compilation minishell failure\n${NC}"
+		make
 	fi
 }
 

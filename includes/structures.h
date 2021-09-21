@@ -20,6 +20,7 @@ typedef struct s_cmd
 	char	**args;
 	char	*path;
 	int		fd[2];
+	char 	*string;
 }				t_cmd;
 
 typedef struct s_prg

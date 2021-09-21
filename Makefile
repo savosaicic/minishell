@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = 
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c \
 clear.c write_command.c builtins.c
 INC = -Iincludes -Ilibft

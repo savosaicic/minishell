@@ -31,7 +31,7 @@ void	exit_failure(t_prg *prg, char *str, int status);
 void	exit_success(t_prg *prg, int status);
 
 /*builtin*/
-void	echo(t_prg *prg, char **cmd_args);
+void	echo(t_prg *prg, t_cmd *cmd);
 int     execute_builtin(t_prg *prg, t_cmd *cmd);
 
 #endif

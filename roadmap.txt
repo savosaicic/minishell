@@ -1,0 +1,17 @@
+main:
+    init_shell
+        write pwd;  write **env; in struct prg
+
+    while true:
+        get_command_lst:
+            get_token:
+                create token_lst
+                    T_TTYPE;
+                    NEXT;
+                create cmd_lst
+                    ARGS;
+                    PATH;
+                    FD;
+                while (cmd_lst):
+                    execute_command OR execute_builtin
+                

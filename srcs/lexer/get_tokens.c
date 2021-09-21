@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-static void	free_tokens(char **tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-		free(tokens[i++]);
-	free(tokens);
-}
-
 /*
 ** t_list cmd_lst->content points to a t_cmd struct
 ** This function parse the token list made by the lexer
@@ -37,6 +27,7 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	}
 	ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
 	cmd->args[i] = NULL;
+	cmd->string = ft_strdup(prg->cmd_buffer);
 	return (cmd_lst);
 }
 
@@ -78,6 +69,6 @@ t_list	*get_token(char *cmd_buffer)
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(tokens[i])));
 		i++;
 	}
-	free_tokens(tokens);
+	free_tab(tokens);
 	return (token_lst);
 }
