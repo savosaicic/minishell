@@ -4,6 +4,7 @@ int		execute_command(t_prg *prg, t_cmd *cmd)
 {
 	pid_t	pid;
 	int		status;
+	int		ret;
 
 	pid = fork();
 	if (pid == -1)
@@ -14,6 +15,11 @@ int		execute_command(t_prg *prg, t_cmd *cmd)
 		exit_failure(NULL, strerror(errno), 127);
 	}
 	else
-		wait(&status);
-	return (0);
+	{
+		waitpid(pid, &status, 0);
+		ret = 0;
+		if (WIFEXITED(status))
+			ret = WEXITSTATUS(status);
+		exit(ret);
+	}
 }

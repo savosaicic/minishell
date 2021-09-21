@@ -30,12 +30,36 @@ t_list 	*get_command_lst(t_prg *prg)
 	return (cmd_lst);
 }
 
+static int wait_all_pids(void)
+{
+	int			ret;
+	int			status;
+	int			pid_ret;
+
+	pid_ret = 1;
+	ret = 0;
+	while (pid_ret > 0)
+	{
+		pid_ret = wait(&status);
+		if (WIFEXITED(status))
+			ret = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			ret = WTERMSIG(status);
+		else
+			ret = 1;
+	}
+	return (ret);
+}
+
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
 	t_prg		prg;
 	t_list		*cmd_lst;
+	pid_t		pid;
+	int			status;
+	int			ret;
 
 	init_shell(&prg, env);
 	int debug = 0;
@@ -44,11 +68,20 @@ int main(int ac, char **av, char **env)
 		cmd_lst = get_command_lst(&prg);
 		while (cmd_lst)
 		{
-			((t_cmd *)cmd_lst->content)->path = write_command(&prg, ((t_cmd *)cmd_lst->content)->args);
-			if (is_builtin(((t_cmd *)(cmd_lst->content))->args[0]))
-				execute_builtin(&prg, (t_cmd *)cmd_lst->content);
-			else
-				execute_command(&prg, (t_cmd *)cmd_lst->content);
+			pid = fork();
+			if (!pid)
+			{
+				((t_cmd *)cmd_lst->content)->path = write_command(&prg, ((t_cmd *)cmd_lst->content)->args);
+				if (is_builtin(((t_cmd *)(cmd_lst->content))->args[0]))
+					execute_builtin(&prg, (t_cmd *)cmd_lst->content);
+				else
+					execute_command(&prg, (t_cmd *)cmd_lst->content);				exit(ret);
+				ret = wait_all_pids();
+			}
+			ret = 0;
+			waitpid(ret, &status, 0);
+			if (WIFEXITED(status))
+				ret = WEXITSTATUS(status);
 			cmd_lst = cmd_lst->next;
 		}
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
