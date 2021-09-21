@@ -42,13 +42,23 @@ int main(int ac, char **av, char **env)
 	while (debug < 1)
 	{
 		cmd_lst = get_command_lst(&prg);
+		int debug2 = 0;
+		// while(cmd_lst)
+		// {
+		// 	printf("cmd_lst %s\n", ((t_cmd *)cmd_lst->content)->args[0]);
+		// 	cmd_lst = cmd_lst->next;
+		// }
+		// exit(0);
 		while (cmd_lst)
 		{
 			((t_cmd*)cmd_lst->content)->path = write_command(&prg, ((t_cmd*)cmd_lst->content)->args);
+
+
 			// execute_command(&prg, (t_cmd *)cmd_lst->content);
 			execute_builtin(&prg, (t_cmd *)cmd_lst->content);
 			cmd_lst = cmd_lst->next;
-			// exit(0);
+			
+			debug2++;
 		}
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
 		debug++;

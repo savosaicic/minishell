@@ -1,71 +1,55 @@
 #include "minishell.h"
 
-static char *clean_message(char *original_string, int option)
+static char *str_remove(char *string, char *string_rm)
 {
-    int i;
-    int k;
-    char *rm;
-    char *message;
+	int i;
+	int k;
+	char *new_string;
 
-    if (option)
-        rm = ft_strdup("echo-n");
-    else
-        rm = ft_strdup("echo");
-    if (!rm)
-        return (NULL);
-    i = 0;
-    k = 0;
-    while (original_string[i])
-    {
-        if (original_string[i] == rm[k])
-        {
-            i++;
-            k++;
-        }
-        else if (k < ft_strlen(rm))
-            i++;
-        else break;
-    }
-    while (original_string[i] == ' ' || original_string[i] == '\t')
-        i++;
-    message = malloc(sizeof(*message) * (ft_strlen(original_string) - i) + 1);
-    if (!message)
-        return (NULL);
-    k = 0;
-    while (original_string[i])
-    {
-        message[k] = original_string[k + i];
-        k++;
-    }
-    message[k] = '\0';
-    return (message);
-
+	i = 0;
+	k = 0;
+	while (string[i])
+	{
+		if (string[i] == string_rm[k])
+		{
+			i++;
+			k++;
+		}
+		else if (k < ft_strlen(string_rm))
+			i++;
+		else break;
+	}
+	while (string[i] == ' ' || string[i] == '\t')
+		i++;
+	new_string = ft_strdup(string + i);
+	return (new_string);
 }
 
-void	echo(t_prg *prg, t_cmd *cmd)
+void	echo(t_cmd *cmd)
 {
-    (void)prg;
-    char *message;
-    int option;
-    int i;
+	char *message;
+	int option;
+	int i;
 
-    (void)option;
-    option = 0;
-    i = 0;
-    if (ft_strcmp(cmd->args[1], "-n") == 0)
-    {
-        option = 1;
-        i++;
-    }
-    message = clean_message(cmd->string, option);
-    ft_putstr(message);
-    if (!option)
-        ft_putchar('\n');
-    free(message);
+	option = 0;
+	i = 0;
+	if (ft_strcmp(cmd->args[1], "-n") == 0)
+	{
+		option = 1;
+		i++;
+	}
+	if (option)
+		message = str_remove(cmd->string, "echo-n");
+	else
+		message = str_remove(cmd->string, "echo");
+	ft_putstr(message);
+	if (!option)
+		ft_putchar('\n');
+	free(message);
 }
 
 int     execute_builtin(t_prg *prg, t_cmd *cmd)
 {
-    echo(prg, cmd);
-    return (0);
+	echo(cmd);
+	return (0);
 }

@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = 
+CFLAGS = -g
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c \
 clear.c write_command.c builtins.c
 INC = -Iincludes -Ilibft
@@ -15,7 +15,7 @@ vpath %.h includes libft
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME) 
 
 $(LIBFT):
 	$(MAKE) bonus -C $(D_LIBFT)
@@ -35,3 +35,6 @@ fclean: clean
 re: fclean all
 
 .PHONY: all fclean clean re
+
+fsanitize:
+	$(CC) -fsanitize=address $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME) 

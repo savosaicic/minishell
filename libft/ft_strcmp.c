@@ -4,7 +4,7 @@
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                   qqq             +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 12:15:39 by jboisser          #+#    #+#             */
 /*   Updated: 2020/11/20 22:39:55 by jboisser         ###   ########.fr       */
 /*                                                                            */
