@@ -30,6 +30,8 @@ void	free_tab(char **tab);
 void	exit_failure(t_prg *prg, char *str, int status);
 void	exit_success(t_prg *prg, int status);
 
+int     is_builtin(char *cmd_name);
+
 /*builtin*/
 void	echo(t_cmd *cmd);
 int     execute_builtin(t_prg *prg, t_cmd *cmd);

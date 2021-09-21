@@ -2,7 +2,7 @@ NAME = minishell
 CC = gcc
 CFLAGS = -g
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c \
-clear.c write_command.c builtins.c
+clear.c write_command.c builtins.c utils.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft.a
