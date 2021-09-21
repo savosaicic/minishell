@@ -33,6 +33,11 @@ void	echo(t_cmd *cmd)
 
 	option = 0;
 	i = 0;
+	if (!cmd->args[1])
+	{
+		ft_putchar('\n');
+		return;
+	}
 	if (ft_strcmp(cmd->args[1], "-n") == 0)
 	{
 		option = 1;

@@ -46,8 +46,8 @@ fi
 
 printf "○ ls -la Makefile .............................. "
 let "count_tests=count_tests+1"
-string=$(echo "ls -la Makefile" | ./minishell >/dev/null)
-string_expected=$(ls -la Makefile >/dev/null)
+string=$(echo "ls -la Makefile" | ./minishell)
+string_expected=$(ls -la Makefile)
 if [[ "$string" == *"$string_expected"* ]]
 then
 	printf "${GREEN}OK\n${NC}"
@@ -58,8 +58,8 @@ fi
 
 printf "○ ls -la donotexit ............................. "
 let "count_tests=count_tests+1"
-string=$(echo "ls -la donotexit" | ./minishell 2>/dev/null)
-string_expected=$(ls -la donotexit 2>/dev/null)
+string=$(echo "ls -la donotexit" | ./minishell 2>&1)
+string_expected="cannot access"
 if [[ "$string" == *"$string_expected"* ]]
 then
 	printf "${GREEN}OK\n${NC}"
@@ -77,7 +77,19 @@ printf "○ echo hello ................................... "
 let "count_tests=count_tests+1"
 string=$(echo "echo hello" | ./minishell)
 string_expected=$(echo hello)
-if [ "$string" == "$string_expected" ]
+if [[ "$string" == *"$string_expected"* ]]
+then
+	printf "${GREEN}OK\n${NC}"
+	let "count_valid_test=count_valid_test+1"
+else
+	printf "${RED}KO\n${NC}"
+fi
+
+printf "○ echo ......................................... "
+let "count_tests=count_tests+1"
+string=$(echo "echo " | ./minishell)
+string_expected=$(echo )
+if [[ "$string" == *"$string_expected"* ]]
 then
 	printf "${GREEN}OK\n${NC}"
 	let "count_valid_test=count_valid_test+1"
@@ -89,7 +101,7 @@ printf "○ echo -n hello ................................ "
 let "count_tests=count_tests+1"
 string=$(echo "echo -n hello" | ./minishell)
 string_expected=$(echo -n hello)
-if [ "$string" == "$string_expected" ]
+if [[ "$string" == *"$string_expected"* ]]
 then
 	printf "${GREEN}OK\n${NC}"
 	let "count_valid_test=count_valid_test+1"
@@ -97,8 +109,17 @@ else
 	printf "${RED}KO\n${NC}"
 fi
 
-# printf "○ cd ../ ................................ "
-# printf "○ cd /Users ................................ "
+printf "○ echo -n ...................................... "
+let "count_tests=count_tests+1"
+string=$(echo "echo -n" | ./minishell)
+string_expected=$(echo -n)
+if [[ "$string" == *"$string_expected"* ]]
+then
+	printf "${GREEN}OK\n${NC}"
+	let "count_valid_test=count_valid_test+1"
+else
+	printf "${RED}KO\n${NC}"
+fi
 
 printf "○ pwd .......................................... "
 let "count_tests=count_tests+1"
