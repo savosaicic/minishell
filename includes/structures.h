@@ -31,4 +31,9 @@ typedef struct s_prg
 	char	*cmd_line;
 }				t_prg;
 
+typedef struct	s_var
+{
+	char	*name;
+}				t_var;
+
 #endif

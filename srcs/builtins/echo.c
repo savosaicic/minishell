@@ -19,7 +19,7 @@ static char *str_remove(char *string, char *string_rm)
 			i++;
 		else break;
 	}
-	while (string[i] == ' ' || string[i] == '\t')
+	while (is_space(string[i]))
 		i++;
 	new_string = ft_strdup(string + i);
 	return (new_string);
