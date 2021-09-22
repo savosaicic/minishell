@@ -28,6 +28,7 @@ typedef struct s_prg
 	char	*pwd;
 	char 	**env;
 	char	*cmd_buffer;
+	char	*cmd_line;
 }				t_prg;
 
 #endif

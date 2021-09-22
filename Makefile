@@ -1,8 +1,8 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g 
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c \
-clear.c echo.c utils.c execute.c
+clear.c echo.c utils.c execute.c parser.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft.a
