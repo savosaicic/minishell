@@ -1,25 +1,56 @@
 #include "minishell.h"
 
-int		execute_command(t_prg *prg, t_cmd *cmd)
+static char		*get_cmd_path(char **paths, char *cmd, char *pwd)
 {
-	pid_t	pid;
-	int		status;
-	int		ret;
+	int		i;
+	char	*pwd_cmd;
 
-	pid = fork();
-	if (pid == -1)
-		exit_failure(NULL, strerror(errno), 1);
-	if (!pid)
+	i = 0;
+	while (paths[i])
 	{
-		execve(cmd->path, cmd->args, prg->env);
-		exit_failure(NULL, strerror(errno), 127);
+		pwd_cmd = ft_strdup(paths[i]);
+		pwd_cmd = ft_memjoin(pwd_cmd, "/");
+		pwd_cmd = ft_memjoin(pwd_cmd, cmd);
+		if (access(pwd_cmd, F_OK) == 0)
+			return (pwd_cmd);
+		else
+			free(pwd_cmd);
+		i++;
+	}
+	if (cmd[0] != '/')
+	{
+		pwd_cmd = ft_strdup(pwd);
+		pwd_cmd = ft_memjoin(pwd_cmd, "/");
+		pwd_cmd = ft_memjoin(pwd_cmd, cmd);
 	}
 	else
+		pwd_cmd = ft_strdup(cmd);
+	return (pwd_cmd);
+}
+
+char	*search_in_tab(char **env, char *var)
+{
+	int		i;
+	int		var_len;
+
+	i = 0;
+	var_len = ft_strlen(var);
+	while (env[i])
 	{
-		waitpid(pid, &status, 0);
-		ret = 0;
-		if (WIFEXITED(status))
-			ret = WEXITSTATUS(status);
-		exit(ret);
+		if (ft_strncmp(env[i], var, var_len) == 0)
+			break ;
+		i++;
 	}
+	return (env[i]);
+}
+
+char	*write_command(t_prg *prg, char **cmd)
+{
+	char **paths;
+	char *path;
+
+	paths = ft_split(search_in_tab(prg->env, "PATH=") + ft_strlen("PATH="), ':');
+	path = get_cmd_path(paths, cmd[0], prg->pwd);
+	free_tab(paths);
+	return (path);
 }

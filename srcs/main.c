@@ -30,7 +30,7 @@ t_list 	*get_command_lst(t_prg *prg)
 	return (cmd_lst);
 }
 
-static int wait_all_pids(void)
+int wait_all_pids(void)
 {
 	int			ret;
 	int			status;
@@ -72,11 +72,8 @@ int main(int ac, char **av, char **env)
 			if (!pid)
 			{
 				((t_cmd *)cmd_lst->content)->path = write_command(&prg, ((t_cmd *)cmd_lst->content)->args);
-				if (is_builtin(((t_cmd *)(cmd_lst->content))->args[0]))
-					execute_builtin(&prg, (t_cmd *)cmd_lst->content);
-				else
-					execute_command(&prg, (t_cmd *)cmd_lst->content);				exit(ret);
-				ret = wait_all_pids();
+				ret = execute(&prg, cmd_lst);
+				exit(ret);
 			}
 			ret = 0;
 			waitpid(ret, &status, 0);

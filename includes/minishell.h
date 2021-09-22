@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/wait.h>
@@ -20,7 +21,7 @@ t_list	*get_token(char *cmd_buffer);
 /*command*/
 char	*search_in_tab(char **env, char *var);
 char	*write_command(t_prg *prg, char **cmd);
-int		execute_command(t_prg *prg, t_cmd *cmd);
+void		execute_command(t_prg *prg, t_cmd *cmd);
 
 /*utils*/
 void	clear_token_struct(void *token_struct);
@@ -34,6 +35,10 @@ int     is_builtin(char *cmd_name);
 
 /*builtin*/
 void	echo(t_cmd *cmd);
-int     execute_builtin(t_prg *prg, t_cmd *cmd);
+void     execute_builtin(t_prg *prg, t_cmd *cmd);
+
+int execute(t_prg *prg, t_list *cmd_lst);
+int wait_all_pids(void);
+
 
 #endif

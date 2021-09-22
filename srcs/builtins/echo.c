@@ -2,8 +2,8 @@
 
 static char *str_remove(char *string, char *string_rm)
 {
-	int i;
-	int k;
+	unsigned int i;
+	unsigned int k;
 	char *new_string;
 
 	i = 0;
@@ -51,10 +51,4 @@ void	echo(t_cmd *cmd)
 	if (!option)
 		ft_putchar('\n');
 	free(message);
-}
-
-int     execute_builtin(t_prg *prg, t_cmd *cmd)
-{
-	echo(cmd);
-	return (0);
 }
