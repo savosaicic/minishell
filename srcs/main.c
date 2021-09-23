@@ -1,5 +1,41 @@
 #include "minishell.h"
 
+
+static t_variable *write_variable(char *var)
+{
+	t_variable *var_struct;
+	char **var_split;
+
+	var_struct = malloc(sizeof(*var_struct));
+	if (!var_struct)
+		return (NULL);
+	var_split = ft_split(var, '=');
+	var_struct->name = ft_strdup(var_split[0]);
+	var_struct->value = ft_strdup(var_split[1]);
+	free_tab(var_split);
+	return (var_struct);
+}
+
+static t_list *load_env(char **env)
+{
+	t_list *env_lst;
+	t_variable *variable;
+	int i;
+	char **variable_split;
+
+	variable = malloc(sizeof(*variable));
+	if (!variable)
+		return (NULL);
+	env_lst = NULL;
+	i = 0;
+	while (env[i])
+	{
+		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(env[i])));
+		i++;
+	}
+	return (env_lst);
+}
+
 void init_shell(t_prg *prg, char **env)
 {
 	char *pwd;
@@ -7,6 +43,7 @@ void init_shell(t_prg *prg, char **env)
 	pwd = search_in_tab(env, "PWD=");
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
 	prg->env = env;
+	prg->env_lst = load_env(env);
 	prg->cmd_buffer = NULL;
 	if (prg->pwd == NULL)
 		exit_failure(prg, "sh: insufficient memory", 1);
@@ -62,6 +99,10 @@ int main(int ac, char **av, char **env)
 	int			status;
 	int			ret;
 
+	// int m = 0;
+	// while (env[m])
+	// 	printf("%s\n", env[m++]);
+	// exit(0);
 	init_shell(&prg, env);
 	int debug = 0;
 	while (1)
