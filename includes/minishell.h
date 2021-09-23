@@ -18,10 +18,11 @@ t_list		*get_token(char *cmd_buffer);
 t_ttype		get_token_type(char *token);
 
 char		*search_in_tab(char **env, char *var);
-char	*get_cmd_path(char **paths, char *cmd, char *pwd);
-
+char    	**get_path(char **envp);
+char    	*get_cmd_path(char **path, char *cmd);
 
 void	exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
+void	write_error_msg(char *bin_name, char *item_name, char *error_msg);
 
 int		exec_cmd(t_prg *prg, t_cmd *cmd);
 

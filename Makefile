@@ -1,7 +1,7 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-SRCS = main.c get_tokens.c parser.c parser2.c exec.c error.c \
+SRCS = main.c get_tokens.c parser.c get_cmd_path.c get_path.c parser2.c exec.c error.c \
 		clear_cmd_struct.c utils.c clear_token_struct.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)

@@ -1,6 +1,5 @@
 #include "minishell.h"
-
-
+/*
 char	*get_cmd_path(char **paths, char *cmd, char *pwd)
 {
 	int		i;
@@ -28,9 +27,10 @@ char	*get_cmd_path(char **paths, char *cmd, char *pwd)
 	}
 	else
 		pwd_cmd = ft_strdup(cmd);
+	printf("%s\n", pwd_cmd);
 	return (pwd_cmd);
 }
-
+*/
 char	*search_in_tab(char **env, char *var)
 {
 	int		i;
