@@ -21,7 +21,7 @@ char		*search_in_tab(char **env, char *var);
 char	*get_cmd_path(char **paths, char *cmd, char *pwd);
 
 
-void	exit_failure(t_prg *prg, char *str, int status);
+void	exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
 
 int		exec_cmd(t_prg *prg, t_cmd *cmd);
 

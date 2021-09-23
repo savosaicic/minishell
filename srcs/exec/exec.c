@@ -7,11 +7,11 @@ int		exec_cmd(t_prg *prg, t_cmd *cmd)
 
 	pid = fork();
 	if (pid == -1)
-		exit_failure(NULL, strerror(errno), 1);
+		exit_failure(prg, cmd, strerror(errno), 127);
 	if (!pid)
 	{
 		execve(cmd->path, cmd->args, prg->env);
-		exit_failure(NULL, strerror(errno), 127);
+		exit_failure(prg, cmd, strerror(errno), 127);
 	}
 	else
 	{
