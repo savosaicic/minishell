@@ -53,18 +53,22 @@ t_list	*get_token(char *cmd_buffer)
 	ft_bzero(buffer, 4096);
 	while (*cmd_buffer)
 	{
+		/* QUOTES */
 		if (*cmd_buffer == '\"' || *cmd_buffer == '\'')
 		{
 			buffer[i] = '\0';
 			if (ft_strlen(buffer))
 			{
-				ft_lstadd_back(&token_lst, ft_lstnew(init_token_struct(buffer)));
-				ft_bzero(buffer, i);
-				i = 0;
+				handle_quote(&cmd_buffer, buffer, &token_lst);
 			}
-			handle_quote(&cmd_buffer, &token_lst);
+			else
+				handle_quote(&cmd_buffer, NULL, &token_lst);
+			ft_bzero(buffer, i);
+			i = 0;
+
 		}
 
+		/* OPERATOR (|, <, >) */
 		else if (*cmd_buffer == '<' || *cmd_buffer == '>' || *cmd_buffer == '|')
 		{
 			buffer[i] = '\0';
@@ -76,6 +80,8 @@ t_list	*get_token(char *cmd_buffer)
 			i = 0;
 			handle_pipe_and_redirection(&cmd_buffer, &token_lst);
 		}
+
+		/* WHITE SPACES */
 		else if (*cmd_buffer == ' ')
 		{
 			while (*cmd_buffer == ' ')
@@ -86,6 +92,8 @@ t_list	*get_token(char *cmd_buffer)
 			ft_bzero(buffer, i);
 			i = 0;
 		}
+
+		/* NORMAL CHARS */
 		else
 		{
 			buffer[i] = *cmd_buffer;

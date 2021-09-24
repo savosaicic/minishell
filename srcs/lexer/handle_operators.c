@@ -1,6 +1,11 @@
 #include "minishell.h"
 
-int	handle_quote(char **cmd_buffer, t_list **token_lst)
+static int	is_operator(char c)
+{
+	return (c == '|' || c == '<' || c == '>' || c == '\"' || c == '\'' || c == ' ');
+}
+
+int	handle_quote(char **cmd_buffer, char *str, t_list **token_lst)
 {
 	unsigned char	quote;
 	char			buffer[4096];
@@ -10,14 +15,19 @@ int	handle_quote(char **cmd_buffer, t_list **token_lst)
 	(*cmd_buffer)++;
 	i = 0;
 	while (**cmd_buffer != quote && **cmd_buffer)
-	{
 		buffer[i++] = *(*cmd_buffer)++;
-	}
 	if (!**cmd_buffer)
 		return (1);
-	buffer[i] = '\0';
+
 	(*cmd_buffer)++;
-	ft_lstadd_back(token_lst, ft_lstnew(init_token_struct(buffer)));
+	while (!is_operator(**cmd_buffer) && **cmd_buffer)
+		buffer[i++] = *(*cmd_buffer)++;
+	buffer[i] = '\0';
+
+	if (str)
+		ft_lstadd_back(token_lst, ft_lstnew(init_token_struct(ft_strjoin(str, buffer))));
+	else
+		ft_lstadd_back(token_lst, ft_lstnew(init_token_struct(buffer)));
 	return (0);
 }
 
