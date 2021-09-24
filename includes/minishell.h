@@ -21,6 +21,9 @@ t_list		*parse_tokens(t_list *token_lst);
 
 t_list		*get_token(char *cmd_buffer);
 t_ttype		get_token_type(char *token);
+int			handle_quote(char **cmd_buffer, t_list **token_lst);
+int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
+t_token	*init_token_struct(char *token);
 
 char		*search_in_tab(char **env, char *var);
 char    	**get_path(char **envp);

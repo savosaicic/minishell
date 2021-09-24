@@ -4,20 +4,10 @@ t_ttype		get_token_type(char *token)
 {
 	if (!ft_strcmp(token, "|"))
 		return (T_PIPE);
-//	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
-//		return (T_OPERATOR);
+	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
+		return (T_REDIRECT);
 	else
 		return (T_WORD);
-}
-
-static void	free_tokens(char **tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-		free(tokens[i++]);
-	free(tokens);
 }
 
 t_token	*init_token_struct(char *token)
@@ -34,26 +24,77 @@ t_token	*init_token_struct(char *token)
 	return (token_struct);
 }
 
+void	print_token(t_list *list)
+{
+	char **types = ft_split("UNIDENTIFIED WORD REDIRECT PIPE", ' ');
 
-
+	printf("\n");
+	while (list)
+	{
+		printf("[%s:%s]  ", types[((t_token*)list->content)->token_type], ((t_token*)list->content)->token);
+		list = list->next;
+	}
+	printf("\n");
+	printf("__________________________\n\n");
+	free_tab(types);
+}
 
 t_list	*get_token(char *cmd_buffer)
 {
-	char	**tokens;
 	t_list	*token_lst;
 	int		i;
+	char	buffer[4096];
 
-	tokens = ft_split(cmd_buffer, ' ');
-	if (!tokens)
-		return (NULL);
+	while (*cmd_buffer == ' ')
+		cmd_buffer++;
 
 	token_lst = NULL;
 	i = 0;
-	while (tokens[i])
+	ft_bzero(buffer, 4096);
+	while (*cmd_buffer)
 	{
-		ft_lstadd_back(&token_lst, ft_lstnew(init_token_struct(tokens[i])));
-		i++;
+		if (*cmd_buffer == '\"' || *cmd_buffer == '\'')
+		{
+			buffer[i] = '\0';
+			if (ft_strlen(buffer))
+			{
+				ft_lstadd_back(&token_lst, ft_lstnew(init_token_struct(buffer)));
+				ft_bzero(buffer, i);
+				i = 0;
+			}
+			handle_quote(&cmd_buffer, &token_lst);
+		}
+
+		else if (*cmd_buffer == '<' || *cmd_buffer == '>' || *cmd_buffer == '|')
+		{
+			buffer[i] = '\0';
+			if (ft_strlen(buffer))
+			{
+				ft_lstadd_back(&token_lst, ft_lstnew(init_token_struct(buffer)));
+			}
+			ft_bzero(buffer, i);
+			i = 0;
+			handle_pipe_and_redirection(&cmd_buffer, &token_lst);
+		}
+		else if (*cmd_buffer == ' ')
+		{
+			while (*cmd_buffer == ' ')
+				cmd_buffer++;
+			buffer[i] = '\0';
+			if (ft_strlen(buffer))
+				ft_lstadd_back(&token_lst, ft_lstnew(init_token_struct(buffer)));
+			ft_bzero(buffer, i);
+			i = 0;
+		}
+		else
+		{
+			buffer[i] = *cmd_buffer;
+			cmd_buffer++;
+			i++;
+		}
 	}
-	free_tokens(tokens);
+	if (ft_strlen(buffer))
+		ft_lstadd_back(&token_lst, ft_lstnew(init_token_struct(buffer)));
+	print_token(token_lst);
 	return (token_lst);
 }

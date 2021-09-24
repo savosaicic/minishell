@@ -5,7 +5,7 @@ typedef enum	e_ttype
 {
 	UNIDENTIFIED,
 	T_WORD,
-	T_OPERATOR,
+	T_REDIRECT,
 	T_PIPE
 }				t_ttype;
 
