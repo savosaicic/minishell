@@ -9,9 +9,14 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "libft.h"
 #include "structures.h"
+
+#ifdef __APPLE__
+	# define rl_clear_history clear_history
+#endif
 
 # define TRUE 1
 # define FALSE 0
