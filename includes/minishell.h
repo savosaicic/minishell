@@ -8,6 +8,11 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <errno.h>
+#include <string.h>
+
+#ifdef __APPLE__
+	# define rl_clear_history clear_history
+#endif
 
 #include "libft.h"
 #include "structures.h"
