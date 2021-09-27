@@ -5,8 +5,8 @@ SRCS = main.c get_tokens.c parser.c get_cmd_path.c get_path.c parser2.c exec.c e
 		clear_cmd_struct.c utils.c clear_token_struct.c handle_operators.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
-LIBFT = libft.a
 D_LIBFT = ./libft
+LIBFT = $(D_LIBFT)libft.a
 
 vpath %.c srcs srcs/lexer srcs/utils srcs/parser srcs/exec srcs/error
 vpath %.o obj
@@ -23,6 +23,9 @@ $(LIBFT):
 $(OBJS): %.o: %.c
 	mkdir -p obj
 	$(CC) -c $(CFLAGS) $< $(INC) -o obj/$@
+
+run: all 
+	./$(NAME)
 
 clean:
 	make clean -C $(D_LIBFT)
