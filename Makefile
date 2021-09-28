@@ -2,7 +2,7 @@ NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c get_tokens.c parser.c get_cmd_path.c get_path.c parser2.c exec.c error.c \
-		clear_cmd_struct.c utils.c clear_token_struct.c handle_operators.c
+		clear_cmd_struct.c utils.c clear_token_struct.c handle_operators.c handle_redirection.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 D_LIBFT = ./libft/

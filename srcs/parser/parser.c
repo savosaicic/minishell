@@ -13,7 +13,6 @@ static t_cmd	*init_cmd_struct(int args_num)
 		return (NULL);
 	cmd->r_io[0] = STDIN_FILENO;
 	cmd->r_io[1] = STDOUT_FILENO;
-
 	return (cmd);
 }
 
@@ -37,10 +36,16 @@ t_list	*parse_tokens(t_list *token_lst)
 	while (token_lst)
 	{
 		if (CAST(token_lst, t_token*)->token_type == T_REDIRECT)
-			parse_redirection();
-		cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
-		token_lst = token_lst->next;
-		i++;
+		{
+			if (parse_redirection(&cmd, &token_lst) > 0)
+				(void)i; //delete the actual cmd and go to next one if there is a pipe
+		}
+		else
+		{
+			cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
+			token_lst = token_lst->next;
+			i++;
+		}
 	}
 	ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
 	cmd->args[i] = NULL;
