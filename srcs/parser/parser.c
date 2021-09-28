@@ -42,6 +42,7 @@ t_list	*parse_tokens(t_list *token_lst)
 		}
 		else
 		{
+			//Check for $, expand if so
 			cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
 			token_lst = token_lst->next;
 			i++;

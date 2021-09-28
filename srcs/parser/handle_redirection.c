@@ -12,7 +12,8 @@ static int	redirect_input(t_list **token_lst, t_cmd **cmd)
 	//Should be the name of the file
 	if (!token_lst)
 		return (write_error_msg("minishell", "parse error near \'<\'", NULL));
-	
+
+	//Check for $, expand if so
 	(*cmd)->r_io[0] = open(CAST((*token_lst), t_token*)->token, O_RDONLY);
 	if ((*cmd)->r_io[0] < 0)
 		return (write_error_msg("minishell", CAST((*token_lst), t_token*)->token, strerror(errno)));
@@ -35,6 +36,7 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd)
 	if (!token_lst)
 		return (write_error_msg("minishell", "parse error near \'>\'", NULL));
 	
+	//Check for $, expand if so
 	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token*)->token, O_CREAT | O_TRUNC | O_RDWR, 0644);
 	if ((*cmd)->r_io[1] < 0)
 		return (write_error_msg("minishell", CAST((*token_lst), t_token*)->token, strerror(errno)));
