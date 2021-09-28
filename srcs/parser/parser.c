@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+
 static t_cmd	*init_cmd_struct(int args_num)
 {
 	t_cmd	*cmd;
@@ -10,6 +11,8 @@ static t_cmd	*init_cmd_struct(int args_num)
 	cmd->args = (char **)malloc(sizeof(char *) * (args_num + 1));
 	if (!cmd->args)
 		return (NULL);
+	cmd->r_io[0] = STDIN_FILENO;
+	cmd->r_io[1] = STDOUT_FILENO;
 
 	return (cmd);
 }
@@ -33,6 +36,8 @@ t_list	*parse_tokens(t_list *token_lst)
 	cmd_lst = NULL;
 	while (token_lst)
 	{
+		if (CAST(token_lst, t_token*)->token_type == T_REDIRECT)
+			parse_redirection();
 		cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
 		token_lst = token_lst->next;
 		i++;

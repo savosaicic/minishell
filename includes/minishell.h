@@ -9,10 +9,13 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <string.h>
+#include <fcntl.h>
 
 #ifdef __APPLE__
 	# define rl_clear_history clear_history
 #endif
+
+#define CAST(var, type) ((type)var->content)
 
 #include "libft.h"
 #include "structures.h"
@@ -30,7 +33,7 @@ char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);
 
 void	exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
-void	write_error_msg(char *bin_name, char *item_name, char *error_msg);
+int		write_error_msg(char *bin_name, char *item_name, char *error_msg);
 
 int		exec_cmd(t_prg *prg, t_cmd *cmd);
 

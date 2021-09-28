@@ -20,6 +20,7 @@ typedef struct s_cmd
 	char	**args;
 	char	*path;
 	int		fd[2];
+	int		r_io[2]; //array of 2 int to store respectively: INPUT and OUTPUT fds (For redirection)
 }				t_cmd;
 
 typedef struct s_prg
