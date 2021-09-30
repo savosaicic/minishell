@@ -12,12 +12,17 @@ void init_shell(t_prg *prg, char **env)
 char	*init_cmd(t_prg *prg, char **cmd)
 {
 	char **paths;
-	char *path;
+	char *cmd_path;
 
-	paths = ft_split(search_in_tab(prg->env, "PATH=") + ft_strlen("PATH="), ':');
-	path = get_cmd_path(paths, cmd[0], prg->pwd);
+	paths = get_path(prg->env);
+	if (!ft_strchr(cmd[0], '/'))
+		cmd_path = get_cmd_path(paths, cmd[0]);
+	else
+		cmd_path = ft_strdup(cmd[0]);
 	free_tab(paths);
-	return (path);
+	if (!cmd_path)
+		return (NULL);
+	return (cmd_path);
 }
 
 int main(int ac, char **av, char **env)
@@ -44,10 +49,15 @@ int main(int ac, char **av, char **env)
 			token_lst = get_token(cmd_buffer);
 			cmdlst = parse_tokens(token_lst);
 			((t_cmd*)cmdlst->content)->path = init_cmd(&prg, ((t_cmd*)cmdlst->content)->args);
-			exec_cmd(&prg, (t_cmd *)cmdlst->content);
+
+			if (!((t_cmd*)cmdlst->content)->path)
+				write_error_msg("minishell", ((t_cmd*)cmdlst->content)->args[0], "command not found");
+			else
+				exec_cmd(&prg, (t_cmd *)cmdlst->content);
+
 			ft_lstclear(&cmdlst, clear_cmd_struct);
+			ft_lstclear(&token_lst, clear_token_struct);
 		}
-		ft_lstclear(&token_lst, clear_token_struct);
 		free(cmd_buffer);
 	}
 	return (0);
