@@ -29,7 +29,6 @@ typedef struct s_prg
 	char 	**env;
 	t_list	*env_lst;
 	char	*cmd_buffer;
-	char	*cmd_line;
 }				t_prg;
 
 typedef struct	s_variable

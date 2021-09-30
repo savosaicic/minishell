@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static t_variable *write_variable(char *var)
 {
 	t_variable *var_struct;
@@ -21,7 +20,6 @@ static t_list *load_env(char **env)
 	t_list *env_lst;
 	t_variable *variable;
 	int i;
-	char **variable_split;
 
 	variable = malloc(sizeof(*variable));
 	if (!variable)
@@ -58,7 +56,6 @@ t_list 	*get_command_lst(t_prg *prg)
 	if (!prg->cmd_buffer)
 		exit_success(prg, 0);
 	add_history(prg->cmd_buffer);
-	prg->cmd_line = clean_command_line(prg->cmd_buffer);
 	token_lst = get_token(prg->cmd_buffer);
 	if (token_lst == NULL)
 		exit_failure(prg, "sh: insufficient memory", 1);

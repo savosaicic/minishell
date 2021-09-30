@@ -1,8 +1,8 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -g 
+CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c \
-clear.c echo.c utils.c execute.c parser.c
+clear.c echo.c utils.c execute.c 
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 LIBFT = libft.a
@@ -15,7 +15,7 @@ vpath %.h includes libft
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME) 
+	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
 
 $(LIBFT):
 	$(MAKE) bonus -C $(D_LIBFT)
@@ -37,4 +37,4 @@ re: fclean all
 .PHONY: all fclean clean re
 
 fsanitize:
-	$(CC) -fsanitize=address $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME) 
+	$(CC) -fsanitize=address $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
