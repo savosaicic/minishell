@@ -3,15 +3,15 @@
 static void	add_path_slash(char **path)
 {
 	int		i;
-	char	*tmp;
+	// char	*tmp;
 
 	i = 0;
 	while (path[i])
 	{
-		tmp = path[i];
+		// tmp = path[i];
 		path[i] = ft_strjoin(path[i], "/");
 		i++;
-		free(tmp);
+		// free(tmp);
 	}
 }
 

@@ -1,0 +1,24 @@
+Auto-merging srcs/utils/exit.c
+Removing srcs/utils/clear_token_struct.c
+Auto-merging srcs/utils/clear.c
+CONFLICT (modify/delete): srcs/parser/parser.c deleted in jboisser and modified in HEAD. Version HEAD of srcs/parser/parser.c left in tree.
+Auto-merging srcs/main.c
+CONFLICT (content): Merge conflict in srcs/main.c
+Auto-merging srcs/lexer/get_tokens.c
+CONFLICT (content): Merge conflict in srcs/lexer/get_tokens.c
+CONFLICT (modify/delete): srcs/exec/exec.c deleted in jboisser and modified in HEAD. Version HEAD of srcs/exec/exec.c left in tree.
+CONFLICT (file location): srcs/parser/handle_redirection.c added in HEAD inside a directory that was renamed in jboisser, suggesting it should perhaps be moved to srcs/command/handle_redirection.c.
+CONFLICT (file location): srcs/parser/get_path.c added in HEAD inside a directory that was renamed in jboisser, suggesting it should perhaps be moved to srcs/command/get_path.c.
+CONFLICT (file location): srcs/parser/get_cmd_path.c added in HEAD inside a directory that was renamed in jboisser, suggesting it should perhaps be moved to srcs/command/get_cmd_path.c.
+Auto-merging srcs/command/command.c
+CONFLICT (content): Merge conflict in srcs/command/command.c
+CONFLICT (add/add): Merge conflict in srcs/builtins/echo.c
+Auto-merging srcs/builtins/echo.c
+Auto-merging includes/structures.h
+CONFLICT (content): Merge conflict in includes/structures.h
+Auto-merging includes/minishell.h
+CONFLICT (content): Merge conflict in includes/minishell.h
+Removing compile.sh
+Auto-merging Makefile
+CONFLICT (content): Merge conflict in Makefile
+Automatic merge failed; fix conflicts and then commit the result.

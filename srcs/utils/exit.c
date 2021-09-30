@@ -18,3 +18,11 @@ void	exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status)
 	write_error_msg("minishell", cmd->args[0], error_msg);
 	exit(status);
 }
+
+void	exit_success(t_prg *prg, int status)
+{
+	(void)prg;
+	// clean(prg)
+	exit(status);
+
+}

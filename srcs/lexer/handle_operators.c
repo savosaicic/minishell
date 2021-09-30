@@ -25,9 +25,9 @@ int	handle_quote(char **cmd_buffer, char *str, t_list **token_lst)
 	buffer[i] = '\0';
 
 	if (str)
-		ft_lstadd_back(token_lst, ft_lstnew(init_token_struct(ft_strjoin(str, buffer))));
+		ft_lstadd_back(token_lst, ft_lstnew(write_token(ft_strjoin(str, buffer))));
 	else
-		ft_lstadd_back(token_lst, ft_lstnew(init_token_struct(buffer)));
+		ft_lstadd_back(token_lst, ft_lstnew(write_token(buffer)));
 	return (0);
 }
 
@@ -37,7 +37,7 @@ int	handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst)
 
 	operator[0] = **cmd_buffer;
 	operator[1] = 0;
-	ft_lstadd_back(token_lst, ft_lstnew(init_token_struct(operator)));
+	ft_lstadd_back(token_lst, ft_lstnew(write_token(operator)));
 	(*cmd_buffer)++;
 	return (0);
 }

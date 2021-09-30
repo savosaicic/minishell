@@ -1,0 +1,37 @@
+     1	NAME = minishell
+     2	CC = gcc
+     3	CFLAGS = -g -Wall -Wextra -Werror
+     4	SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c \
+     5	clear.c write_command.c builtins.c
+     6	INC = -Iincludes -Ilibft
+     7	OBJS = $(SRCS:.c=.o)
+     8	LIBFT = libft.a
+     9	D_LIBFT = ./libft
+    10	
+    11	vpath %.c srcs srcs/lexer srcs/utils srcs/parser srcs/command srcs/error srcs/builtins
+    12	vpath %.o obj
+    13	vpath %.h includes libft
+    14	
+    15	all: $(LIBFT) $(NAME)
+    16	
+    17	$(NAME): $(OBJS)
+    18		$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
+    19	
+    20	$(LIBFT):
+    21		$(MAKE) bonus -C $(D_LIBFT)
+    22	
+    23	$(OBJS): %.o: %.c
+    24		mkdir -p obj
+    25		$(CC) -c $(CFLAGS) $< $(INC) -o obj/$@
+    26	
+    27	clean:
+    28		make clean -C $(D_LIBFT)
+    29		$(RM) -rf obj
+    30	
+    31	fclean: clean
+    32		$(MAKE) fclean -C $(D_LIBFT)
+    33		$(RM) -rf $(NAME)
+    34	
+    35	re: fclean all
+    36	
+    37	.PHONY: all fclean clean re

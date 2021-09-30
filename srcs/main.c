@@ -1,5 +1,39 @@
 #include "minishell.h"
 
+static t_variable *write_variable(char *var)
+{
+	t_variable *var_struct;
+	char **var_split;
+
+	var_struct = malloc(sizeof(*var_struct));
+	if (!var_struct)
+		return (NULL);
+	var_split = ft_split(var, '=');
+	var_struct->name = ft_strdup(var_split[0]);
+	var_struct->value = ft_strdup(var_split[1]);
+	free_tab(var_split);
+	return (var_struct);
+}
+
+static t_list *load_env(char **env)
+{
+	t_list *env_lst;
+	t_variable *variable;
+	int i;
+
+	variable = malloc(sizeof(*variable));
+	if (!variable)
+		return (NULL);
+	env_lst = NULL;
+	i = 0;
+	while (env[i])
+	{
+		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(env[i])));
+		i++;
+	}
+	return (env_lst);
+}
+
 void init_shell(t_prg *prg, char **env)
 {
 	char *pwd;
@@ -7,58 +41,83 @@ void init_shell(t_prg *prg, char **env)
 	pwd = search_in_tab(env, "PWD=");
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
 	prg->env = env;
+	prg->env_lst = load_env(env);
+	prg->cmd_buffer = NULL;
+	if (prg->pwd == NULL)
+		exit_failure(prg, NULL, "sh: insufficient memory", 1);
 }
 
-char	*init_cmd(t_prg *prg, char **cmd)
+t_list 	*get_command_lst(t_prg *prg)
 {
-	char **paths;
-	char *cmd_path;
+	t_list		*token_lst;
+	t_list		*cmd_lst;
 
-	paths = get_path(prg->env);
-	if (!ft_strchr(cmd[0], '/'))
-		cmd_path = get_cmd_path(paths, cmd[0]);
-	else
-		cmd_path = ft_strdup(cmd[0]);
-	free_tab(paths);
-	if (!cmd_path)
-		return (NULL);
-	return (cmd_path);
+	prg->cmd_buffer = readline("$> ");
+	if (!prg->cmd_buffer)
+		exit_success(prg, 0);
+	add_history(prg->cmd_buffer);
+	token_lst = get_token(prg->cmd_buffer);
+	if (token_lst == NULL)
+		exit_failure(prg, NULL, "sh: insufficient memory", 1);
+	cmd_lst = parse_tokens(token_lst);
+	ft_lstclear(&token_lst, clear_token_struct);
+	free(prg->cmd_buffer);
+	return (cmd_lst);
+}
+
+int wait_all_pids(void)
+{
+	int			ret;
+	int			status;
+	int			pid_ret;
+
+	pid_ret = 1;
+	ret = 0;
+	while (pid_ret > 0)
+	{
+		pid_ret = wait(&status);
+		if (WIFEXITED(status))
+			ret = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			ret = WTERMSIG(status);
+		else
+			ret = 1;
+	}
+	return (ret);
 }
 
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	char		*cmd_buffer;
 	t_prg		prg;
-	t_list		*cmdlst;
-	t_list		*token_lst;
+	t_list		*cmd_lst;
+	pid_t		pid;
+	int			status;
+	int			ret;
 
 	init_shell(&prg, env);
 	while (1)
 	{
-		cmd_buffer = readline("$> ");
-		if (!cmd_buffer)
+		cmd_lst = get_command_lst(&prg);
+		while (cmd_lst)
 		{
-			rl_clear_history();
-			exit(0);
+			pid = fork();
+			if (!pid)
+			{
+				((t_cmd *)cmd_lst->content)->path = write_command(&prg, ((t_cmd *)cmd_lst->content)->args);
+				if (!((t_cmd*)cmd_lst->content)->path)
+				write_error_msg("minishell", ((t_cmd*)cmd_lst->content)->args[0], "command not found");
+				ret = execute(&prg, cmd_lst);
+				exit(ret);
+			}
+			ret = 0;
+			waitpid(ret, &status, 0);
+			if (WIFEXITED(status))
+				ret = WEXITSTATUS(status);
+			cmd_lst = cmd_lst->next;
 		}
-		else if (ft_strlen(cmd_buffer))
-		{
-			add_history(cmd_buffer);
-			token_lst = get_token(cmd_buffer);
-			cmdlst = parse_tokens(token_lst);
-			((t_cmd*)cmdlst->content)->path = init_cmd(&prg, ((t_cmd*)cmdlst->content)->args);
-
-			if (!((t_cmd*)cmdlst->content)->path)
-				write_error_msg("minishell", ((t_cmd*)cmdlst->content)->args[0], "command not found");
-			else
-				exec_cmd(&prg, (t_cmd *)cmdlst->content);
-
-			ft_lstclear(&cmdlst, clear_cmd_struct);
-			ft_lstclear(&token_lst, clear_token_struct);
-		}
-		free(cmd_buffer);
+		ft_lstclear(&cmd_lst, clear_cmd_struct);
 	}
 	return (0);
 }
