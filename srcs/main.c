@@ -107,7 +107,11 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
 			if (!((t_cmd *)cmd_lst->content)->path)
 				write_error_msg("minishell", ((t_cmd *)cmd_lst->content)->args[0], "command not found");
-			ret = execute(prg, cmd_lst->content);
+			else
+			{
+				ret = execute(prg, cmd_lst->content);
+				exit_success(prg, ret);
+			}
 			exit(ret);
 		}
 		ret = 0;
