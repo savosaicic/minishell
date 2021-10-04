@@ -35,3 +35,11 @@ void	clear_cmd_struct(void *cmd_struct)
 	free(((t_cmd *)cmd_struct)->path);
 	free((t_cmd *)cmd_struct);
 }
+
+void	clear_prg_struct(t_prg *prg)
+{
+	free(prg->cmd_buffer);
+	free(prg->env_lst);
+	free(prg->pwd);
+	free(prg);
+}

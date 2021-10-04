@@ -36,9 +36,14 @@ static t_list *load_env(char **env)
 	return (env_lst);
 }
 
-void init_shell(t_prg *prg, char **env)
+t_prg	*init_shell(char **env)
 {
-	char *pwd;
+	t_prg	*prg;
+	char	*pwd;
+
+	prg = malloc(sizeof(t_prg));
+	if (!prg)
+		exit_failure(prg, NULL, "sh: insufficient memory", 1);
 
 	pwd = search_in_tab(env, "PWD=");
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
@@ -47,6 +52,7 @@ void init_shell(t_prg *prg, char **env)
 	prg->cmd_buffer = NULL;
 	if (prg->pwd == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
+	return (prg);
 }
 
 t_list *get_command_lst(t_prg *prg)
@@ -55,19 +61,12 @@ t_list *get_command_lst(t_prg *prg)
 	t_list *cmd_lst;
 
 	cmd_lst = NULL;
-	prg->cmd_buffer = readline("$> ");
-	if (!prg->cmd_buffer)
-		exit_success(prg, 0);
-	else if (ft_strlen(prg->cmd_buffer))
-	{
-		add_history(prg->cmd_buffer);
-		token_lst = get_token(prg->cmd_buffer);
-		if (token_lst == NULL)
-			exit_failure(prg, NULL, "sh: insufficient memory", 1);
-		cmd_lst = parse_tokens(token_lst);
-		ft_lstclear(&token_lst, clear_token_struct);
-	}
-	free(prg->cmd_buffer);
+	add_history(prg->cmd_buffer);
+	token_lst = get_token(prg->cmd_buffer);
+	if (token_lst == NULL)
+		exit_failure(prg, NULL, "sh: insufficient memory", 1);
+	cmd_lst = parse_tokens(token_lst);
+	ft_lstclear(&token_lst, clear_token_struct);
 	return (cmd_lst);
 }
 
@@ -122,15 +121,21 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env)
 {
-	t_prg	prg;
+	t_prg	*prg;
 	t_list	*cmd_lst;
 
-	init_shell(&prg, env);
+	prg = init_shell(env);
 	while (1)
 	{
-		cmd_lst = get_command_lst(&prg);
+		cmd_lst = NULL;
+		prg->cmd_buffer = readline("$> ");
+		if (!prg->cmd_buffer)
+			exit_success(prg, 0);
+		else if (ft_strlen(prg->cmd_buffer))
+			cmd_lst = get_command_lst(prg);
 		if (cmd_lst)
-			execute_cmd_list(&prg, cmd_lst);
+			execute_cmd_list(prg, cmd_lst);
+		free(prg->cmd_buffer);
 	}
 	return (0);
 }

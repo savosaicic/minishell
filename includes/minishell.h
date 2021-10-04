@@ -58,6 +58,7 @@ void	execute_command(t_prg *prg, t_cmd *cmd);
 int     execute(t_prg *prg, t_cmd *cmd);
 
 /*utils*/
+void	clear_prg_struct(t_prg *prg);
 void	clear_token_struct(void *token_struct);
 void	clear_cmd_struct(void *cmd_struct);
 void	print_tab(char **tab);
