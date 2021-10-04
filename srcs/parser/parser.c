@@ -40,6 +40,15 @@ t_list	*parse_tokens(t_list *token_lst)
 			if (parse_redirection(&cmd, &token_lst) > 0)
 				(void)i; //delete the actual cmd and go to next one if there is a pipe
 		}
+		else if (CAST(token_lst, t_token*)->token_type == T_PIPE)
+		{
+			cmd->args[i] = NULL;
+			ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
+			cmd = init_cmd_struct(ft_lstsize(token_lst));
+			i = 0;
+			token_lst = token_lst->next;
+		}
+		
 		else
 		{
 			//Check for $, expand if so
@@ -50,6 +59,5 @@ t_list	*parse_tokens(t_list *token_lst)
 	}
 	cmd->args[i] = NULL;
 	ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
-	//cmd->args[i] = NULL;
 	return (cmd_lst);
 }

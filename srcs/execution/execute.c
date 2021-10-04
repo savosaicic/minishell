@@ -11,7 +11,9 @@ void		execute_command(t_prg *prg, t_cmd *cmd)
 	pid_t	pid;
 	int		status;
 	int		ret;
+	int		fds[2];
 
+	pipe(fds);
 	pid = fork();
 	if (pid == -1)
 		exit_failure(prg, NULL, strerror(errno), 1);
