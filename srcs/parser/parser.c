@@ -48,7 +48,8 @@ t_list	*parse_tokens(t_list *token_lst)
 			i++;
 		}
 	}
-	ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
 	cmd->args[i] = NULL;
+	ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
+	//cmd->args[i] = NULL;
 	return (cmd_lst);
 }

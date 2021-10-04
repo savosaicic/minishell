@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-char	*get_cmd_path(char **path, char *cmd)
+char *get_cmd_path(char **path, char *cmd)
 {
-	char	*cmd_path;
-	int		ret;
-	int		i;
+	char *cmd_path;
+	int ret;
+	int i;
 
 	ret = 1;
 	i = 1;
@@ -27,34 +27,32 @@ char	*get_cmd_path(char **path, char *cmd)
 	}
 }
 
-char	*search_in_tab(char **env, char *var)
+char *search_in_tab(char **env, char *var)
 {
-	int		i;
-	int		var_len;
+	int i;
+	int var_len;
 
 	i = 0;
 	var_len = ft_strlen(var);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], var, var_len) == 0)
-			break ;
+			break;
 		i++;
 	}
 	return (env[i]);
 }
 
-char	*write_command(t_prg *prg, char **cmd)
+char *write_command(t_prg *prg, char **cmd)
 {
-    char **paths;
-    char *cmd_path;
+	char	**paths;
+	char	*cmd_path;
 
-    paths = get_path(prg->env);
-    if (!ft_strchr(cmd[0], '/'))
-        cmd_path = get_cmd_path(paths, cmd[0]);
-    else
-        cmd_path = ft_strdup(cmd[0]);
-    // free_tab(paths);
-    if (!cmd_path)
-        return (NULL);
-    return (cmd_path);
+	paths = get_path(prg->env);
+	if (!ft_strchr(cmd[0], '/'))
+		cmd_path = get_cmd_path(paths, cmd[0]);
+	else
+		cmd_path = ft_strdup(cmd[0]);
+	free_tab(paths);
+	return (cmd_path);
 }

@@ -22,6 +22,7 @@ void	exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status)
 void	exit_success(t_prg *prg, int status)
 {
 	(void)prg;
+	rl_clear_history();
 	// clean(prg)
 	exit(status);
 

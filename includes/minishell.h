@@ -55,7 +55,7 @@ void	echo(t_cmd *cmd);
 /*execute*/
 void    execute_builtin(t_prg *prg, t_cmd *cmd);
 void	execute_command(t_prg *prg, t_cmd *cmd);
-int     execute(t_prg *prg, t_list *cmd_lst);
+int     execute(t_prg *prg, t_cmd *cmd);
 
 /*utils*/
 void	clear_token_struct(void *token_struct);
