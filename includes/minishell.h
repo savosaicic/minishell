@@ -50,7 +50,7 @@ char	*search_in_tab(char **env, char *var);
 char	*write_command(t_prg *prg, char **cmd);
 
 /*builtin*/
-int		echo(t_cmd *cmd);
+void	echo(t_cmd *cmd);
 
 /*execute*/
 void    execute_builtin(t_prg *prg, t_cmd *cmd);
