@@ -24,13 +24,19 @@ char	*perform_expansion(char **cmd_buffer)
 	return (expanded_var);
 }
 
-char	*handle_expansion(char **cmd_buffer)
+char	*handle_expansion(char **cmd_buffer, char *save)
 {
 	char	*expanded_var;
 	char	*buffer;
 	char	*tmp;
 
-	buffer = ft_strdup("");
+	if (save)
+	{
+		buffer = ft_strdup(save);
+		free(save);
+	}
+	else
+		buffer = ft_strdup("");
 	while (**cmd_buffer == '$')
 	{
 		expanded_var = perform_expansion(cmd_buffer);

@@ -28,7 +28,7 @@
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
 int			parse_redirection(t_cmd **cmd, t_list **token_lst);
-char		*handle_expansion(char **cmd_buffer);
+char		*handle_expansion(char **cmd_buffer, char *save);
 
 char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);

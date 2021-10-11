@@ -97,9 +97,10 @@ t_list	*get_token(char *cmd_buffer)
 		/* $ */
 		else if (*cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')
 		{
-			expander_var = handle_expansion(&cmd_buffer);
+			expander_var = NULL;
 			if (ft_strlen(buffer))
-				ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
+				expander_var = ft_strdup(buffer);
+			expander_var = handle_expansion(&cmd_buffer, expander_var);
 			ft_bzero(buffer, 4096);
 			if (expander_var)
 				ft_lstadd_back(&token_lst, ft_lstnew(write_token(expander_var)));
