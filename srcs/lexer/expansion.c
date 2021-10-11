@@ -24,7 +24,24 @@ char	*perform_expansion(char **cmd_buffer)
 	return (expanded_var);
 }
 
-char	*handle_expansion(char **cmd_buffer, char *save)
+static void	split_buffer_and_add_back(char *buffer, t_list **token_lst)
+{
+	char	**res;
+	int		i;
+
+	res = ft_split(buffer, ' ');
+	if (!res)
+		return ;
+	i = 0;
+	while (res[i])
+	{
+		ft_lstadd_back(token_lst, ft_lstnew(write_token(res[i])));
+		i++;
+	}
+	free_tab(res);
+}
+
+char	*handle_expansion(char **cmd_buffer, char *save, t_list **token_lst)
 {
 	char	*expanded_var;
 	char	*buffer;
@@ -45,5 +62,6 @@ char	*handle_expansion(char **cmd_buffer, char *save)
 		free(tmp);
 		free(expanded_var);
 	}
+	split_buffer_and_add_back(buffer, token_lst);
 	return (buffer);
 }

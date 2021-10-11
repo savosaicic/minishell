@@ -100,10 +100,8 @@ t_list	*get_token(char *cmd_buffer)
 			expander_var = NULL;
 			if (ft_strlen(buffer))
 				expander_var = ft_strdup(buffer);
-			expander_var = handle_expansion(&cmd_buffer, expander_var);
+			handle_expansion(&cmd_buffer, expander_var, &token_lst);
 			ft_bzero(buffer, 4096);
-			if (expander_var)
-				ft_lstadd_back(&token_lst, ft_lstnew(write_token(expander_var)));
 			free(expander_var);
 		}
 
