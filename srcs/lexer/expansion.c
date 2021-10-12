@@ -41,16 +41,17 @@ static void	split_buffer_and_add_back(char *buffer, t_list **token_lst)
 	free_tab(res);
 }
 
-char	*handle_expansion(char **cmd_buffer, char *save, t_list **token_lst)
+char	*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst)
 {
 	char	*expanded_var;
 	char	*buffer;
 	char	*tmp;
 
-	if (save)
+	if (*save)
 	{
-		buffer = ft_strdup(save);
-		free(save);
+		buffer = ft_strdup(*save);
+		free(*save);
+		*save = NULL;
 	}
 	else
 		buffer = ft_strdup("");
