@@ -19,8 +19,10 @@ char	*perform_expansion(char **cmd_buffer)
 	}
 	tmp = getenv(buffer);
 	if (!tmp)
-		return (NULL);
-	expanded_var = ft_strdup(getenv(buffer));
+		expanded_var = ft_strdup("");
+		//return (NULL);
+	else
+		expanded_var = ft_strdup(getenv(buffer));
 	return (expanded_var);
 }
 
@@ -55,14 +57,11 @@ char	*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst)
 	}
 	else
 		buffer = ft_strdup("");
-	while (**cmd_buffer == '$')
-	{
-		expanded_var = perform_expansion(cmd_buffer);
-		tmp = buffer;
-		buffer = ft_strjoin(buffer, expanded_var);
-		free(tmp);
-		free(expanded_var);
-	}
+	expanded_var = perform_expansion(cmd_buffer);
+	tmp = buffer;
+	buffer = ft_strjoin(buffer, expanded_var);
+	free(tmp);
+	free(expanded_var);
 	split_buffer_and_add_back(buffer, token_lst);
 	return (buffer);
 }

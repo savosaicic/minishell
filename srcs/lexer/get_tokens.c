@@ -102,6 +102,7 @@ t_list	*get_token(char *cmd_buffer)
 				expander_var = ft_strdup(buffer);
 			handle_expansion(&cmd_buffer, &expander_var, &token_lst);
 			ft_bzero(buffer, 4096);
+			i = 0;
 			free(expander_var);
 		}
 
