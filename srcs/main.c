@@ -1,26 +1,5 @@
 #include "minishell.h"
 
-static t_variable *write_variable(char *var)
-{
-	t_variable	*var_struct;
-	char		**var_split;
-
-	var_struct = malloc(sizeof(t_variable));
-	if (!var_struct)
-		return (NULL);
-	var_split = ft_split(var, '=');
-	if (!var_split)
-	{
-		free(var_struct);
-		return (NULL);
-	}
-	var_struct->name = ft_strdup(var_split[0]);
-	if (var_split[1])
-		var_struct->value = ft_strdup(var_split[1]);
-	free_tab(var_split);
-	return (var_struct);
-}
-
 t_prg	*init_shell(char **env)
 {
 	t_prg	*prg;
@@ -50,7 +29,7 @@ t_list *get_command_lst(t_prg *prg)
 	token_lst = get_token(prg->cmd_buffer);
 	if (token_lst == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
-	cmd_lst = parse_tokens(prg, token_lst->content);
+	cmd_lst = parse_tokens(token_lst->content);
 	ft_lstclear(&token_lst, clear_token_struct);
 	return (cmd_lst);
 }

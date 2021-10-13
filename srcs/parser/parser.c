@@ -21,7 +21,7 @@ static t_cmd	*init_cmd_struct(int args_num)
 ** This function parse the token list made by the lexer
 ** to get a list of commands
 */
-t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
+t_list	*parse_tokens(t_list *token_lst)
 {
 	t_list	*cmd_lst;
 	t_cmd	*cmd;
@@ -47,13 +47,6 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 			cmd = init_cmd_struct(ft_lstsize(token_lst));
 			i = 0;
 			token_lst = token_lst->next;
-		}
-		else if (CAST(token_lst, t_token*)->token_type == T_WORD && !ft_strchr(token_lst->content, '='))
-		{
-			add_var_in_env(prg, token_lst->content);
-			printf("need to create var\n");
-
-
 		}
 		else
 		{

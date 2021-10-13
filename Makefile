@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Werror -Wextra
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c handle_operators.c handle_redirection.c \
 		clear.c echo.c utils.c execute.c get_path.c parser.c expansion.c \
 		environment.c
