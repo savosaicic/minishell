@@ -37,13 +37,15 @@ void		exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
 int			write_error_msg(char *bin_name, char *item_name, char *error_msg);
 
 /*lexer*/
-t_list	*parse_tokens(t_list *token_lst);
+t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
 t_ttype	get_token_type(char *token);
 t_list	*get_token(char *cmd_buffer);
 t_token	*write_token(char *token);
 
 /*parser*/
 char *clean_command_line(char *line_buff);
+t_list *init_env(char **env);
+
 
 
 /*command*/

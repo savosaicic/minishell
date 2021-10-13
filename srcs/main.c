@@ -21,21 +21,6 @@ static t_variable *write_variable(char *var)
 	return (var_struct);
 }
 
-static t_list *load_env(char **env)
-{
-	t_list		*env_lst;
-	int			i;
-
-	env_lst = NULL;
-	i = 0;
-	while (env[i])
-	{
-		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(env[i])));
-		i++;
-	}
-	return (env_lst);
-}
-
 t_prg	*init_shell(char **env)
 {
 	t_prg	*prg;
@@ -48,7 +33,7 @@ t_prg	*init_shell(char **env)
 	pwd = search_in_tab(env, "PWD=");
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
 	prg->env = env;
-	prg->env_lst = load_env(env);
+	prg->env_lst = init_env(env);
 	prg->cmd_buffer = NULL;
 	if (prg->pwd == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
@@ -65,7 +50,7 @@ t_list *get_command_lst(t_prg *prg)
 	token_lst = get_token(prg->cmd_buffer);
 	if (token_lst == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
-	cmd_lst = parse_tokens(token_lst);
+	cmd_lst = parse_tokens(prg, token_lst->content);
 	ft_lstclear(&token_lst, clear_token_struct);
 	return (cmd_lst);
 }
