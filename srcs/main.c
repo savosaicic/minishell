@@ -29,7 +29,7 @@ t_list *get_command_lst(t_prg *prg)
 	token_lst = get_token(prg->cmd_buffer);
 	if (token_lst == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
-	cmd_lst = parse_tokens(token_lst->content);
+	cmd_lst = parse_tokens(prg, token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
 	return (cmd_lst);
 }

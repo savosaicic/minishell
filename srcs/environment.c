@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-static void print_list (t_list *lst)
+static void print_list(t_list *lst)
 {
     while (!lst)
     {
-        printf("%s\n", ((t_variable *)lst->content)->value);
+        printf("> %s\n", ((t_variable *)lst->content)->value);
         lst = lst->next;
     }
 }
@@ -49,7 +49,13 @@ void add_var_in_env(char *variable, t_list **env_lst)
 {
     (void)variable;
     (void)env_lst;
-    print_list(*env_lst);
-    // ft_lstadd_back(&env_lst, ft_lstnew(write_variable(variable)));
 
+    // print_list(*env_lst);
+	t_list *list;
+
+	list = ft_lstnew(write_variable(variable));
+	printf("res %s\n", ((t_variable *)list->content)->value);
+	//   printf("> %s\n", ((t_variable *)lst->content)->value);
+    // ft_lstadd_back(env_lst, ft_lstnew(write_variable(variable)));
+	print_list(NULL);
 }
