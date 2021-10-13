@@ -20,7 +20,6 @@ char	*perform_expansion(char **cmd_buffer)
 	tmp = getenv(buffer);
 	if (!tmp)
 		expanded_var = ft_strdup("");
-		//return (NULL);
 	else
 		expanded_var = ft_strdup(getenv(buffer));
 	return (expanded_var);
