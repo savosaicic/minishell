@@ -57,6 +57,10 @@ char	*write_command(t_prg *prg, char **cmd);
 
 /*builtin*/
 void	echo(t_cmd *cmd);
+void 	export(t_cmd *cmd, t_list *env_lst);
+void	env(t_list *env_lst);
+
+
 
 /*execute*/
 void    execute_builtin(t_prg *prg, t_cmd *cmd);
@@ -75,5 +79,7 @@ int     is_space(char c);
 
 int     is_builtin(char *cmd_name);
 int     wait_all_pids(void);
+void print_variables(t_list *lst);
+
 
 #endif

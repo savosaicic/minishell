@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void print_variables(t_list *lst)
+void print_variables(t_list *lst)
 {
     while (lst)
     {
@@ -55,17 +55,4 @@ t_variable *write_variable(char *var)
 		var_struct->value = ft_strdup(var_split[1]);
 	free_tab(var_split);
 	return (var_struct);
-}
-
-void add_var_in_env(char *variable, t_list *env_lst)
-{
-	// t_list *list;
-	// t_variable *var;
-
-	(void)env_lst;
-	// list = NULL;
-    ft_lstadd_back(&env_lst, ft_lstnew(write_variable(variable)));
-	// var = write_variable(variable);
-	// printf("env %s\n", getenv("VAR"));
-	print_variables(env_lst);
 }

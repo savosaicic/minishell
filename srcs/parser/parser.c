@@ -27,6 +27,7 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	t_cmd	*cmd;
 	int		i;
 	
+	(void)prg;
 	cmd = init_cmd_struct(ft_lstsize(token_lst));
 	if (!cmd)
 		return (NULL);
@@ -46,11 +47,6 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 			ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
 			cmd = init_cmd_struct(ft_lstsize(token_lst));
 			i = 0;
-			token_lst = token_lst->next;
-		}
-		else if (ft_strchr(CAST(token_lst, t_token*)->token, '='))
-		{
-			add_var_in_env(CAST(token_lst, t_token*)->token, prg->env_lst);
 			token_lst = token_lst->next;
 		}
 		else

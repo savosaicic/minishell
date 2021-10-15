@@ -3,7 +3,12 @@
 void     execute_builtin(t_prg *prg, t_cmd *cmd)
 {
     (void)prg;
-	echo(cmd);
+	if (!ft_strcmp(cmd->args[0], "echo"))
+		echo(cmd);
+	else if (!ft_strcmp(cmd->args[0], "export"))
+		export(cmd, prg->env_lst);
+	else if (!ft_strcmp(cmd->args[0], "env"))
+		env(prg->env_lst);
 }
 
 void		execute_command(t_prg *prg, t_cmd *cmd)
