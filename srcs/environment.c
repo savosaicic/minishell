@@ -1,12 +1,24 @@
 #include "minishell.h"
 
-static void print_list(t_list *lst)
+static void print_variables(t_list *lst)
 {
-    while (!lst)
+    while (lst)
     {
-        printf("> %s\n", ((t_variable *)lst->content)->value);
+        printf("%s=%s\n", ((t_variable *)lst->content)->name, ((t_variable *)lst->content)->value);
         lst = lst->next;
     }
+}
+
+char *ft_getenv(t_list *env_lst, char *var_search)
+{
+	while (env_lst)
+	{
+		if (!ft_strcmp(((t_variable *)(env_lst->content))->name, var_search))
+			return (ft_strdup(((t_variable *)(env_lst->content))->value));
+		env_lst = env_lst->next;
+	}
+	return (NULL);
+
 }
 
 t_list *init_env(char **env)
@@ -45,17 +57,15 @@ t_variable *write_variable(char *var)
 	return (var_struct);
 }
 
-void add_var_in_env(char *variable, t_list **env_lst)
+void add_var_in_env(char *variable, t_list *env_lst)
 {
-    (void)variable;
-    (void)env_lst;
+	// t_list *list;
+	// t_variable *var;
 
-    // print_list(*env_lst);
-	t_list *list;
-
-	list = ft_lstnew(write_variable(variable));
-	printf("res %s\n", ((t_variable *)list->content)->value);
-	//   printf("> %s\n", ((t_variable *)lst->content)->value);
-    // ft_lstadd_back(env_lst, ft_lstnew(write_variable(variable)));
-	print_list(NULL);
+	(void)env_lst;
+	// list = NULL;
+    ft_lstadd_back(&env_lst, ft_lstnew(write_variable(variable)));
+	// var = write_variable(variable);
+	// printf("env %s\n", getenv("VAR"));
+	print_variables(env_lst);
 }

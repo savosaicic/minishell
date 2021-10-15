@@ -26,7 +26,7 @@ t_list *get_command_lst(t_prg *prg)
 
 	cmd_lst = NULL;
 	add_history(prg->cmd_buffer);
-	token_lst = get_token(prg->cmd_buffer);
+	token_lst = get_token(prg, prg->cmd_buffer);
 	if (token_lst == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
 	cmd_lst = parse_tokens(prg, token_lst);

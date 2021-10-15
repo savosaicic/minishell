@@ -28,7 +28,8 @@
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
 int			parse_redirection(t_cmd **cmd, t_list **token_lst);
-char		*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst);
+char		*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst, t_list *env_lst);
+char		*ft_getenv(t_list *env_lst, char *var_search);
 
 char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);
@@ -39,14 +40,14 @@ int			write_error_msg(char *bin_name, char *item_name, char *error_msg);
 /*lexer*/
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
 t_ttype	get_token_type(char *token);
-t_list	*get_token(char *cmd_buffer);
+t_list	*get_token(t_prg *prg, char *cmd_buffer);
 t_token	*write_token(char *token);
 
 /*parser*/
 char *clean_command_line(char *line_buff);
 t_list *init_env(char **env);
 t_variable *write_variable(char *var);
-void add_var_in_env(char *variable, t_list **env_lst);
+void add_var_in_env(char *variable, t_list *env_lst);
 
 
 

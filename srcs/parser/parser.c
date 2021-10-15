@@ -50,7 +50,7 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 		}
 		else if (ft_strchr(CAST(token_lst, t_token*)->token, '='))
 		{
-			add_var_in_env(CAST(token_lst, t_token*)->token, &prg->env_lst);
+			add_var_in_env(CAST(token_lst, t_token*)->token, prg->env_lst);
 			token_lst = token_lst->next;
 		}
 		else
