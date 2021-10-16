@@ -21,12 +21,13 @@ static t_cmd	*init_cmd_struct(int args_num)
 ** This function parse the token list made by the lexer
 ** to get a list of commands
 */
-t_list	*parse_tokens(t_list *token_lst)
+t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 {
 	t_list	*cmd_lst;
 	t_cmd	*cmd;
 	int		i;
 	
+	(void)prg;
 	cmd = init_cmd_struct(ft_lstsize(token_lst));
 	if (!cmd)
 		return (NULL);
@@ -48,7 +49,6 @@ t_list	*parse_tokens(t_list *token_lst)
 			i = 0;
 			token_lst = token_lst->next;
 		}
-		
 		else
 		{
 			//Check for $, expand if so
