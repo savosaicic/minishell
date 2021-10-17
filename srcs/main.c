@@ -63,7 +63,7 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	int 	ret;
 
 	head = &cmd_lst;
-	if (prg->cmds_len == 1)
+	if (prg->cmds_len == 1 && is_builtin(((t_cmd *)cmd_lst->content)->args[0]) == 1)
 	{
 		((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
 		ret = execute(prg, cmd_lst->content);
