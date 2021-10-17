@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	echo(t_cmd *cmd)
+int	echo(t_cmd *cmd)
 {
 	int option;
 	int i;
@@ -8,7 +8,7 @@ void	echo(t_cmd *cmd)
 	if (!cmd->args[1])
 	{
 		ft_putchar('\n');
-		return;
+		return (0);
 	}
 	option = 0;
 	i = 1;
@@ -26,4 +26,5 @@ void	echo(t_cmd *cmd)
 	}
 	if (!option)
 		ft_putchar('\n');
+	return (0);
 }

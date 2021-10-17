@@ -68,22 +68,13 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 		if (!pid)
 		{
 			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
-			if (!((t_cmd *)cmd_lst->content)->path)
-			{
-				exit(write_error_msg("minishell", ((t_cmd *)cmd_lst->content)->args[0], "command not found", 127));
-			}
-			else
-			{
-				pid = execute(prg, cmd_lst->content);
-			}
-			printf("IN child: status code %d\n", status);
-			exit(pid);
+			execute(prg, cmd_lst->content);
 		}
 		waitpid(pid, &status, 0);
 		pid = 0;
 		if (WIFEXITED(status))
-			pid = WEXITSTATUS(status);
-		printf("status code %d\n", pid);
+		// 	pid = WEXITSTATUS(status);
+		// printf("status code %d\n", pid);
 		cmd_lst = cmd_lst->next;
 	}
 	ft_lstclear(head, clear_cmd_struct);

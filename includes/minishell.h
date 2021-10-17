@@ -57,16 +57,16 @@ char	*search_in_tab(char **env, char *var);
 char	*write_command(t_prg *prg, char **cmd);
 
 /*builtin*/
-void	echo(t_cmd *cmd);
-void 	export(t_cmd *cmd, t_list *env_lst);
-void	env(t_list *env_lst);
+int	echo(t_cmd *cmd);
+int export(t_cmd *cmd, t_list *env_lst);
+int	env(t_list *env_lst);
 
 
 
 /*execute*/
 void    execute_builtin(t_prg *prg, t_cmd *cmd);
 void	execute_command(t_prg *prg, t_cmd *cmd);
-int     execute(t_prg *prg, t_cmd *cmd);
+void     execute(t_prg *prg, t_cmd *cmd);
 
 /*utils*/
 void	clear_prg_struct(t_prg *prg);

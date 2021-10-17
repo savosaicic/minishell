@@ -6,7 +6,13 @@ int	write_error_msg(char *bin_name, char *item_name, char *error_msg, int status
 	write(2, ": ", 2);
 	write(2, item_name, ft_strlen(item_name));
 	write(2, ": ", 2);
-	write(2, error_msg, ft_strlen(error_msg));
+	if (error_msg && error_msg[0] >= 'A' && error_msg[0] <= 'Z')
+	{
+		ft_putchar(error_msg[0] + 32);
+		write(2, error_msg + 1, ft_strlen(error_msg));
+	}
+	else
+		write(2, error_msg, ft_strlen(error_msg));
 	write(2, "\n", 1);
 	return (status);
 }
