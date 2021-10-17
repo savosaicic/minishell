@@ -2,12 +2,10 @@
 
 int export(t_cmd *cmd, t_list *env_lst)
 {
-    (void)cmd;
     int i;
 
 	if (cmd->args[1][0] == '-')
 		return (write_error_msg("minishell", "-", "not a valid identifier", 1));
-
 	i = 1;
 	while (cmd->args[i])
 	{

@@ -64,9 +64,9 @@ int	env(t_list *env_lst);
 
 
 /*execute*/
-void    execute_builtin(t_prg *prg, t_cmd *cmd);
-void	execute_command(t_prg *prg, t_cmd *cmd);
-void     execute(t_prg *prg, t_cmd *cmd);
+int    execute_builtin(t_prg *prg, t_cmd *cmd);
+int	execute_command(t_prg *prg, t_cmd *cmd);
+int     execute(t_prg *prg, t_cmd *cmd);
 
 /*utils*/
 void	clear_prg_struct(t_prg *prg);

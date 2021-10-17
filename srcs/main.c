@@ -60,20 +60,29 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	pid_t	pid;
 	int		status;
 	t_list	**head;
+	int 	ret;
 
 	head = &cmd_lst;
+	if (prg->cmds_len == 1)
+	{
+		((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
+		ret = execute(prg, cmd_lst->content);
+		ft_lstclear(head, clear_cmd_struct);
+		return ;
+	}
 	while (cmd_lst)
 	{
 		pid = fork();
 		if (!pid)
 		{
 			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
-			execute(prg, cmd_lst->content);
+			ret = execute(prg, cmd_lst->content);
+			exit(ret);
 		}
 		waitpid(pid, &status, 0);
 		pid = 0;
 		if (WIFEXITED(status))
-		// 	pid = WEXITSTATUS(status);
+			pid = WEXITSTATUS(status);
 		// printf("status code %d\n", pid);
 		cmd_lst = cmd_lst->next;
 	}
@@ -93,7 +102,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		if (!prg->cmd_buffer)
 			exit_success(prg, 0);
 		else if (ft_strlen(prg->cmd_buffer))
+		{
 			cmd_lst = get_command_lst(prg);
+			prg->cmds_len = ft_lstsize(cmd_lst);
+		}
 		if (cmd_lst)
 			execute_cmd_list(prg, cmd_lst);
 		free(prg->cmd_buffer);
