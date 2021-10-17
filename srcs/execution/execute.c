@@ -13,30 +13,15 @@ void     execute_builtin(t_prg *prg, t_cmd *cmd)
 
 void		execute_command(t_prg *prg, t_cmd *cmd)
 {
-	pid_t	pid;
-	int		status;
-	int		ret;
 	int		fds[2];
 
 	pipe(fds);
-	pid = fork();
-	if (pid == -1)
-		exit_failure(prg, NULL, strerror(errno), 1);
-	if (!pid)
-	{
-		dup2(cmd->r_io[0], STDIN_FILENO);
-		dup2(cmd->r_io[1], STDOUT_FILENO);
-		execve(cmd->path, cmd->args, prg->env);
-		exit_failure(prg, cmd, strerror(errno), 127);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		ret = 0;
-		if (WIFEXITED(status))
-			ret = WEXITSTATUS(status);
-		exit(ret);
-	}
+	dup2(cmd->r_io[0], STDIN_FILENO);
+	dup2(cmd->r_io[1], STDOUT_FILENO);
+	execve(cmd->path, cmd->args, prg->env);
+	exit_failure(prg, cmd, strerror(errno), 127);
+	exit(write_error_msg("minishell", cmd->args[0], "need to change error and exit status", 127));
+
 }
 
 int execute(t_prg *prg, t_cmd *cmd)

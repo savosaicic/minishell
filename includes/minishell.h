@@ -35,7 +35,8 @@ char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);
 
 void		exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
-int			write_error_msg(char *bin_name, char *item_name, char *error_msg);
+int			write_error_msg(char *bin_name, char *item_name, char *error_msg, int status);
+
 
 /*lexer*/
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
@@ -79,7 +80,7 @@ int     is_space(char c);
 
 int     is_builtin(char *cmd_name);
 int     wait_all_pids(void);
-void print_variables(t_list *lst);
+void	print_variables(t_list *lst);
 
 
 #endif
