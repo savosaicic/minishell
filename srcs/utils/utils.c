@@ -28,3 +28,26 @@ int     is_space(char c)
         return (1);
     return (0);
 }
+
+void	ft_lstadd_back2(t_list **alst, t_list *new)
+{
+	t_list	*last;
+	t_list	*current;
+
+
+	(void)current;
+	(void)last;
+	if (alst)
+	{
+		current = *alst;
+		if (current)
+		{
+//			printf("env_lst %s\n", CAST(current, t_variable*)->name);
+			// last = ft_lstlast(*alst);
+			// last->next = new;
+			current = current->next;
+		}
+		else
+			*alst = new;
+	}
+}

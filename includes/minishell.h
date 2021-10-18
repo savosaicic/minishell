@@ -37,6 +37,10 @@ char    	*get_cmd_path(char **path, char *cmd);
 void		exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
 int			write_error_msg(char *bin_name, char *item_name, char *error_msg, int status);
 
+/*builtin*/
+int	echo(t_cmd *cmd);
+int export(t_cmd *cmd, t_list *env_lst);
+int	env(t_list *env_lst);
 
 /*lexer*/
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
@@ -56,10 +60,6 @@ void add_var_in_env(char *variable, t_list *env_lst);
 char	*search_in_tab(char **env, char *var);
 char	*write_command(t_prg *prg, char **cmd);
 
-/*builtin*/
-int	echo(t_cmd *cmd);
-int export(t_cmd *cmd, t_list *env_lst);
-int	env(t_list *env_lst);
 
 
 
@@ -82,5 +82,6 @@ int     is_builtin(char *cmd_name);
 int     wait_all_pids(void);
 void	print_variables(t_list *lst);
 
+void	ft_lstadd_back2(t_list **alst, t_list *new);
 
 #endif

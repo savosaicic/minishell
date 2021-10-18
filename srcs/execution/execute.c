@@ -2,41 +2,42 @@
 
 int     execute_builtin(t_prg *prg, t_cmd *cmd)
 {
-	int ret;
+    int ret;
 
     (void)prg;
-	ret = 1;
-	if (!ft_strcmp(cmd->args[0], "echo"))
-		ret = echo(cmd);
-	else if (!ft_strcmp(cmd->args[0], "export"))
-		ret = export(cmd, prg->env_lst);
-	else if (!ft_strcmp(cmd->args[0], "env"))
-		ret = env(prg->env_lst);
-	return (ret);
+    ret = 1;
+    if (!ft_strcmp(cmd->args[0], "echo"))
+        ret = echo(cmd);
+    else if (!ft_strcmp(cmd->args[0], "export"))
+        ret = export(cmd, prg->env_lst);
+    else if (!ft_strcmp(cmd->args[0], "env"))
+        ret = env(prg->env_lst);
+    return (ret);
 }
 
 int		execute_command(t_prg *prg, t_cmd *cmd)
 {
-	int		fds[2];
+    int		fds[2];
 
-	pipe(fds);
-	dup2(cmd->r_io[0], STDIN_FILENO);
-	dup2(cmd->r_io[1], STDOUT_FILENO);
-	execve(cmd->path, cmd->args, prg->env);
-	if (!cmd->path)
-		return (write_error_msg("minishell", cmd->args[0], "command not found", 127));
-	else
-		return (write_error_msg("minishell", cmd->args[0], strerror(errno), 1)); // doesn't understand why is not 126
+    pipe(fds);
+    dup2(cmd->r_io[0], STDIN_FILENO);
+    dup2(cmd->r_io[1], STDOUT_FILENO);
+    execve(cmd->path, cmd->args, prg->env);
+    if (!cmd->path)
+        return (write_error_msg("minishell", cmd->args[0], "command not found", 127));
+    else
+        return (write_error_msg("minishell", cmd->args[0], strerror(errno), 1)); // doesn't understand why is not 126
 }
 
 int execute(t_prg *prg, t_cmd *cmd)
 {
-	int ret;
+    int ret;
 
     (void)prg;
+    ret = 1;
     if (is_builtin(cmd->args[0]))
-    	ret = execute_builtin(prg, cmd);
+        ret = execute_builtin(prg, cmd);
     else
-    	ret = execute_command(prg, cmd);
-	return (ret);
+        ret = execute_command(prg, cmd);
+    return (ret);
 }
