@@ -13,7 +13,7 @@ vpath %.c srcs srcs/lexer srcs/parser srcs/execution srcs/command srcs/builtins 
 vpath %.o obj
 vpath %.h includes libft
 
-all: $(OBJS) $(LIBFT) $(NAME)
+all: $(OBJS) $(LIBFT) 
 	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
 
 $(LIBFT):
