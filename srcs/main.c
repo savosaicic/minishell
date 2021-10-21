@@ -64,45 +64,20 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	head = &cmd_lst;
 	int cmd_num = ft_lstsize(cmd_lst);
 
-	int fds[2];
-	int	fdin = dup(STDIN_FILENO);
-	int fdout;
-	int tmpout = dup(STDOUT_FILENO);
-	int tmpin = dup(STDIN_FILENO);
+	t_io	*io_struct;
+	io_struct = init_io_struct();
 
 	int	i = 0;
 	while (i < cmd_num)
 	{
-		dup2(fdin, 0);
-		close(fdin);
+		dup2(io_struct->fdin, 0);
+		close(io_struct->fdin);
 		if (i == cmd_num - 1)
-		{
-			if (((t_cmd *)(cmd_lst->content))->r_io[1] != 1)
-				fdout = ((t_cmd *)(cmd_lst->content))->r_io[1];
-			else
-				fdout = dup(tmpout);
-		}
+			io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
 		else
-		{
-			pipe(fds);
-			if (((t_cmd *)(cmd_lst->content))->r_io[0] != 0)
-			{
-				fdin = ((t_cmd *)(cmd_lst->content))->r_io[0];
-				close(fds[0]);
-			}
-			else
-				fdin = fds[0];
-			if (((t_cmd *)(cmd_lst->content))->r_io[1] != 1)
-			{
-				fdout = ((t_cmd *)(cmd_lst->content))->r_io[1];
-				close(fds[1]);
-			}
-			else
-				fdout = fds[1];
-		}
-		dup2(fdout, STDOUT_FILENO);
-		close(fdout);
-
+			io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
+		dup2(io_struct->fdout, STDOUT_FILENO);
+		close(io_struct->fdout);
 		pid = fork();
 		if (!pid)
 		{
@@ -123,10 +98,10 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 		cmd_lst = cmd_lst->next;
 		i++;
 	}
-	dup2(tmpin, STDIN_FILENO);
-	dup2(tmpout, STDOUT_FILENO);
-	close(tmpin);
-	close(tmpout);
+	dup2(io_struct->save_stdin, STDIN_FILENO);
+	dup2(io_struct->save_stdout, STDOUT_FILENO);
+	close(io_struct->save_stdin);
+	close(io_struct->save_stdout);
 	ft_lstclear(head, clear_cmd_struct);
 }
 

@@ -67,6 +67,11 @@ void    execute_builtin(t_prg *prg, t_cmd *cmd);
 void	execute_command(t_prg *prg, t_cmd *cmd);
 int     execute(t_prg *prg, t_cmd *cmd);
 
+/*piping*/
+t_io	*set_fds(t_cmd *cmd, t_io *io_struct);
+t_io	*set_fd_last_cmd(t_cmd *cmd, t_io *io_struct);
+t_io	*init_io_struct(void);
+
 /*utils*/
 void	clear_prg_struct(t_prg *prg);
 void	clear_token_struct(void *token_struct);

@@ -24,6 +24,17 @@ typedef struct s_cmd
 	int		r_io[2]; //array of 2 int to store respectively: INPUT and OUTPUT fds (For redirection)
 }				t_cmd;
 
+typedef struct	s_io
+{
+	int	fds[2];
+	int	save_stdin;
+	int	save_stdout;
+	int fdin;
+	int	fdout;
+
+}				t_io;
+
+
 typedef struct s_prg
 {
 	char	*pwd;

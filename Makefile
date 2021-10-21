@@ -3,13 +3,13 @@ CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c handle_operators.c handle_redirection.c \
 		clear.c echo.c utils.c execute.c get_path.c parser.c expansion.c export.c env.c \
-		environment.c
+		environment.c plug_pipes.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 D_LIBFT = ./libft/
 LIBFT = $(D_LIBFT)libft.a
 
-vpath %.c srcs srcs/lexer srcs/parser srcs/execution srcs/command srcs/builtins srcs/utils
+vpath %.c srcs srcs/lexer srcs/parser srcs/execution srcs/command srcs/builtins srcs/utils srcs/piping
 vpath %.o obj
 vpath %.h includes libft
 
