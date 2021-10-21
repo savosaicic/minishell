@@ -61,10 +61,48 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	int		ret;
 	int		status;
 	t_list	**head;
-
 	head = &cmd_lst;
-	while (cmd_lst)
+	int cmd_num = ft_lstsize(cmd_lst);
+
+	int fds[2];
+	int	fdin = dup(STDIN_FILENO);
+	int fdout;
+	int tmpout = dup(STDOUT_FILENO);
+	int tmpin = dup(STDIN_FILENO);
+
+	int	i = 0;
+	while (i < cmd_num)
 	{
+		dup2(fdin, 0);
+		close(fdin);
+		if (i == cmd_num - 1)
+		{
+			if (((t_cmd *)(cmd_lst->content))->r_io[1] != 1)
+				fdout = ((t_cmd *)(cmd_lst->content))->r_io[1];
+			else
+				fdout = dup(tmpout);
+		}
+		else
+		{
+			pipe(fds);
+			if (((t_cmd *)(cmd_lst->content))->r_io[0] != 0)
+			{
+				fdin = ((t_cmd *)(cmd_lst->content))->r_io[0];
+				close(fds[0]);
+			}
+			else
+				fdin = fds[0];
+			if (((t_cmd *)(cmd_lst->content))->r_io[1] != 1)
+			{
+				fdout = ((t_cmd *)(cmd_lst->content))->r_io[1];
+				close(fds[1]);
+			}
+			else
+				fdout = fds[1];
+		}
+		dup2(fdout, STDOUT_FILENO);
+		close(fdout);
+
 		pid = fork();
 		if (!pid)
 		{
@@ -83,7 +121,12 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 		if (WIFEXITED(status))
 			ret = WEXITSTATUS(status);
 		cmd_lst = cmd_lst->next;
+		i++;
 	}
+	dup2(tmpin, STDIN_FILENO);
+	dup2(tmpout, STDOUT_FILENO);
+	close(tmpin);
+	close(tmpout);
 	ft_lstclear(head, clear_cmd_struct);
 }
 
