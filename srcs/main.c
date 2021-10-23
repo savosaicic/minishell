@@ -61,23 +61,26 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	int		ret;
 	int		status;
 	t_list	**head;
-	head = &cmd_lst;
-	int cmd_num = ft_lstsize(cmd_lst);
+	int		cmd_num;
 
-	t_io	*io_struct;
+	t_io	io_struct;
+	int		i;
+
+	head = &cmd_lst;
+	cmd_num = ft_lstsize(cmd_lst);
 	io_struct = init_io_struct();
 
-	int	i = 0;
+	i = 0;
 	while (i < cmd_num)
 	{
-		dup2(io_struct->fdin, 0);
-		close(io_struct->fdin);
+		dup2(io_struct.fdin, STDIN_FILENO);
+		close(io_struct.fdin);
 		if (i == cmd_num - 1)
 			io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
 		else
 			io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
-		dup2(io_struct->fdout, STDOUT_FILENO);
-		close(io_struct->fdout);
+		dup2(io_struct.fdout, STDOUT_FILENO);
+		close(io_struct.fdout);
 		pid = fork();
 		if (!pid)
 		{
@@ -98,10 +101,7 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 		cmd_lst = cmd_lst->next;
 		i++;
 	}
-	dup2(io_struct->save_stdin, STDIN_FILENO);
-	dup2(io_struct->save_stdout, STDOUT_FILENO);
-	close(io_struct->save_stdin);
-	close(io_struct->save_stdout);
+	restore_and_close_fds(io_struct);
 	ft_lstclear(head, clear_cmd_struct);
 }
 
