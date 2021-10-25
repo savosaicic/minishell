@@ -58,18 +58,23 @@ int wait_all_pids(void)
 void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 {
 	pid_t	pid;
-	int		ret;
 	int		status;
 	t_list	**head;
 	int		cmd_num;
-
+	int 	ret;
 	t_io	io_struct;
 	int		i;
 
 	head = &cmd_lst;
 	cmd_num = ft_lstsize(cmd_lst);
 	io_struct = init_io_struct();
-
+	if (prg->cmds_len == 1 && is_builtin(((t_cmd *)cmd_lst->content)->args[0]) == 1)
+	{
+		((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
+		ret = execute(prg, cmd_lst->content);
+		ft_lstclear(head, clear_cmd_struct);
+		return ;
+	}
 	i = 0;
 	while (i < cmd_num)
 	{
@@ -85,19 +90,14 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 		if (!pid)
 		{
 			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
-			if (!((t_cmd *)cmd_lst->content)->path)
-				write_error_msg("minishell", ((t_cmd *)cmd_lst->content)->args[0], "command not found");
-			else
-			{
-				ret = execute(prg, cmd_lst->content);
-				exit_success(prg, ret);
-			}
+			ret = execute(prg, cmd_lst->content);
+			exit_success(prg, ret);
 			exit(ret);
 		}
-		ret = 0;
-		waitpid(ret, &status, 0);
+		waitpid(pid, &status, 0);
+		pid = 0;
 		if (WIFEXITED(status))
-			ret = WEXITSTATUS(status);
+			pid = WEXITSTATUS(status);
 		cmd_lst = cmd_lst->next;
 		i++;
 	}
@@ -118,7 +118,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		if (!prg->cmd_buffer)
 			exit_success(prg, 0);
 		else if (ft_strlen(prg->cmd_buffer))
+		{
 			cmd_lst = get_command_lst(prg);
+			prg->cmds_len = ft_lstsize(cmd_lst);
+		}
 		if (cmd_lst)
 			execute_cmd_list(prg, cmd_lst);
 		free(prg->cmd_buffer);

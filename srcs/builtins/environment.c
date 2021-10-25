@@ -30,7 +30,7 @@ t_list *init_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(env[i])));
+		ft_envlst_add_back(&env_lst, ft_lstnew(write_variable(env[i])));
 		i++;
 	}
 	return (env_lst);

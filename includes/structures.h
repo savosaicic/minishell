@@ -42,6 +42,7 @@ typedef struct s_prg
 	t_list	*env_lst;
 	char	*cmd_buffer;
 	int		last_exit_status;
+	int		cmds_len;
 }				t_prg;
 
 typedef struct	s_variable

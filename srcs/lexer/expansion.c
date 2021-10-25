@@ -17,12 +17,11 @@ char	*perform_expansion(t_list *env_lst, char **cmd_buffer)
 		buffer[i++] = **cmd_buffer;
 		(*cmd_buffer)++;
 	}
-	// tmp = getenv(buffer);
 	tmp = ft_getenv(env_lst, buffer);
 	if (!tmp)
 		expanded_var = ft_strdup("");
 	else
-		expanded_var = ft_strdup(getenv(buffer));
+		expanded_var = ft_strdup(ft_getenv(env_lst, buffer));
 	return (expanded_var);
 }
 

@@ -15,7 +15,7 @@ char *get_cmd_path(char **path, char *cmd)
 	{
 		free(cmd_path);
 		cmd_path = ft_strjoin(path[i], cmd);
-		ret = access(cmd_path, X_OK);
+		ret = access(cmd_path, F_OK);
 		i++;
 	}
 	if (ret == 0)

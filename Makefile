@@ -1,5 +1,5 @@
 NAME = minishell
-CC = gcc
+CC = gcc 
 CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c get_tokens.c  utils_tab.c exit.c command.c handle_operators.c handle_redirection.c \
 		clear.c echo.c utils.c execute.c get_path.c parser.c expansion.c export.c env.c \
@@ -13,13 +13,9 @@ vpath %.c srcs srcs/lexer srcs/parser srcs/execution srcs/command srcs/builtins 
 vpath %.o obj
 vpath %.h includes libft
 
-all: $(LIBFT) $(NAME)
-
-$(NAME): $(OBJS)
+all: $(OBJS)
+	$(MAKE) -C $(D_LIBFT)
 	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
-
-$(LIBFT):
-	$(MAKE) bonus -C $(D_LIBFT)
 
 $(OBJS): %.o: %.c
 	mkdir -p obj
