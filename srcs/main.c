@@ -61,8 +61,11 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	int		status;
 	t_list	**head;
 	int 	ret;
+	int		i;
+	int		cmd_num;
 
 	head = &cmd_lst;
+	cmd_num = ft_lstsize(cmd_lst);
 	if (prg->cmds_len == 1 && is_builtin(((t_cmd *)cmd_lst->content)->args[0]) == 1)
 	{
 		((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
@@ -70,7 +73,8 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 		ft_lstclear(head, clear_cmd_struct);
 		return ;
 	}
-	while (cmd_lst)
+	i = 0;
+	while (i < cmd_num)
 	{
 		pid = fork();
 		if (!pid)
@@ -83,8 +87,8 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 		pid = 0;
 		if (WIFEXITED(status))
 			pid = WEXITSTATUS(status);
-		// printf("status code %d\n", pid);
 		cmd_lst = cmd_lst->next;
+		i++;
 	}
 	ft_lstclear(head, clear_cmd_struct);
 }
@@ -95,7 +99,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	t_list	*cmd_lst;
 
 	prg = init_shell(env);
-	print_env(NULL);
 	while (1)
 	{
 		cmd_lst = NULL;
