@@ -11,7 +11,7 @@ int     execute_builtin(t_prg *prg, t_cmd *cmd)
     else if (!ft_strcmp(cmd->args[0], "export"))
         ret = export(cmd, prg->env_lst);
     else if (!ft_strcmp(cmd->args[0], "env"))
-        ret = env(prg->env_lst);
+        ret = print_env(prg->env_lst);
     return (ret);
 }
 

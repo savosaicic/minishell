@@ -95,6 +95,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	t_list	*cmd_lst;
 
 	prg = init_shell(env);
+	print_env(NULL);
 	while (1)
 	{
 		cmd_lst = NULL;

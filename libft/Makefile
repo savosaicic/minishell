@@ -6,7 +6,7 @@
 #    By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/20 17:28:41 by jboisser          #+#    #+#              #
-#    Updated: 2021/09/14 11:27:18 by sasaicic         ###   ########.fr        #
+#    Updated: 2021/08/12 18:31:44 by boisseran        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,10 @@ SRCS			=	ft_putchar.c ft_putstr.c ft_putstr_len.c ft_isalnum.c ft_isprint.c ft_m
 					ft_lstmap.c ft_lstnew.c ft_lstsize.c
 
 OBJS			= $(SRCS:.c=.o)
+
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -g -Wall -Wextra -Werror -I.
+CFLAGS			= -Wall -Wextra -Werror -I.
 
 NAME			= libft.a
 
@@ -35,7 +36,7 @@ $(NAME):		$(OBJS)
 				ar rcs $(NAME) $(OBJS)
 
 clean:
-				$(RM) $(OBJS) $(BONUS_OBJS)
+				$(RM) $(OBJS)
 
 fclean:			clean
 				$(RM) $(NAME)

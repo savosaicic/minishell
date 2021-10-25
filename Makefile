@@ -13,13 +13,9 @@ vpath %.c srcs srcs/lexer srcs/parser srcs/execution srcs/command srcs/builtins 
 vpath %.o obj
 vpath %.h includes libft
 
-all: $(LIBFT) $(NAME)
-
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
-
-$(LIBFT):
+all: $(OBJS)
 	$(MAKE) -C $(D_LIBFT)
+	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
 
 $(OBJS): %.o: %.c
 	mkdir -p obj
