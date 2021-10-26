@@ -44,6 +44,8 @@ t_variable *write_variable(char *var)
 	var_struct->name = ft_strdup(var_split[0]);
 	if (var_split[1])
 		var_struct->value = ft_strdup(var_split[1]);
+	else
+		var_struct->value = ft_strdup("");
 	free_tab(var_split);
 	return (var_struct);
 }

@@ -8,7 +8,7 @@ static t_cmd	*init_cmd_struct(int args_num)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->args = (char **)ft_calloc(sizeof(char *), (args_num + 1));
+	cmd->args = (char **)malloc(sizeof(char *) * (args_num + 1));
 	if (!cmd->args)
 		return (NULL);
 	cmd->r_io[0] = STDIN_FILENO;
