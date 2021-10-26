@@ -8,7 +8,7 @@ static t_cmd	*init_cmd_struct(int args_num)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->args = (char **)malloc(sizeof(char *) * (args_num + 1));
+	cmd->args = (char **)ft_calloc(sizeof(char *), (args_num + 1));
 	if (!cmd->args)
 		return (NULL);
 	cmd->r_io[0] = STDIN_FILENO;
@@ -36,6 +36,7 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	cmd_lst = NULL;
 	while (token_lst)
 	{
+		// printf("cmd args %s\n", cmd->args[i]);
 		if (CAST(token_lst, t_token*)->token_type == T_REDIRECT)
 		{
 			if (parse_redirection(&cmd, &token_lst) > 0)
@@ -49,6 +50,11 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 			i = 0;
 			token_lst = token_lst->next;
 		}
+		else if (CAST(token_lst, t_token*)->token_type == T_ASSIGN)
+		{
+			i = 0;
+			token_lst = token_lst->next;
+		}
 		else
 		{
 			//Check for $, expand if so
@@ -57,7 +63,10 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 			i++;
 		}
 	}
-	cmd->args[i] = NULL;
-	ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
+	if (cmd->args[0])
+	{
+		cmd->args[i] = NULL;
+		ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
+	}
 	return (cmd_lst);
 }

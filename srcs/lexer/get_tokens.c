@@ -6,6 +6,8 @@ t_ttype		get_token_type(char *token)
 		return (T_PIPE);
 	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
 		return (T_REDIRECT);
+	else if (ft_strchr(token, '='))
+		return (T_ASSIGN);
 	else
 		return (T_WORD);
 }
@@ -26,7 +28,7 @@ t_token	*write_token(char *token)
 
 void	print_token(t_list *list)
 {
-	char **types = ft_split("UNIDENTIFIED WORD REDIRECT PIPE", ' ');
+	char **types = ft_split("UNIDENTIFIED WORD REDIRECT PIPE ASSIGN", ' ');
 
 	printf("\n");
 	while (list)

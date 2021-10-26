@@ -6,7 +6,8 @@ typedef enum	e_ttype
 	UNIDENTIFIED,
 	T_WORD,
 	T_REDIRECT,
-	T_PIPE
+	T_PIPE,
+	T_ASSIGN
 }				t_ttype;
 
 typedef struct	s_token
