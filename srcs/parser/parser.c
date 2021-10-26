@@ -36,7 +36,6 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	cmd_lst = NULL;
 	while (token_lst)
 	{
-		// printf("cmd args %s\n", cmd->args[i]);
 		if (CAST(token_lst, t_token*)->token_type == T_REDIRECT)
 		{
 			if (parse_redirection(&cmd, &token_lst) > 0)
@@ -50,17 +49,15 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 			i = 0;
 			token_lst = token_lst->next;
 		}
-		else if (CAST(token_lst, t_token*)->token_type == T_ASSIGN)
-		{
-			i = 0;
-			token_lst = token_lst->next;
-		}
 		else
 		{
-			//Check for $, expand if so
-			cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
+			if ((CAST(token_lst, t_token*)->token_type == T_ASSIGN && i >= 1)
+				|| (CAST(token_lst, t_token*)->token_type != T_ASSIGN))
+			{
+				cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
+				i++;
+			}
 			token_lst = token_lst->next;
-			i++;
 		}
 	}
 	if (cmd->args[0])
