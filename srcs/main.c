@@ -34,27 +34,6 @@ t_list *get_command_lst(t_prg *prg)
 	return (cmd_lst);
 }
 
-int wait_all_pids(void)
-{
-	int ret;
-	int status;
-	int pid_ret;
-
-	pid_ret = 1;
-	ret = 0;
-	while (pid_ret > 0)
-	{
-		pid_ret = wait(&status);
-		if (WIFEXITED(status))
-			ret = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			ret = WTERMSIG(status);
-		else
-			ret = 1;
-	}
-	return (ret);
-}
-
 void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 {
 	pid_t	pid;

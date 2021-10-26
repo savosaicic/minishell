@@ -29,41 +29,23 @@ int     is_space(char c)
     return (0);
 }
 
-void	ft_envlst_add_back(t_list **alst, t_list *new)
+int wait_all_pids(void)
 {
-	t_list	*last;
+	int ret;
+	int status;
+	int pid_ret;
 
-	if (alst)
+	pid_ret = 1;
+	ret = 0;
+	while (pid_ret > 0)
 	{
-		if (*alst)
-		{
-			last = ft_lstsearch(*alst, new);
-            if (!last)
-            {
-                last = ft_lstlast(*alst);   
-			    last->next = new;
-            }
-            else
-            {
-                ((t_variable *)last->content)->value = ((t_variable *)new->content)->value;
-            }
-		}
+		pid_ret = wait(&status);
+		if (WIFEXITED(status))
+			ret = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			ret = WTERMSIG(status);
 		else
-			*alst = new;
+			ret = 1;
 	}
-}
-
-t_list    *ft_lstsearch(t_list *lst, t_list *search)
-{
-	t_list	*prev;
-
-	prev = NULL;
-	while (lst)
-	{
-		prev = lst;
-        if (!ft_strcmp(((t_variable *)lst->content)->name, ((t_variable *)search->content)->name))            
-            return (prev);
-		lst = lst->next;
-	}
-	return (NULL);
+	return (ret);
 }

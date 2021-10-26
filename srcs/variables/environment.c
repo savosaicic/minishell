@@ -1,14 +1,5 @@
 #include "minishell.h"
 
-void print_variables(t_list *lst)
-{
-    while (lst)
-    {
-        printf("%s=%s\n", ((t_variable *)lst->content)->name, ((t_variable *)lst->content)->value);
-        lst = lst->next;
-    }
-}
-
 char *ft_getenv(t_list *env_lst, char *var_search)
 {
 	while (env_lst)
