@@ -28,12 +28,20 @@ void	clear_cmd_struct(void *cmd_struct)
 	i = 0;
 	while (((t_cmd *)cmd_struct)->args[i] != NULL)
 	{
-		free( ((t_cmd *)cmd_struct)->args[i]);
+		free(((t_cmd *)cmd_struct)->args[i]);
 		i++;
 	}
 	free(((t_cmd *)cmd_struct)->args);
 	free(((t_cmd *)cmd_struct)->path);
 	free((t_cmd *)cmd_struct);
+}
+
+void	clear_var_struct(void *var_struct)
+{
+	if (!var_struct)
+		return ;
+	free(((t_variable *)var_struct)->name);
+	free(((t_variable *)var_struct)->value);
 }
 
 void	clear_prg_struct(t_prg *prg)

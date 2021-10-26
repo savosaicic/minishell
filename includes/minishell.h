@@ -38,9 +38,10 @@ void		exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
 int			write_error_msg(char *bin_name, char *item_name, char *error_msg, int status);
 
 /*builtin*/
-int	echo(t_cmd *cmd);
 int export(t_cmd *cmd, t_list *env_lst);
-int	print_env(t_list *env_lst);
+int unset(t_cmd *cmd, t_list *env_lst);
+int	echo(t_cmd *cmd);
+int	print_env(t_list *env_lst, char *str);
 
 /*lexer*/
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
@@ -78,6 +79,9 @@ void	restore_and_close_fds(t_io io_struct);
 void	clear_prg_struct(t_prg *prg);
 void	clear_token_struct(void *token_struct);
 void	clear_cmd_struct(void *cmd_struct);
+void	clear_var_struct(void *var_struct);
+int		ft_charlen(char **tab);
+
 void	print_tab(char **tab);
 void	free_tab(char **tab);
 void	exit_success(t_prg *prg, int status);
@@ -88,7 +92,7 @@ int     is_builtin(char *cmd_name);
 int     wait_all_pids(void);
 
 void	ft_lstadd_back2(t_list **alst, t_list *new);
-t_list  *ft_lstsearch(t_list *lst, t_list *search);
+t_list  *ft_lstsearch(t_list *lst, char *search);
 
 void	ft_envlst_add_back(t_list **alst, t_list *new);
 

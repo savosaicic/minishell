@@ -8,7 +8,7 @@ void	ft_envlst_add_back(t_list **alst, t_list *new)
 	{
 		if (*alst)
 		{
-			last = ft_lstsearch(*alst, new);
+			last = ft_lstsearch(*alst, ((t_variable *)new->content)->name);
             if (!last)
             {
                 last = ft_lstlast(*alst);   
@@ -24,7 +24,7 @@ void	ft_envlst_add_back(t_list **alst, t_list *new)
 	}
 }
 
-t_list    *ft_lstsearch(t_list *lst, t_list *search)
+t_list    *ft_lstsearch(t_list *lst, char *search)
 {
 	t_list	*prev;
 
@@ -32,7 +32,7 @@ t_list    *ft_lstsearch(t_list *lst, t_list *search)
 	while (lst)
 	{
 		prev = lst;
-        if (!ft_strcmp(((t_variable *)lst->content)->name, ((t_variable *)search->content)->name))            
+        if (!ft_strcmp(((t_variable *)lst->content)->name, search))
             return (prev);
 		lst = lst->next;
 	}
