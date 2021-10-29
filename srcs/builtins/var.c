@@ -64,10 +64,7 @@ int unset(t_cmd *cmd, t_list *env_lst)
 	while (cmd->args[i])
 	{
 		if (ft_lstsearch(env_lst, cmd->args[i]))
-		{
 			delete_variable(env_lst, cmd->args[i]);
-			// ft_lstclear(&env_lst, clear_var_struct);
-		}
 		i++;
 	}
 	return (0);
