@@ -2,45 +2,50 @@
 
 int print_env(t_list *env_lst, char *str)
 {
-    while (env_lst)
-    {
-        printf("%s%s=%s\n", str, ((t_variable *)env_lst->content)->name, ((t_variable *)env_lst->content)->value);
-        env_lst = env_lst->next;
-    }
-    return (0);
+	while (env_lst)
+	{
+		printf("%s%s=%s\n", str, ((t_variable *)env_lst->content)->name, ((t_variable *)env_lst->content)->value);
+		env_lst = env_lst->next;
+	}
+	return (0);
 }
 
 int export(t_cmd *cmd, t_list *env_lst)
 {
-    int i;
+	int i;
 
 	if (ft_charlen(cmd->args) <= 1)
-		return(print_env(env_lst, "export "));
+		return (print_env(env_lst, "export "));
 	if (cmd->args[1][0] == '-')
 		return (write_error_msg("minishell", "-", "not a valid identifier", 1));
 	i = 1;
 	while (cmd->args[i])
 	{
-    	ft_envlst_add_back(&env_lst, ft_lstnew(write_variable(cmd->args[i])));
+		ft_envlst_add_back(&env_lst, ft_lstnew(write_variable(cmd->args[i])));
 		i++;
 	}
 	return (0);
 }
 
-void	delete_variable(t_list *env_lst, char *del)
+void delete_variable(t_list *env_lst, char *del)
 {
-	t_list	*next;
+	t_list *next;
 
-	next = env_lst->next;
+	if (!ft_strcmp(((t_variable *)env_lst->content)->name, del))
+	{
+		*env_lst = *env_lst->next;
+		return;
+	}
+	next = env_lst->next; // need to manage the last and the first
 	while (next)
 	{
-        if (!ft_strcmp(((t_variable *)next->content)->name, del))
+		if (!ft_strcmp(((t_variable *)next->content)->name, del))
 		{
 			env_lst->next = next->next;
 			// free(((t_variable *)next)->name);
 			// free(((t_variable *)next)->value);
 			// free(next);
-            return ;
+			return;
 		}
 		env_lst = env_lst->next;
 		next = next->next;
@@ -61,6 +66,7 @@ int unset(t_cmd *cmd, t_list *env_lst)
 		if (ft_lstsearch(env_lst, cmd->args[i]))
 		{
 			delete_variable(env_lst, cmd->args[i]);
+			// ft_lstclear(&env_lst, clear_var_struct);
 		}
 		i++;
 	}

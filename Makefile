@@ -24,6 +24,9 @@ $(OBJS): %.o: %.c
 run: all 
 	./$(NAME)
 
+rungdb: all
+	gdb -q ./$(NAME)
+
 clean:
 	make clean -C $(D_LIBFT)
 	$(RM) -rf obj
