@@ -42,6 +42,8 @@ int export(t_cmd *cmd, t_list *env_lst);
 int unset(t_cmd *cmd, t_list *env_lst);
 int	echo(t_cmd *cmd);
 int	print_env(t_list *env_lst, char *str);
+int		pwd(t_cmd *cmd);
+int cd(t_cmd *cmd, t_list *env_lst);
 
 /*lexer*/
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst);

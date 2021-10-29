@@ -14,6 +14,10 @@ int     execute_builtin(t_prg *prg, t_cmd *cmd)
         ret = unset(cmd, prg->env_lst);
     else if (!ft_strcmp(cmd->args[0], "env"))
         ret = print_env(prg->env_lst, "");
+    else if (!ft_strcmp(cmd->args[0], "pwd"))
+        ret = pwd(cmd);
+    else if (!ft_strcmp(cmd->args[0], "cd"))
+        ret = cd(cmd, prg->env_lst);
     return (ret);
 }
 

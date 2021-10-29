@@ -55,7 +55,9 @@ void delete_variable(t_list *env_lst, char *del)
 int unset(t_cmd *cmd, t_list *env_lst)
 {
 	int i;
+	int ret;
 
+	ret = 0;
 	if (ft_charlen(cmd->args) <= 1)
 		return (write_error_msg("minishell", "unset", "not enough arguments", 1));
 	if (cmd->args[1][0] == '-')
@@ -63,9 +65,11 @@ int unset(t_cmd *cmd, t_list *env_lst)
 	i = 1;
 	while (cmd->args[i])
 	{
+		if (ft_strchr(cmd->args[i], '/') || ft_strchr(cmd->args[i], '.'))
+			ret = write_error_msg("minishell", "-", "not a valid identifier", 1);
 		if (ft_lstsearch(env_lst, cmd->args[i]))
 			delete_variable(env_lst, cmd->args[i]);
 		i++;
 	}
-	return (0);
+	return (ret);
 }
