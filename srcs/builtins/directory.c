@@ -10,8 +10,12 @@ int pwd(t_cmd *cmd)
 	if (!buf)
 		return (write_error_msg("minishell", strerror(errno), NULL, 1));
 	if (!getcwd(buf, 100))
+	{
+		free(buf);
 		return (write_error_msg("minishell", strerror(errno), NULL, 1));
+	}
 	printf("%s\n", buf);
+	free(buf);
 	return (0);
 }
 
@@ -25,7 +29,6 @@ int cd(t_cmd *cmd, t_list *env_lst)
 	else if (ft_charlen(cmd->args) > 2)
 		return (write_error_msg("minishell", "too many arguments", NULL, 1));
 	if (cmd->args[1][0] == '~')
-
 		tmp = ft_getenv(env_lst, "HOME");
 	else
 		tmp = ft_strdup(cmd->args[1]);

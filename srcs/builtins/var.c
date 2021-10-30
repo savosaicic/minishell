@@ -66,7 +66,7 @@ int unset(t_cmd *cmd, t_list *env_lst)
 	while (cmd->args[i])
 	{
 		if (ft_strchr(cmd->args[i], '/') || ft_strchr(cmd->args[i], '.'))
-			ret = write_error_msg("minishell", "-", "not a valid identifier", 1);
+			ret = write_error_msg("minishell", cmd->args[i], "not a valid identifier", 1);
 		if (ft_lstsearch(env_lst, cmd->args[i]))
 			delete_variable(env_lst, cmd->args[i]);
 		i++;
