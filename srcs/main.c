@@ -8,14 +8,14 @@ t_prg	*init_shell(char **env)
 	prg = malloc(sizeof(t_prg));
 	if (!prg)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
-
 	pwd = search_in_tab(env, "PWD=");
-	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
 	prg->env = env;
-	prg->env_lst = init_env(env);
-	prg->cmd_buffer = NULL;
+	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
 	if (prg->pwd == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
+	prg->env_lst = init_env(env);
+	prg->cmd_buffer = NULL;
+	prg->home_path = ft_strdup((((t_variable *)(ft_lstsearch(prg->env_lst, "HOME")->content))->value));
 	return (prg);
 }
 

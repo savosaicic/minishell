@@ -19,7 +19,7 @@ int pwd(t_cmd *cmd)
 	return (0);
 }
 
-int cd(t_cmd *cmd, t_list *env_lst)
+int cd(t_cmd *cmd, char *home_path)
 {
 	(void)cmd;
 	char *tmp;
@@ -29,14 +29,10 @@ int cd(t_cmd *cmd, t_list *env_lst)
 	else if (ft_charlen(cmd->args) > 2)
 		return (write_error_msg("minishell", "too many arguments", NULL, 1));
 	if (cmd->args[1][0] == '~')
-		tmp = ft_getenv(env_lst, "HOME");
+		tmp = home_path;
 	else
-		tmp = ft_strdup(cmd->args[1]);
+		tmp = cmd->args[1];
 	if (chdir(tmp) == -1)
-	{
-		free(tmp);
 		return (write_error_msg("minishell", cmd->args[1], strerror(errno), 1));
-	}
-	free(tmp);
 	return (0);
 }

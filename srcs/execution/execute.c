@@ -17,7 +17,7 @@ int     execute_builtin(t_prg *prg, t_cmd *cmd)
     else if (!ft_strcmp(cmd->args[0], "pwd"))
         ret = pwd(cmd);
     else if (!ft_strcmp(cmd->args[0], "cd"))
-        ret = cd(cmd, prg->env_lst);
+        ret = cd(cmd, prg->home_path);
     else if (!ft_strcmp(cmd->args[0], "exit"))
         ret = exit_shell(prg, cmd);
     return (ret);

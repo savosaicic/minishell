@@ -3,6 +3,6 @@
 *.a
 minishell
 .vscode/
+.gdb_history
 .nfs*
 
-my_env/*

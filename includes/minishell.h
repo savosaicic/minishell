@@ -43,7 +43,7 @@ int unset(t_cmd *cmd, t_list *env_lst);
 int	echo(t_cmd *cmd);
 int	print_env(t_list *env_lst, char *str);
 int		pwd(t_cmd *cmd);
-int cd(t_cmd *cmd, t_list *env_lst);
+int cd(t_cmd *cmd, char *home_math);
 int exit_shell
 (t_prg *prg, t_cmd *cmd);
 
