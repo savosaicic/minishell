@@ -46,5 +46,5 @@ end
 init_gdb
 set follow-fork-mode child
 
-b perform_expansion
+b handle_expansion
 r

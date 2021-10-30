@@ -120,5 +120,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 	}
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
+
 	return (token_lst);
 }
