@@ -16,6 +16,7 @@ t_prg	*init_shell(char **env)
 	prg->env_lst = init_env(env);
 	prg->cmd_buffer = NULL;
 	prg->home_path = ft_strdup((((t_variable *)(ft_lstsearch(prg->env_lst, "HOME")->content))->value));
+	prg->last_exit_status = 0;
 	return (prg);
 }
 
@@ -50,7 +51,7 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	if (prg->cmds_len == 1 && is_builtin(((t_cmd *)cmd_lst->content)->args[0]) == 1)
 	{
 		((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
-		ret = execute(prg, cmd_lst->content);
+		prg->last_exit_status = execute(prg, cmd_lst->content);
 		ft_lstclear(head, clear_cmd_struct);
 		return ;
 	}
@@ -74,9 +75,8 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 			exit(ret);
 		}
 		waitpid(pid, &status, 0);
-		pid = 0;
 		if (WIFEXITED(status))
-			pid = WEXITSTATUS(status);
+			prg->last_exit_status = WEXITSTATUS(status);
 		cmd_lst = cmd_lst->next;
 		i++;
 	}

@@ -46,6 +46,5 @@ end
 init_gdb
 set follow-fork-mode child
 
-# b delete_variable
-# b expansion.c:20
+b perform_expansion
 r
