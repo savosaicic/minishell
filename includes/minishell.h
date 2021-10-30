@@ -44,8 +44,8 @@ int	echo(t_cmd *cmd);
 int	print_env(t_list *env_lst, char *str);
 int		pwd(t_cmd *cmd);
 int cd(t_cmd *cmd, t_list *env_lst);
-int exit_shell(t_prg *prg, t_cmd *cmd);
-
+int exit_shell
+(t_prg *prg, t_cmd *cmd);
 
 /*lexer*/
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
@@ -59,14 +59,9 @@ t_list *init_env(char **env);
 t_variable *write_variable(char *var);
 void add_var_in_env(char *variable, t_list *env_lst);
 
-
-
 /*command*/
 char	*search_in_tab(char **env, char *var);
 char	*write_command(t_prg *prg, char **cmd);
-
-
-
 
 /*execute*/
 int    	execute_builtin(t_prg *prg, t_cmd *cmd);

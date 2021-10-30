@@ -24,7 +24,7 @@ $(OBJS): %.o: %.c
 run: all 
 	./$(NAME)
 
-rungdb: all
+gdb: all
 	gdb -q ./$(NAME)
 
 clean:
