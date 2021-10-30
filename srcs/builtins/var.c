@@ -36,7 +36,7 @@ void delete_variable(t_list *env_lst, char *del)
 		*env_lst = *env_lst->next;
 		return;
 	}
-	next = env_lst->next; // need to manage the last and the first
+	next = env_lst->next;
 	while (next)
 	{
 		if (!ft_strcmp(((t_variable *)next->content)->name, del))
