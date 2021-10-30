@@ -31,5 +31,4 @@ void	exit_success(t_prg *prg, int status)
 	rl_clear_history();
 	clear_prg_struct(prg);
 	exit(status);
-
 }

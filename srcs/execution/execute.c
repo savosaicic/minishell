@@ -18,6 +18,8 @@ int     execute_builtin(t_prg *prg, t_cmd *cmd)
         ret = pwd(cmd);
     else if (!ft_strcmp(cmd->args[0], "cd"))
         ret = cd(cmd, prg->env_lst);
+    else if (!ft_strcmp(cmd->args[0], "exit"))
+        ret = exit_shell(prg, cmd);
     return (ret);
 }
 
