@@ -74,12 +74,12 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 			exit_success(prg, ret);
 			exit(ret);
 		}
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			prg->last_exit_status = WEXITSTATUS(status);
 		cmd_lst = cmd_lst->next;
 		i++;
 	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		prg->last_exit_status = WEXITSTATUS(status);
 	restore_and_close_fds(io_struct);
 	ft_lstclear(head, clear_cmd_struct);
 }

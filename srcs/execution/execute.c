@@ -33,12 +33,22 @@ int execute_command(t_prg *prg, t_cmd *cmd)
 
 int execute(t_prg *prg, t_cmd *cmd)
 {
+    pid_t pid;
     int ret;
+    int status;
 
     ret = 1;
-    if (is_builtin(cmd->args[0]))
-        ret = execute_builtin(prg, cmd);
-    else
-        ret = execute_command(prg, cmd);
+    pid = fork();
+    if (!pid)
+    {
+        if (is_builtin(cmd->args[0]))
+            ret = execute_builtin(prg, cmd);
+        else
+            ret = execute_command(prg, cmd);
+        exit(ret);
+    }
+    waitpid(pid, &status, 0);
+    if (WIFEXITED(status))
+		ret = WEXITSTATUS(status);
     return (ret);
 }
