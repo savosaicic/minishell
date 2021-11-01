@@ -25,30 +25,33 @@ int     execute_builtin(t_prg *prg, t_cmd *cmd)
 
 int execute_command(t_prg *prg, t_cmd *cmd)
 {
-	if (!cmd->path)
-    	return (write_error_msg("minishell", cmd->args[0], "command not found", 127));
-	execve(cmd->path, cmd->args, prg->env);
-    return (write_error_msg("minishell", cmd->args[0], strerror(errno), 1));
-}
-
-int execute(t_prg *prg, t_cmd *cmd)
-{
     pid_t pid;
     int ret;
     int status;
 
-    ret = 1;
+    ret = 0;
     pid = fork();
     if (!pid)
     {
-        if (is_builtin(cmd->args[0]))
-            ret = execute_builtin(prg, cmd);
-        else
-            ret = execute_command(prg, cmd);
-        exit(ret);
+    	if (!cmd->path)
+        	return (write_error_msg("minishell", cmd->args[0], "command not found", 127));
+	    execve(cmd->path, cmd->args, prg->env);
+        exit(write_error_msg("minishell", cmd->args[0], strerror(errno), 1));
     }
     waitpid(pid, &status, 0);
     if (WIFEXITED(status))
-		ret = WEXITSTATUS(status);
+		prg->last_exit_status = WEXITSTATUS(status);
+	return(ret);
+}
+
+int execute(t_prg *prg, t_cmd *cmd)
+{
+    int ret;
+
+    ret = 1;
+    if (is_builtin(cmd->args[0]))
+        ret = execute_builtin(prg, cmd);
+    else
+        ret = execute_command(prg, cmd);
     return (ret);
 }
