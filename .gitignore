@@ -5,4 +5,4 @@ minishell
 .vscode/
 .gdb_history
 .nfs*
-
+out.txt
