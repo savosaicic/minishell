@@ -37,11 +37,9 @@ function test_init()
 {
     TESTS_NB=0
 	TESTS_OK=0
-	TESTS_KO=0
 	TESTS_LK=0
+    TEST_OUT=0
     MINISHELL="./minishell"
-    OUTPUT=
-    INPUT=
 
     # rm ./minishell > /dev/null 2>&1
     rm out.txt > /dev/null 2>&1
@@ -68,8 +66,20 @@ function test_output()
     echo $@ | $MINISHELL >> out.txt 2>&1
     printf "\$\n" >> out.txt 
     printf "%s Expected output \n" $SEP_L >> out.txt
-    $@ >> out.txt 2>&1    
+    $@ >> out.txt 2>&1  
     printf "\$\n" >> out.txt 
+
+    echo $@ | $MINISHELL > output.txt 2>&1
+    $@ > output_expected.txt 2>&1
+    diff=$(diff output.txt output_expected.txt)
+    if [ -z "$diff" ]; then
+        printf "${GREEN}OUTPUT[OK]${NC}"
+        let "TEST_OUT++"
+    else
+        printf "${RED}OUTPUT[KO]${NC}"
+    fi
+    printf " | "
+
 }
 
 function test_all()
@@ -78,13 +88,19 @@ function test_all()
     printf "$SEP_S Test: 0$TESTS_NB  $SEP_S\n" >> out.txt
     test_output $@
     let "TESTS_NB++"
+    printf "\n"
 
 }
 
 test_init
 
 # ECHO TESTS
-test_all 'echo test tout'
-test_all 'echo test      tout'
-test_all 'echo -n test tout'
-test_all 'echo -n -n -n test tout'
+# test_all 'echo test tout'
+# test_all 'echo test      tout'
+# test_all 'echo -n test tout'
+# test_all 'echo -n -n -n test tout'
+
+# CD TESTS
+test_all 'cd .. \\\\n pwd'
+# test_all 'cd /Users \n pwd'
+# test_all 'cd \n pwd'

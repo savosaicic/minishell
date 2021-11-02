@@ -22,9 +22,6 @@ compile_and_execute()
 		clear
 		# printf "${GREEN}Compilation $exec_name success\nRun ${exec_name}\n${NC}"
 		echo $arguments | ./$exec_name
-		printf "${BLUE}"
-		cat out.txt
-		printf "${NC}\n\n"
 	else
 		printf "${RED}Compilation minishell failure\n${NC}"
 	fi
