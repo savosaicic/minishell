@@ -20,10 +20,11 @@ compile_and_execute()
 	if [ $status -eq 0 ]
 	then
 		clear
-		printf "${GREEN}Compilation $exec_name success\nRun ${exec_name}\n${NC}"
-		printf "______________________________________________________ \n"
+		# printf "${GREEN}Compilation $exec_name success\nRun ${exec_name}\n${NC}"
 		echo $arguments | ./$exec_name
-		# cat out.txt
+		printf "${BLUE}"
+		cat out.txt
+		printf "${NC}\n\n"
 	else
 		printf "${RED}Compilation minishell failure\n${NC}"
 	fi
@@ -85,15 +86,13 @@ get_timestamps # >>> timestamp_p
 
 while true
 do
-	for file in ${files[@]}
-	do
-		# timestamp_act=$(stat -c %Y $file)
-		timestamp_act=$(stat -f "%m" -t "%Y" $file)
-		if [ $timestamp_act -gt ${timestamp_prev[i]} ]
-		then
-			pkill -9 $exec_name
-			timestamp_prev[i]=$timestamp_act
-			compile_and_execute
-		fi
-	done
+
+	timestamp_act=$(stat -f "%m" -t "%Y" test.sh)
+	if [ $timestamp_act -gt ${timestamp_prev[i]} ]
+	then
+		pkill -9 $exec_name
+		timestamp_prev[i]=$timestamp_act
+		compile_and_execute
+	fi
+	sleep 1
 done

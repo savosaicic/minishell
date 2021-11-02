@@ -9,8 +9,19 @@ YELLOW="\033[33m"
 BLUE="\033[34m"
 MAGENTA="\033[35m"
 
-SEP_SMALL="_______________________"
-SEP_BIG="-----------------------------------------"
+SEP_S="_______________________"
+SEP_XS="---------"
+SEP_L="-----------------------------------------"
+
+printf "${RED}.........................................................\n"
+printf "${MAGENTA}\
+ ___  ________ _   _ _____ _____ _   _ _____ _     _     
+ |  \/  |_   _| \ | /  ___|_   _| | | |  ___| |   | |    
+ | .  . | | | |  \| \ \`--.  | | | |_| | |__ | |   | |    
+ | |\/| | | | | . \` |\`--. \ | | |  _  |  __|| |   | |    
+ | |  | |_| |_| |\  /\__/ /_| |_| | | | |___| |___| |____
+ \_|  |_/\___/\_| \_|____/ \___/\_| |_|____/\_____|_____/\n"
+printf "${RED}.........................................................\n${NC}"
 
 function display_command()
 {
@@ -32,12 +43,12 @@ function test_init()
     OUTPUT=
     INPUT=
 
-    rm ./minishell > /dev/null 2>&1
+    # rm ./minishell > /dev/null 2>&1
     rm out.txt > /dev/null 2>&1
     touch out.txt > /dev/null
     chmod 777 out.txt > /dev/null
-    make -C ../ > /dev/null 2>&1
-    cp ../minishell . > /dev/null 2>&1
+    # make -C ../ > /dev/null 2>&1
+    # cp ../minishell . > /dev/null 2>&1
 
     if [ "$1" == "1" ]; then
         printf "tester:" red "Error" "\n"
@@ -53,16 +64,18 @@ function test_end()
 
 function test_output()
 {
-    printf "Outpupt -------$SEP_BIG\n" >> out.txt
+    printf "%s%s Output\n" $SEP_XS $SEP_L >> out.txt
     echo $@ | $MINISHELL >> out.txt 2>&1
-    printf "\nExpected output $SEP_BIG\n" >> out.txt
+    printf "\$\n" >> out.txt 
+    printf "%s Expected output \n" $SEP_L >> out.txt
     $@ >> out.txt 2>&1    
+    printf "\$\n" >> out.txt 
 }
 
 function test_all()
 {
     display_command $@
-    printf "$SEP_SMALL Test: 0$TESTS_NB  $SEP_SMALL\n " >> out.txt
+    printf "$SEP_S Test: 0$TESTS_NB  $SEP_S\n" >> out.txt
     test_output $@
     let "TESTS_NB++"
 
@@ -71,6 +84,7 @@ function test_all()
 test_init
 
 # ECHO TESTS
-# test_all 'echo test tout'
-# test_all 'pwd'
-./command.sh
+test_all 'echo test tout'
+test_all 'echo test      tout'
+test_all 'echo -n test tout'
+test_all 'echo -n -n -n test tout'
