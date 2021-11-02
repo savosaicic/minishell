@@ -35,11 +35,16 @@ function red()
 
 function test_init()
 {
+    CMD_MINISHELL=""
+    CMD_BASH=""
     TESTS_NB=0
 	TESTS_OK=0
 	TESTS_LK=0
     TEST_OUT=0
     MINISHELL="./minishell"
+    FD_OUT=$PWD/out.txt
+    FD_OUTPUT=$PWD/output.txt
+    FD_OUTPUT_EXP=$PWD/output_expected.txt
 
     # rm ./minishell > /dev/null 2>&1
     rm out.txt > /dev/null 2>&1
@@ -62,16 +67,15 @@ function test_end()
 
 function test_output()
 {
-    printf "%s%s Output\n" $SEP_XS $SEP_L >> out.txt
-    echo $@ | $MINISHELL >> out.txt 2>&1
-    printf "\$\n" >> out.txt 
-    printf "%s Expected output \n" $SEP_L >> out.txt
-    $@ >> out.txt 2>&1  
-    printf "\$\n" >> out.txt 
+    printf "%s%s Output\n" $SEP_XS $SEP_L >> $FD_OUT
+    echo -e $@ | $MINISHELL >> $FD_OUT 2>&1
+    printf "%s Expected output \n" $SEP_L >> $FD_OUT
+    eval $CMD_BASH >> $FD_OUT 2>&1
+    printf "\n" >> $FD_OUT
 
-    echo $@ | $MINISHELL > output.txt 2>&1
-    $@ > output_expected.txt 2>&1
-    diff=$(diff output.txt output_expected.txt)
+    echo -e "cd \n" | $MINISHELL > $FD_OUTPUT
+    eval $CMD_BASH > $FD_OUTPUT_EXP
+    diff=$(diff $FD_OUTPUT $FD_OUTPUT_EXP)
     if [ -z "$diff" ]; then
         printf "${GREEN}OUTPUT[OK]${NC}"
         let "TEST_OUT++"
@@ -79,12 +83,12 @@ function test_output()
         printf "${RED}OUTPUT[KO]${NC}"
     fi
     printf " | "
-
 }
 
 function test_all()
 {
-    display_command $@
+    CMD_BASH=$(echo -e $@ | tr '\n' ';')
+    display_command $CMD_BASH
     printf "$SEP_S Test: 0$TESTS_NB  $SEP_S\n" >> out.txt
     test_output $@
     let "TESTS_NB++"
@@ -93,7 +97,6 @@ function test_all()
 }
 
 test_init
-
 # ECHO TESTS
 # test_all 'echo test tout'
 # test_all 'echo test      tout'
@@ -101,6 +104,7 @@ test_init
 # test_all 'echo -n -n -n test tout'
 
 # CD TESTS
-test_all 'cd .. \\\\n pwd'
-# test_all 'cd /Users \n pwd'
-# test_all 'cd \n pwd'
+# test_all 'cd .. \n pwd \n cd' $PWD
+# test_all 'ls'
+# test_all 'cd /Users \n cd' $PWD
+test_all 'cd \n pwd'
