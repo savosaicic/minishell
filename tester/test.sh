@@ -14,6 +14,7 @@ MAGENTA="\033[35m"
 
 # STRING
 SEP_S="_______________________"
+SEP_XL="————————————————————————————————————————————————————-"
 SEP_XS="........."
 SEP_L="........................................."
 HEADER="${MAGENTA}\
@@ -28,43 +29,77 @@ function test_init()
 {
     CMD_MINISHELL=""
     CMD_BASH=""
+    # CMD_PRINT=""
     TESTS_NB=0
     TEST_OUT=0
     MINISHELL=./minishell
     FD_OUT=$PWD/out.txt
     FD_OUTPUT=$PWD/output.txt
     FD_OUTPUT_EXP=$PWD/output_expected.txt
+    EXIT_ST=0
+    EXIT_ST_EXP=0
 
-    # rm ./minishell > /dev/null 2>&1
+    clear
+
+    rm ./minishell > /dev/null 2>&1
+    rm output.txt output_expected.txt > /dev/null 2>&1
     rm out.txt > /dev/null 2>&1
-    touch out.txt > /dev/null
-    chmod 777 out.txt > /dev/null
-    # make -C ../ > /dev/null 2>&1
-    # cp ../minishell . > /dev/null 2>&1
+    
+    cp ../minishell . > /dev/null 2>&1
+    if [ ! -x $MINISHELL ] ; then
+        printf "${RED}tester: ./minishell not found\n${NC}"
+        exit 1
+    fi
 }
 
 function test_end()
 {
-    rm $MINISHELL
+    printf "${BLUE}%s" $SEP_XL
+    printf "\nSummary: %s/%s\n\n${NC}" $TEST_OUT $TESTS_NB
+    rm output.txt output_expected.txt > /dev/null 2<&1
+}
 
+function test_exit_status()
+{
+    if [ "$EXIT_ST" == "$EXIT_ST_EXP" ] ; then
+        printf "${GREEN}EXIT[OK]${NC}"
+    else
+        printf "${RED}EXIT[KO]${NC}"
+    fi
 }
 
 function test_output()
 {
-    printf "${SEP_XS}${SEP_L} Output\n" >> $FD_OUT
-    (echo -e "$CMD_MINISHELL" | $MINISHELL) 2>&1 | tee -a $FD_OUT > $FD_OUTPUT 2>&1
-    printf "\n" >> $FD_OUT
+    (echo -e "$CMD_MINISHELL" | $MINISHELL) > $FD_OUTPUT 2>&1 ; EXIT_ST=$?
+    (bash -c "$CMD_BASH") > $FD_OUTPUT_EXP 2>&1 ; EXIT_ST_EXP=$?
 
-    printf "$SEP_L Expected output \n" >> $FD_OUT
-    (bash -c "$CMD_BASH") 2>&1 | tee -a $FD_OUT > $FD_OUTPUT_EXP 
-
-    if diff $FD_OUTPUT $FD_OUTPUT_EXP > /dev/null ; then
+    if [ "$EXIT_ST_EXP" == 0 ] ; then
+        if diff $FD_OUTPUT $FD_OUTPUT_EXP > /dev/null ; then
+            printf "${GREEN}OUTPUT[OK]${NC}"
+            ((TEST_OUT++))
+        else
+            printf "${RED}OUTPUT[KO]${NC}"
+        fi
+    else
         printf "${GREEN}OUTPUT[OK]${NC}"
         ((TEST_OUT++))
-    else
-        printf "${RED}OUTPUT[KO]${NC}"
     fi
     printf " | "
+}
+
+function save_output()
+{
+    printf "%s\n" $SEP_XL  >> out.txt
+    printf "%20s Test: 0$TESTS_NB %20s\n" >> out.txt
+    printf "%s\n" $SEP_XL  >> out.txt
+
+    printf "minishell: %s\n" "$CMD_BASH">> $FD_OUT
+    (echo -e "$CMD_MINISHELL" | $MINISHELL) >> $FD_OUT 2>&1 ; exit_status=$?
+    printf "$%d\n" $exit_status >> $FD_OUT
+    printf "_____________________________________________________\n" >> $FD_OUT
+    printf "bash: %s\n" "$CMD_BASH" >> $FD_OUT
+    (bash -c "$CMD_BASH") >> $FD_OUT 2>&1 ; exit_status=$?
+    printf "$%d\n" $exit_status >> $FD_OUT
 }
 
 function test_all()
@@ -73,26 +108,26 @@ function test_all()
     CMD_BASH=$(echo -e "$CMD_MINISHELL" | tr '\n' ';' | sed -e 's/.$//g')
 
     printf "${YELLOW}• \'%s\'${NC}\n" "$CMD_BASH"
-    printf "$SEP_S Test: 0%s $SEP_S\n" $TESTS_NB >> out.txt
-
+    save_output
     test_output
+    test_exit_status
 
     ((TESTS_NB++))
     printf "\n"
 }
 
 test_init 
+
 # ECHO TESTS
-# test_all 'echo test tout'
-# test_all 'echo test      tout'
-# test_all 'echo -n test tout'
-# test_all 'echo -n -n -n test tout'
+test_all 'echo test tout'
+test_all 'echo test      tout'
+test_all 'echo -n test tout'
+test_all 'echo -n -n -n test tout'
 
 # CD TESTS
-# test_all 'cd .. \n pwd \n cd' $PWD
-# test_all 'ls'
-# test_all 'cd /Users \n pwd' $PWD
-# test_all "cd \n pwd"
+test_all 'ls'
+test_all "cd \n pwd"
 
 test_all 'not'
-# test_all 'cat test.sh'
+
+test_end
