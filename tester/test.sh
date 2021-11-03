@@ -52,13 +52,12 @@ function test_end()
 function test_output()
 {
     printf "${SEP_XS}${SEP_L} Output\n" >> $FD_OUT
-    (echo -e "$CMD_MINISHELL" | $MINISHELL) | tee -a $FD_OUT > $FD_OUTPUT
+    (echo -e "$CMD_MINISHELL" | $MINISHELL) 2>&1 | tee -a $FD_OUT > $FD_OUTPUT 2>&1
     printf "\n" >> $FD_OUT
 
     printf "$SEP_L Expected output \n" >> $FD_OUT
-    (bash -c "$CMD_BASH") | tee -a $FD_OUT > $FD_OUTPUT_EXP
+    (bash -c "$CMD_BASH") 2>&1 | tee -a $FD_OUT > $FD_OUTPUT_EXP 
 
-    # diff=$(diff $FD_OUTPUT $FD_OUTPUT_EXP)
     if diff $FD_OUTPUT $FD_OUTPUT_EXP > /dev/null ; then
         printf "${GREEN}OUTPUT[OK]${NC}"
         ((TEST_OUT++))
@@ -84,13 +83,16 @@ function test_all()
 
 test_init 
 # ECHO TESTS
-test_all 'echo test tout'
+# test_all 'echo test tout'
 # test_all 'echo test      tout'
 # test_all 'echo -n test tout'
 # test_all 'echo -n -n -n test tout'
 
 # CD TESTS
-test_all 'cd .. \n pwd \n cd' $PWD
+# test_all 'cd .. \n pwd \n cd' $PWD
 # test_all 'ls'
-test_all 'cd /Users \n pwd' $PWD
-test_all "cd \n pwd"
+# test_all 'cd /Users \n pwd' $PWD
+# test_all "cd \n pwd"
+
+test_all 'not'
+# test_all 'cat test.sh'
