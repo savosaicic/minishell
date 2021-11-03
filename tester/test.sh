@@ -56,7 +56,7 @@ function test_end()
 {
     printf "${BLUE}%s" $SEP_XL
     printf "\nSummary: %s/%s\n\n${NC}" $TEST_OUT $TESTS_NB
-    rm output.txt output_expected.txt > /dev/null 2<&1
+    rm output.txt output_expected.txt \> \< ls lol test test\; > /dev/null 2<&1
 }
 
 function test_exit_status()
