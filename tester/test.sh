@@ -33,9 +33,9 @@ function test_init()
     TESTS_NB=0
     TEST_OUT=0
     MINISHELL=./minishell
-    FD_OUT=$PWD/out.txt
-    FD_OUTPUT=$PWD/output.txt
-    FD_OUTPUT_EXP=$PWD/output_expected.txt
+    FD_OUT=out.txt
+    FD_OUTPUT=output.txt
+    FD_OUTPUT_EXP=output_expected.txt
     EXIT_ST=0
     EXIT_ST_EXP=0
 
