@@ -29,7 +29,6 @@ function test_init()
 {
     CMD_MINISHELL=""
     CMD_BASH=""
-    # CMD_PRINT=""
     TESTS_NB=0
     TEST_OUT=0
     MINISHELL=./minishell
@@ -203,5 +202,6 @@ test_all 'echo | |'
 test_all '<'
 printf "\n"
 
-
+# <<com
+# com
 test_end
