@@ -72,7 +72,6 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
 			ret = execute(prg, cmd_lst->content);
 			exit_success(prg, ret);
-			exit(ret);
 		}
 		cmd_lst = cmd_lst->next;
 		i++;
@@ -95,7 +94,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		cmd_lst = NULL;
 		prg->cmd_buffer = readline("$> ");
 		if (!prg->cmd_buffer)
-			exit_success(prg, 0);
+		{
+			// printf("last exit %d\n", prg->last_exit_status);
+			exit_success(prg, prg->last_exit_status);
+		}
 		else if (ft_strlen(prg->cmd_buffer))
 		{
 			cmd_lst = get_command_lst(prg);

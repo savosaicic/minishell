@@ -40,18 +40,15 @@ int execute_command(t_prg *prg, t_cmd *cmd)
     }
     waitpid(pid, &status, 0);
     if (WIFEXITED(status))
-		prg->last_exit_status = WEXITSTATUS(status);
+		ret = WEXITSTATUS(status);
 	return(ret);
 }
 
 int execute(t_prg *prg, t_cmd *cmd)
 {
-    int ret;
-
-    ret = 1;
     if (is_builtin(cmd->args[0]))
-        ret = execute_builtin(prg, cmd);
+        prg->last_exit_status = execute_builtin(prg, cmd);
     else
-        ret = execute_command(prg, cmd);
-    return (ret);
+        prg->last_exit_status = execute_command(prg, cmd);
+    return (prg->last_exit_status);
 }
