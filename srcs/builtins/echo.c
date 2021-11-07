@@ -12,7 +12,7 @@ int	echo(t_cmd *cmd)
 	}
 	option = 0;
 	i = 1;
-	if (!ft_strcmp(cmd->args[1], "-n"))
+	while (!ft_strcmp(cmd->args[i], "-n") || is_space(cmd->args[i][0]))
 	{
 		option = 1;
 		i++;

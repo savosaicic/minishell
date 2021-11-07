@@ -24,11 +24,9 @@ int cd(t_cmd *cmd, char *home_path)
 	(void)cmd;
 	char *tmp;
 
-	if (!cmd->args[1])
-		return (0);
-	else if (ft_charlen(cmd->args) > 2)
+	if (ft_charlen(cmd->args) > 2)
 		return (write_error_msg("minishell", "too many arguments", NULL, 1));
-	if (cmd->args[1][0] == '~')
+	if (!cmd->args[1] || cmd->args[1][0] == '~')
 		tmp = home_path;
 	else
 		tmp = cmd->args[1];

@@ -18,7 +18,6 @@ int	handle_quote(char **cmd_buffer, char *str, t_list **token_lst)
 		buffer[i++] = *(*cmd_buffer)++;
 	if (!**cmd_buffer)
 		return (1);
-
 	(*cmd_buffer)++;
 	while (!is_operator(**cmd_buffer) && **cmd_buffer)
 		buffer[i++] = *(*cmd_buffer)++;
