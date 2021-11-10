@@ -8,6 +8,10 @@ t_ttype		get_token_type(char *token)
 		return (T_REDIRECT);
 	else if (ft_strchr(token, '='))
 		return (T_ASSIGN);
+	else if (!ft_strcmp(token, ">>"))
+		return (T_DGREAT);
+	else if (!ft_strcmp(token, "<<"))
+		return (T_DLESS);
 	else
 		return (T_WORD);
 }
@@ -81,7 +85,13 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 			}
 			ft_bzero(buffer, i);
 			i = 0;
-			handle_pipe_and_redirection(&cmd_buffer, &token_lst);
+			if (!handle_pipe_and_redirection(&cmd_buffer, &token_lst))
+			{
+				ft_lstclear(&token_lst, clear_token_struct);
+				write_error_msg("minishell", "parse error near", NULL, 1);
+				return (NULL);
+			}
+			
 		}
 
 		/* WHITE SPACES */
@@ -120,6 +130,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 	}
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-
+	print_token(token_lst);
 	return (token_lst);
 }

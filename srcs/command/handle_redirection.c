@@ -37,9 +37,9 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd)
 		return (write_error_msg("minishell", "parse error near \'>\'", NULL, 1));
 	
 	//Check for $, expand if so
-	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token*)->token, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	if ((*cmd)->r_io[1] < 0)
-		return (write_error_msg("minishell", CAST((*token_lst), t_token*)->token, strerror(errno), 1));
+//	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token*)->token, O_CREAT | O_TRUNC | O_RDWR, 0644);
+//	if ((*cmd)->r_io[1] < 0)
+//		return (write_error_msg("minishell", CAST((*token_lst), t_token*)->token, strerror(errno), 1));
 	*token_lst = (*token_lst)->next;
 	return (0);
 }

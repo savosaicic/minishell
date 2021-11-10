@@ -59,3 +59,13 @@ int	ft_charlen(char **tab)
 		i++;
 	return (i);
 }
+
+int	is_redirect(char c)
+{
+	return (c == '<' || c == '>');
+}
+
+int	is_pipe(char c)
+{
+	return (c == '|');
+}

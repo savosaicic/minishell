@@ -34,7 +34,7 @@ char		*ft_getenv(t_list *env_lst, char *var_search);
 char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);
 
-void		exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
+void		exit_failure(t_prg *prg, char *item_name, char *error_msg, int status);
 int			write_error_msg(char *bin_name, char *item_name, char *error_msg, int status);
 
 /*builtin*/
@@ -80,6 +80,8 @@ void	clear_token_struct(void *token_struct);
 void	clear_cmd_struct(void *cmd_struct);
 void	clear_var_struct(void *var_struct);
 int		ft_charlen(char **tab);
+int		is_redirect(char c);
+int		is_pipe(char c);
 
 void	print_tab(char **tab);
 void	free_tab(char **tab);
