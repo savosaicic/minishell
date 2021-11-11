@@ -51,18 +51,9 @@ int	handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst)
 	while (**cmd_buffer == operators[0])
 		(*cmd_buffer)++;
 	ft_lstadd_back(token_lst, ft_lstnew(write_token(operators)));
-	return (0);
+	if (is_pipe(operators[0]) && ft_strlen(operators) > 1)
+		return (-1);
+	else if (is_redirect(operators[0]) && ft_strlen(operators) > 2)
+		return (-1);
+	return (1);
 }
-
-/*
-int	handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst)
-{
-	char	operator[2];
-
-	operator[0] = **cmd_buffer;
-	operator[1] = 0;
-	ft_lstadd_back(token_lst, ft_lstnew(write_token(operator)));
-	(*cmd_buffer)++;
-	return (0);
-}
-*/
