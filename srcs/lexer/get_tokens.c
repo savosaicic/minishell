@@ -110,7 +110,7 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 			i++;
 		}
 
-		printf ("in_expansion %d\n", in_expansion);
+		// printf ("in_expansion %d\n", in_expansion);
 		/* $ */
 		if (in_expansion == FALSE && *cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')
 		{
