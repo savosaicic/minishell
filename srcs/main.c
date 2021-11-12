@@ -28,9 +28,8 @@ t_list *get_command_lst(t_prg *prg)
 	cmd_lst = NULL;
 	add_history(prg->cmd_buffer);
 	token_lst = get_token(prg, prg->cmd_buffer);
-//	if (token_lst == NULL)
-//		exit_failure(prg, NULL, "sh: insufficient memory", 1);
-	cmd_lst = parse_tokens(prg, token_lst);
+	if (token_lst)
+		cmd_lst = parse_tokens(prg, token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
 	return (cmd_lst);
 }
@@ -102,7 +101,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 			prg->cmds_len = ft_lstsize(cmd_lst);
 		}
 		if (cmd_lst)
-			//execute_cmd_list(prg, cmd_lst);
+			execute_cmd_list(prg, cmd_lst);
 		free(prg->cmd_buffer);
 	}
 	return (0);

@@ -16,11 +16,13 @@ static t_cmd	*init_cmd_struct(int args_num)
 	return (cmd);
 }
 
-/*
-** t_list cmd_lst->content points to a t_cmd struct
-** This function parse the token list made by the lexer
-** to get a list of commands
-*/
+int		is_a_redirection_token(t_ttype token_type)
+{
+	if (token_type == T_REDIRECT || token_type == T_DGREAT)
+		return (1);
+	return (0);
+}
+
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 {
 	t_list	*cmd_lst;
@@ -36,7 +38,14 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	cmd_lst = NULL;
 	while (token_lst)
 	{
-		if (CAST(token_lst, t_token*)->token_type == T_REDIRECT)
+		if (CAST((token_lst), t_token*)->token_type == T_DLESS)
+		{
+			printf("testttt\n");
+			token_lst = token_lst->next;
+			//HereDoc
+		}
+
+		else if (is_a_redirection_token(CAST(token_lst, t_token*)->token_type))
 		{
 			if (parse_redirection(&cmd, &token_lst) > 0)
 				(void)i; //delete the actual cmd and go to next one if there is a pipe
