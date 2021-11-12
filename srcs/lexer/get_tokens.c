@@ -61,8 +61,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 		/* QUOTES */
 		if (*cmd_buffer == '\"' || *cmd_buffer == '\'')
 		{
-			if (*cmd_buffer == '\'')
-				in_expansion = TRUE;
 			buffer[i] = '\0';
 			if (ft_strlen(buffer))
 			{
@@ -110,7 +108,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 			i++;
 		}
 
-		printf ("in_expansion %d\n", in_expansion);
 		/* $ */
 		if (in_expansion == FALSE && *cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')
 		{
