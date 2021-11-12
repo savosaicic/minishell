@@ -47,7 +47,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 	int		i;
 	char	buffer[4096];
 	char	*expander_var;
-	bool	in_expansion;
 
 	while (*cmd_buffer == ' ')
 		cmd_buffer++;
@@ -55,7 +54,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 	token_lst = NULL;
 	i = 0;
 	ft_bzero(buffer, 4096);
-	in_expansion = FALSE;
 	while (*cmd_buffer)
 	{
 		/* QUOTES */
@@ -70,6 +68,7 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 				handle_quote(&cmd_buffer, NULL, &token_lst);
 			ft_bzero(buffer, i);
 			i = 0;
+
 		}
 
 		/* OPERATOR (|, <, >) */
@@ -99,17 +98,8 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 			i = 0;
 		}
 
-		/* NORMAL CHARS */
-		else if (!((*cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')))
-		{
-			// printf ("RAS\n");
-			buffer[i] = *cmd_buffer;
-			cmd_buffer++;
-			i++;
-		}
-
 		/* $ */
-		if (in_expansion == FALSE && *cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')
+		else if (*cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')
 		{
 			expander_var = NULL;
 			if (ft_strlen(buffer))
@@ -119,9 +109,17 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 			i = 0;
 			free(expander_var);
 		}
+
+		/* NORMAL CHARS */
+		else
+		{
+			buffer[i] = *cmd_buffer;
+			cmd_buffer++;
+			i++;
+		}
 	}
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-	// print_token(token_lst);
+
 	return (token_lst);
 }
