@@ -97,6 +97,6 @@ t_list  *ft_lstsearch(t_list *lst, char *search);
 
 void	ft_envlst_add_back(t_list **alst, t_list *new);
 
-int		handle_heredoc(t_list **token_lst);
+int		handle_heredoc(t_list **token_lst, t_cmd **cmd);
 
 #endif

@@ -39,11 +39,7 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	{
 		if (CAST((token_lst), t_token *)->token_type == T_DLESS)
 		{
-			int fd = handle_heredoc(&token_lst);
-			char buffer[4096];
-			ft_bzero(buffer, 4096);
-			read(fd, buffer, 4096);
-			printf("%s\n", buffer);
+			handle_heredoc(&token_lst, &cmd);
 		}
 
 		else if (is_a_redirection_token(CAST(token_lst, t_token *)->token_type))
