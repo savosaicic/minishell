@@ -88,9 +88,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	t_prg	*prg;
 	t_list	*cmd_lst;
 
-	prg = init_shell(env);
+	prg = init_shell(env);	
 	while (1)
 	{
+		sig_init(prg);
 		cmd_lst = NULL;
 		prg->cmd_buffer = readline("$> ");
 		if (!prg->cmd_buffer)

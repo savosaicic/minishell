@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <signal.h>
 
 #include "libft.h"
 #include "structures.h"
@@ -24,6 +25,9 @@
 # define FALSE 0
 
 # define CAST(var, type) ((type)var->content)
+
+struct sigaction sig;
+extern struct sigaction sig;
 
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
@@ -94,5 +98,11 @@ void	ft_lstadd_back2(t_list **alst, t_list *new);
 t_list  *ft_lstsearch(t_list *lst, char *search);
 
 void	ft_envlst_add_back(t_list **alst, t_list *new);
+void    sig_int(int signo);
+void    sig_quit(int signo);
+void    sig_init(t_prg *prg);
+
+
+
 
 #endif
