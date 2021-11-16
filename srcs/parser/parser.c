@@ -39,13 +39,32 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	{
 		if (CAST((token_lst), t_token *)->token_type == T_DLESS)
 		{
-			handle_heredoc(&token_lst, &cmd);
+			if (handle_heredoc(&token_lst, &cmd) > 0)
+			{
+				int j = 0;
+				while (cmd->args[j])
+				{
+					free(cmd->args[j] = NULL);
+					cmd->args[j++] = NULL;
+				}
+				while (token_lst && CAST((token_lst), t_token *)->token_type != T_PIPE)
+					token_lst = token_lst->next;
+			}
 		}
 
 		else if (is_a_redirection_token(CAST(token_lst, t_token *)->token_type))
 		{
 			if (parse_redirection(&cmd, &token_lst) > 0)
-				(void)i; // delete the actual cmd and go to next one if there is a pipe
+			{
+				int j = 0;
+				while (cmd->args[j])
+				{
+					free(cmd->args[j] = NULL);
+					cmd->args[j++] = NULL;
+				}
+				while (token_lst && CAST((token_lst), t_token *)->token_type != T_PIPE)
+					token_lst = token_lst->next;
+			}
 		}
 		else if (CAST(token_lst, t_token *)->token_type == T_PIPE)
 		{
