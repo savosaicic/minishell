@@ -26,8 +26,8 @@
 
 # define CAST(var, type) ((type)var->content)
 
-struct sigaction sig;
-extern struct sigaction sig;
+// struct sigaction sig;
+// extern struct sigaction sig;
 
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
@@ -100,9 +100,6 @@ t_list  *ft_lstsearch(t_list *lst, char *search);
 void	ft_envlst_add_back(t_list **alst, t_list *new);
 void    sig_int(int signo);
 void    sig_quit(int signo);
-void    sig_init(t_prg *prg);
-
-
-
+void    manage_signals(t_prg *prg);
 
 #endif
