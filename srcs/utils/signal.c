@@ -1,32 +1,18 @@
 #include "minishell.h"
 
-void    sig_int(int signo)
+void    sig_int(int sig __attribute__((unused)))
 {
-    (void)signo;
-    // dprintf(1, "\b\b      ");
-    // dprintf(2, "\n");
-
-    // dprintf(2, "$> ");
-    // ft_putstr_fd("\b\b  ", 2);
-	// ft_putstr_fd("\n", 2);
-	// ft_putstr_fd("$> ", 2);
-    printf("buffer %s\n", rl_line_buffer);
     rl_replace_line("", 1);
-    printf("buffer %s\n", rl_line_buffer);
-    // sigs.sig_int = 1;
+    dprintf(2, "\n$> ");
 }
 
-
-void    sig_quit(int signo)
+void sig_quit(int sig __attribute__((unused)))
 {
-    (void)signo;
-    printf("signal quit\n");
+    ft_putstr_fd("\b\b  \b\b", 2);
 }
 
-void    manage_signals(t_prg *prg)
+void    manage_signals(void)
 {
-    (void)prg;
-    // sigs.sig_int = 0;
-
     signal(SIGINT, &sig_int);
+    signal(SIGQUIT, &sig_quit);
 }

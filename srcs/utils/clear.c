@@ -48,7 +48,7 @@ void	clear_prg_struct(t_prg *prg)
 {
 	if (!prg)
 		return ;
-	free(prg->cmd_buffer);
+	free(rl_line_buffer);
 	free(prg->env_lst);
 	free(prg->pwd);
 	free(prg);

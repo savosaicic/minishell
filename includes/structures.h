@@ -35,7 +35,6 @@ typedef struct	s_io
 
 }				t_io;
 
-
 typedef struct s_prg
 {
 	char	*pwd;
@@ -52,11 +51,5 @@ typedef struct	s_variable
 	char	*name;
 	char	*value;
 }				t_variable;
-
-typedef struct	s_sigs
-{
-	int		sig_quit;
-	int		sig_int;
-}				t_sigs;
 
 #endif

@@ -14,7 +14,7 @@ t_prg	*init_shell(char **env)
 	if (prg->pwd == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
 	prg->env_lst = init_env(env);
-	prg->cmd_buffer = NULL;
+	rl_line_buffer = NULL;
 	prg->home_path = ft_strdup((((t_variable *)(ft_lstsearch(prg->env_lst, "HOME")->content))->value));
 	prg->last_exit_status = 0;
 	return (prg);
@@ -26,8 +26,8 @@ t_list *get_command_lst(t_prg *prg)
 	t_list *cmd_lst;
 
 	cmd_lst = NULL;
-	add_history(prg->cmd_buffer);
-	token_lst = get_token(prg, prg->cmd_buffer);
+	add_history(rl_line_buffer);
+	token_lst = get_token(prg, rl_line_buffer);
 	if (token_lst == NULL)
 		exit_failure(prg, NULL, "sh: insufficient memory", 1);
 	cmd_lst = parse_tokens(prg, token_lst);
@@ -92,21 +92,19 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	while (1)
 	{
 		cmd_lst = NULL;
-		manage_signals(prg);
-		prg->cmd_buffer = readline("$> ");
-		if (!prg->cmd_buffer)
+		manage_signals();
+		rl_line_buffer = readline("$> ");
+		if (!rl_line_buffer)
 		{
-			// printf("last exit %d\n", prg->last_exit_status);
 			exit_success(prg, prg->last_exit_status);
 		}
-		else if (ft_strlen(prg->cmd_buffer))
+		else if (ft_strlen(rl_line_buffer))
 		{
 			cmd_lst = get_command_lst(prg);
 			prg->cmds_len = ft_lstsize(cmd_lst);
 		}
 		if (cmd_lst)
 			execute_cmd_list(prg, cmd_lst);
-		free(prg->cmd_buffer);
 	}
 	return (0);
 }

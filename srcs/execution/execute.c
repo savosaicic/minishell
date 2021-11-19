@@ -46,8 +46,6 @@ int execute_command(t_prg *prg, t_cmd *cmd)
 
 int execute(t_prg *prg, t_cmd *cmd)
 {
-    // if (sigs.sig_int == 1)
-    //     return (0);
     if (is_builtin(cmd->args[0]))
         prg->last_exit_status = execute_builtin(prg, cmd);
     else
