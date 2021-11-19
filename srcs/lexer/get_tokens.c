@@ -65,9 +65,9 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 		{
 			buffer[i] = '\0';
 			if (ft_strlen(buffer))
-				handle_quote(&cmd_buffer, buffer, &token_lst);
+				handle_quote(prg, &cmd_buffer, buffer, &token_lst);
 			else
-				handle_quote(&cmd_buffer, NULL, &token_lst);
+				handle_quote(prg, &cmd_buffer, NULL, &token_lst);
 			ft_bzero(buffer, i);
 			i = 0;
 

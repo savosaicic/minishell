@@ -24,6 +24,7 @@ char	*perform_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer)
 		expanded_var = ft_strdup("");
 	else
 		expanded_var = ft_strdup(ft_getenv(env_lst, buffer));
+	free(tmp);
 	return (expanded_var);
 }
 
