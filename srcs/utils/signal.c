@@ -15,6 +15,8 @@ void    sig_quit(int sig __attribute__((unused)))
 
 void    manage_signals(void)
 {
-    signal(SIGINT, &sig_int);
-    signal(SIGQUIT, &sig_quit);
+    if (signal(SIGINT, &sig_int) == SIG_ERR)
+        exit(write_error_msg("minishell", strerror(errno), NULL, 1));
+    if (signal(SIGQUIT, &sig_quit) == SIG_ERR)
+        exit(write_error_msg("minishell", strerror(errno), NULL, 1));
 }
