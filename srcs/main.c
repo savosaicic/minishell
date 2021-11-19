@@ -96,6 +96,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
 		{
+			ft_putstr_fd("exit\n", 1);
 			exit_success(prg, prg->last_exit_status);
 		}
 		else if (ft_strlen(rl_line_buffer))
