@@ -59,7 +59,4 @@ typedef struct	s_sigs
 	int		sig_int;
 }				t_sigs;
 
-t_sigs sigs;
-extern t_sigs sig;
-
 #endif

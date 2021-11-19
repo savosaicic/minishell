@@ -10,8 +10,10 @@ void    sig_int(int signo)
     // ft_putstr_fd("\b\b  ", 2);
 	// ft_putstr_fd("\n", 2);
 	// ft_putstr_fd("$> ", 2);
-    rl_replace_line("salut", 1);
-    sigs.sig_int = 1;
+    printf("buffer %s\n", rl_line_buffer);
+    rl_replace_line("", 1);
+    printf("buffer %s\n", rl_line_buffer);
+    // sigs.sig_int = 1;
 }
 
 
@@ -24,7 +26,7 @@ void    sig_quit(int signo)
 void    manage_signals(t_prg *prg)
 {
     (void)prg;
-    sigs.sig_int = 0;
+    // sigs.sig_int = 0;
 
     signal(SIGINT, &sig_int);
 }

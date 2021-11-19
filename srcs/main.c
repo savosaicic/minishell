@@ -94,18 +94,18 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		cmd_lst = NULL;
 		manage_signals(prg);
 		prg->cmd_buffer = readline("$> ");
-		// if (!prg->cmd_buffer)
-		// {
-		// 	// printf("last exit %d\n", prg->last_exit_status);
-		// 	exit_success(prg, prg->last_exit_status);
-		// }
-		// else if (ft_strlen(prg->cmd_buffer))
-		// {
-		// 	cmd_lst = get_command_lst(prg);
-		// 	prg->cmds_len = ft_lstsize(cmd_lst);
-		// }
-		// if (cmd_lst)
-		// 	execute_cmd_list(prg, cmd_lst);
+		if (!prg->cmd_buffer)
+		{
+			// printf("last exit %d\n", prg->last_exit_status);
+			exit_success(prg, prg->last_exit_status);
+		}
+		else if (ft_strlen(prg->cmd_buffer))
+		{
+			cmd_lst = get_command_lst(prg);
+			prg->cmds_len = ft_lstsize(cmd_lst);
+		}
+		if (cmd_lst)
+			execute_cmd_list(prg, cmd_lst);
 		free(prg->cmd_buffer);
 	}
 	return (0);

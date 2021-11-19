@@ -26,9 +26,6 @@
 
 # define CAST(var, type) ((type)var->content)
 
-// struct sigaction sig;
-// extern struct sigaction sig;
-
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
 int			parse_redirection(t_cmd **cmd, t_list **token_lst);
