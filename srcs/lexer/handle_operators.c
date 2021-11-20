@@ -43,7 +43,7 @@ int	handle_quote(t_prg *prg, char **cmd_buffer, char *str, t_list **token_lst)
 	ft_bzero(buffer, 4096);
 	while (**cmd_buffer != quote && **cmd_buffer)
 	{
-		while (**cmd_buffer == '$' && *(*cmd_buffer + 1) && *(*cmd_buffer + 1) != '$' && *(*cmd_buffer + 1) != ' ')
+		while (**cmd_buffer == '$' && *(*cmd_buffer + 1) && *(*cmd_buffer + 1) != '$' && *(*cmd_buffer + 1) != ' ' && quote != '\'')
 		{
 			tmp = quotes_expansion(prg, prg->env_lst, cmd_buffer, quote);
 			ft_strcat(buffer, tmp);

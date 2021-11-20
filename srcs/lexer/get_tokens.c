@@ -70,7 +70,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 				handle_quote(prg, &cmd_buffer, NULL, &token_lst);
 			ft_bzero(buffer, i);
 			i = 0;
-
 		}
 
 		/* OPERATOR (|, <, >) */
@@ -124,6 +123,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 	}
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-	print_token(token_lst);
+//	print_token(token_lst);
 	return (token_lst);
 }
