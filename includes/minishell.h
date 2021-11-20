@@ -25,6 +25,9 @@
 # define FALSE 0
 
 # define CAST(var, type) ((type)var->content)
+t_sigs sigs;
+extern t_sigs sigs;
+
 
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);

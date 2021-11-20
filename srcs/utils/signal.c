@@ -2,6 +2,9 @@
 
 void    sig_int(int sig __attribute__((unused)))
 {
+    // dprintf(2, "go in sigint\n");
+    // dprintf(2, "sig int %d\n", sigs.sig_int);
+    sigs.sig_int = 1;
     rl_replace_line("", 0);
     rl_on_new_line();
     ft_putstr_fd("\n", 1);
@@ -10,6 +13,9 @@ void    sig_int(int sig __attribute__((unused)))
 
 void    sig_quit(int sig __attribute__((unused)))
 {
+    // if (!sigs.sig_quit)
+    //     return ;
+    sigs.sig_quit = 1;
     ft_putstr_fd("\b\b  \b\b", 1);
 }
 

@@ -52,4 +52,10 @@ typedef struct	s_variable
 	char	*value;
 }				t_variable;
 
+typedef struct	s_sigs
+{
+	int sig_int;
+	int sig_quit;
+}				t_sigs;
+
 #endif

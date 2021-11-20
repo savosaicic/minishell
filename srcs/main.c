@@ -35,6 +35,19 @@ t_list *get_command_lst(t_prg *prg)
 	return (cmd_lst);
 }
 
+t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
+{
+	dup2(io_struct.fdin, STDIN_FILENO);
+	close(io_struct.fdin);
+	if (i == cmd_num - 1)
+		io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
+	else
+		io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
+	dup2(io_struct.fdout, STDOUT_FILENO);
+	close(io_struct.fdout);
+	return (io_struct);
+}
+
 void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 {
 	pid_t	pid;
@@ -48,30 +61,18 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	head = &cmd_lst;
 	cmd_num = ft_lstsize(cmd_lst);
 	io_struct = init_io_struct();
-	if (prg->cmds_len == 1 && is_builtin(((t_cmd *)cmd_lst->content)->args[0]) == 1)
-	{
-		((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
-		prg->last_exit_status = execute(prg, cmd_lst->content);
-		ft_lstclear(head, clear_cmd_struct);
-		return ;
-	}
 	i = 0;
 	while (i < cmd_num)
 	{
-		dup2(io_struct.fdin, STDIN_FILENO);
-		close(io_struct.fdin);
-		if (i == cmd_num - 1)
-			io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
-		else
-			io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
-		dup2(io_struct.fdout, STDOUT_FILENO);
-		close(io_struct.fdout);
-		pid = fork();
+		io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
+		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
+			pid = fork();
 		if (!pid)
 		{
 			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
 			ret = execute(prg, cmd_lst->content);
-			exit_success(prg, ret);
+			if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
+				exit_success(prg, ret);
 		}
 		cmd_lst = cmd_lst->next;
 		i++;
@@ -92,6 +93,8 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	while (1)
 	{
 		cmd_lst = NULL;
+		sigs.sig_int = 0;
+		sigs.sig_quit = 0;
 		manage_signals();
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
