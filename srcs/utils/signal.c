@@ -19,10 +19,19 @@ void    sig_quit(int sig __attribute__((unused)))
     ft_putstr_fd("\b\b  \b\b", 1);
 }
 
-void    manage_signals(void)
+void    watch_signals(void)
 {
     if (signal(SIGINT, &sig_int) == SIG_ERR)
         exit(write_error_msg("minishell", strerror(errno), NULL, 1));
     if (signal(SIGQUIT, &sig_quit) == SIG_ERR)
+        exit(write_error_msg("minishell", strerror(errno), NULL, 1));
+}
+
+
+void    unwatch_signals(void)
+{
+    if (signal(SIGINT, NULL) == SIG_ERR)
+        exit(write_error_msg("minishell", strerror(errno), NULL, 1));
+    if (signal(SIGQUIT, NULL) == SIG_ERR)
         exit(write_error_msg("minishell", strerror(errno), NULL, 1));
 }

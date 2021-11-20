@@ -100,6 +100,8 @@ t_list  *ft_lstsearch(t_list *lst, char *search);
 void	ft_envlst_add_back(t_list **alst, t_list *new);
 void    sig_int(int sig __attribute__((unused)));
 void    sig_quit(int sig __attribute__((unused)));
-void    manage_signals(void);
+// void    manage_signals(void);
+void    watch_signals(void);
+void    unwatch_signals(void);
 
 #endif

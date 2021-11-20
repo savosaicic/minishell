@@ -69,6 +69,9 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 			pid = fork();
 		if (!pid)
 		{
+			// unwatch_signals();
+
+			printf("pid %d\n", pid);
 			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
 			ret = execute(prg, cmd_lst->content);
 			if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
@@ -93,9 +96,9 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	while (1)
 	{
 		cmd_lst = NULL;
-		sigs.sig_int = 0;
-		sigs.sig_quit = 0;
-		manage_signals();
+		// sigs.sig_int = 0;
+		// sigs.sig_quit = 0;
+		watch_signals();
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
 		{
