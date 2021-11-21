@@ -6,6 +6,8 @@ typedef enum	e_ttype
 	UNIDENTIFIED,
 	T_WORD,
 	T_REDIRECT,
+	T_DGREAT,
+	T_DLESS,
 	T_PIPE,
 	T_ASSIGN
 }				t_ttype;

@@ -17,12 +17,11 @@ int	write_error_msg(char *bin_name, char *item_name, char *error_msg, int status
 	return (status);
 }
 
-void	exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status)
+void	exit_failure(t_prg *prg, char *item_name, char *error_msg, int status)
 {
-	(void)cmd;
 	(void)error_msg;
 	clear_prg_struct(prg);
-	// write_error_msg("minishell", cmd->args[0], error_msg);
+	write_error_msg("minishell", item_name, error_msg, status);
 	exit(status);
 }
 

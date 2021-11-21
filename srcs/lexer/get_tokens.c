@@ -8,6 +8,10 @@ t_ttype		get_token_type(char *token)
 		return (T_REDIRECT);
 	else if (ft_strchr(token, '='))
 		return (T_ASSIGN);
+	else if (!ft_strcmp(token, ">>"))
+		return (T_DGREAT);
+	else if (!ft_strcmp(token, "<<"))
+		return (T_DLESS);
 	else
 		return (T_WORD);
 }
@@ -28,7 +32,7 @@ t_token	*write_token(char *token)
 
 void	print_token(t_list *list)
 {
-	char **types = ft_split("UNIDENTIFIED WORD REDIRECT PIPE ASSIGN", ' ');
+	char **types = ft_split("UNIDENTIFIED WORD REDIRECT DGREAT DLESS PIPE ASSIGN", ' ');
 
 	printf("\n");
 	while (list)
@@ -61,14 +65,11 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 		{
 			buffer[i] = '\0';
 			if (ft_strlen(buffer))
-			{
-				handle_quote(&cmd_buffer, buffer, &token_lst);
-			}
+				handle_quote(prg, &cmd_buffer, buffer, &token_lst);
 			else
-				handle_quote(&cmd_buffer, NULL, &token_lst);
+				handle_quote(prg, &cmd_buffer, NULL, &token_lst);
 			ft_bzero(buffer, i);
 			i = 0;
-
 		}
 
 		/* OPERATOR (|, <, >) */
@@ -76,12 +77,16 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 		{
 			buffer[i] = '\0';
 			if (ft_strlen(buffer))
-			{
 				ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-			}
 			ft_bzero(buffer, i);
 			i = 0;
-			handle_pipe_and_redirection(&cmd_buffer, &token_lst);
+			if (handle_pipe_and_redirection(&cmd_buffer, &token_lst) == -1)
+			{
+				ft_lstclear(&token_lst, clear_token_struct);
+				write_error_msg("minishell", "parse error near", NULL, 1);
+				return (NULL);
+			}
+			
 		}
 
 		/* WHITE SPACES */
@@ -91,9 +96,7 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 				cmd_buffer++;
 			buffer[i] = '\0';
 			if (ft_strlen(buffer))
-			{
 				ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-			}
 			ft_bzero(buffer, i);
 			i = 0;
 		}
@@ -120,6 +123,6 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 	}
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-
+//	print_token(token_lst);
 	return (token_lst);
 }
