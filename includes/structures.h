@@ -39,6 +39,7 @@ typedef struct s_prg
 {
 	pid_t 	pid;
 	char	*pwd;
+	int		child;
 	char 	**env;
 	t_list	*env_lst;
 	char	*cmd_buffer;

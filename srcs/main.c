@@ -13,6 +13,7 @@ t_prg	*init_shell(char **env)
 	pwd = search_in_tab(env, "PWD=");
 	prg->env = env;
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
+	prg->child = 0;
 	if (prg->pwd == NULL)
 		exit_failure(NULL, "sh: insufficient memory", 1);
 	prg->env_lst = init_env(env);
@@ -56,12 +57,16 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 	int ret;
 
 	prg->pid = 0;
+	prg->child = 0;
 	io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
 	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
+	{
+		prg->child = 1;
 		prg->pid = fork();
+	}
 	if (!prg->pid)
 	{
-		unwatch_signals();
+		// unwatch_signals();
 		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
 		ret = execute(cmd_lst->content);
 		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
@@ -72,6 +77,7 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 void	execute_cmd_list(t_list *cmd_lst)
 {
 	int		status;
+
 	t_list	**head;
 	int		cmd_num;
 	t_io	io_struct;
