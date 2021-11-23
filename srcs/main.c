@@ -55,6 +55,7 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 {
 	int ret;
 
+	prg->pid = 0;
 	io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
 	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
 		prg->pid = fork();
@@ -70,11 +71,9 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 
 void	execute_cmd_list(t_list *cmd_lst)
 {
-	pid_t	pid;
 	int		status;
 	t_list	**head;
 	int		cmd_num;
-	int 	ret;
 	t_io	io_struct;
 	int		i;
 
@@ -84,22 +83,11 @@ void	execute_cmd_list(t_list *cmd_lst)
 	i = 0;
 	while (i < cmd_num)
 	{
-		// execute_cmd(cmd_lst, io_struct, i, cmd_num);
-		io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
-		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
-			pid = fork();
-		if (!pid)
-		{
-			unwatch_signals();
-			((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
-			ret = execute(cmd_lst->content);
-			if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
-				exit_success(ret);
-		}
+		execute_cmd(cmd_lst, io_struct, i, cmd_num);
 		cmd_lst = cmd_lst->next;
 		i++;
 	}
-	waitpid(pid, &status, 0);
+	waitpid(prg->pid, &status, 0);
 	if (WIFEXITED(status))
 		prg->last_exit_status = WEXITSTATUS(status);
 	restore_and_close_fds(io_struct);
