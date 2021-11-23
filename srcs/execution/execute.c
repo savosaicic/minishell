@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int     execute_builtin(t_prg *prg, t_cmd *cmd)
+int     execute_builtin(t_cmd *cmd)
 {
     int ret;
 
@@ -19,11 +19,11 @@ int     execute_builtin(t_prg *prg, t_cmd *cmd)
     else if (!ft_strcmp(cmd->args[0], "cd"))
         ret = cd(cmd, prg->home_path);
     else if (!ft_strcmp(cmd->args[0], "exit"))
-        ret = exit_shell(prg, cmd);
+        ret = exit_shell(cmd);
     return (ret);
 }
 
-int execute_command(t_prg *prg, t_cmd *cmd)
+int execute_command(t_cmd *cmd)
 {
     pid_t pid;
     int ret;
@@ -44,11 +44,15 @@ int execute_command(t_prg *prg, t_cmd *cmd)
 	return(ret);
 }
 
-int execute(t_prg *prg, t_cmd *cmd)
+int execute(t_cmd *cmd)
 {
+    // printf("arg %s\n", cmd->args[0]);
     if (is_builtin(cmd->args[0]))
-        prg->last_exit_status = execute_builtin(prg, cmd);
+    {
+        // printf("execute builtin\n");
+        prg->last_exit_status = execute_builtin(cmd);
+    }
     else
-        prg->last_exit_status = execute_command(prg, cmd);
+        prg->last_exit_status = execute_command(cmd);
     return (prg->last_exit_status);
 }

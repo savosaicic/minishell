@@ -44,7 +44,7 @@ void	clear_var_struct(void *var_struct)
 	free(((t_variable *)var_struct)->value);
 }
 
-void	clear_prg_struct(t_prg *prg)
+void	clear_prg_struct(void)
 {
 	if (!prg)
 		return ;

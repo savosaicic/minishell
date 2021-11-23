@@ -26,16 +26,18 @@
 
 # define CAST(var, type) ((type)var->content)
 
+extern t_prg	*prg;
+
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
 int			parse_redirection(t_cmd **cmd, t_list **token_lst);
-char		*handle_expansion(t_prg *prg, char **cmd_buffer, char **save, t_list **token_lst);
+char		*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst);
 char		*ft_getenv(t_list *env_lst, char *var_search);
 
 char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);
 
-void		exit_failure(t_prg *prg, t_cmd *cmd, char *error_msg, int status);
+void		exit_failure(t_cmd *cmd, char *error_msg, int status);
 int			write_error_msg(char *bin_name, char *item_name, char *error_msg, int status);
 
 /*builtin*/
@@ -45,13 +47,12 @@ int	echo(t_cmd *cmd);
 int	print_env(t_list *env_lst, char *str);
 int		pwd(t_cmd *cmd);
 int cd(t_cmd *cmd, char *home_math);
-int exit_shell
-(t_prg *prg, t_cmd *cmd);
+int exit_shell(t_cmd *cmd);
 
 /*lexer*/
-t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
+t_list	*parse_tokens(t_list *token_lst);
 t_ttype	get_token_type(char *token);
-t_list	*get_token(t_prg *prg, char *cmd_buffer);
+t_list	*get_token(char *cmd_buffer);
 t_token	*write_token(char *token);
 
 /*parser*/
@@ -62,12 +63,12 @@ void add_var_in_env(char *variable, t_list *env_lst);
 
 /*command*/
 char	*search_in_tab(char **env, char *var);
-char	*write_command(t_prg *prg, char **cmd);
+char	*write_command(char **cmd);
 
 /*execute*/
-int    	execute_builtin(t_prg *prg, t_cmd *cmd);
-int		execute_command(t_prg *prg, t_cmd *cmd);
-int     execute(t_prg *prg, t_cmd *cmd);
+int    	execute_builtin(t_cmd *cmd);
+int		execute_command(t_cmd *cmd);
+int     execute(t_cmd *cmd);
 
 /*piping*/
 t_io	set_fds(t_cmd *cmd, t_io io_struct);
@@ -76,7 +77,7 @@ t_io	init_io_struct(void);
 void	restore_and_close_fds(t_io io_struct);
 
 /*utils*/
-void	clear_prg_struct(t_prg *prg);
+void	clear_prg_struct(void);
 void	clear_token_struct(void *token_struct);
 void	clear_cmd_struct(void *cmd_struct);
 void	clear_var_struct(void *var_struct);
@@ -84,7 +85,7 @@ int		ft_charlen(char **tab);
 
 void	print_tab(char **tab);
 void	free_tab(char **tab);
-void	exit_success(t_prg *prg, int status);
+void	exit_success(int status);
 int     is_space(char c);
 
 
@@ -100,5 +101,6 @@ void    sig_quit(int sig __attribute__((unused)));
 // void    manage_signals(void);
 void    watch_signals(void);
 void    unwatch_signals(void);
+
 
 #endif

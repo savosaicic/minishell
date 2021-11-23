@@ -37,6 +37,7 @@ typedef struct	s_io
 
 typedef struct s_prg
 {
+	pid_t 	pid;
 	char	*pwd;
 	char 	**env;
 	t_list	*env_lst;

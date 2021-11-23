@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+t_prg	*prg;
+
 t_prg	*init_shell(char **env)
 {
 	t_prg	*prg;
@@ -7,12 +9,12 @@ t_prg	*init_shell(char **env)
 
 	prg = malloc(sizeof(t_prg));
 	if (!prg)
-		exit_failure(prg, NULL, "sh: insufficient memory", 1);
+		exit_failure(NULL, "sh: insufficient memory", 1);
 	pwd = search_in_tab(env, "PWD=");
 	prg->env = env;
 	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
 	if (prg->pwd == NULL)
-		exit_failure(prg, NULL, "sh: insufficient memory", 1);
+		exit_failure(NULL, "sh: insufficient memory", 1);
 	prg->env_lst = init_env(env);
 	rl_line_buffer = NULL;
 	prg->home_path = ft_strdup((((t_variable *)(ft_lstsearch(prg->env_lst, "HOME")->content))->value));
@@ -20,17 +22,17 @@ t_prg	*init_shell(char **env)
 	return (prg);
 }
 
-t_list *get_command_lst(t_prg *prg)
+t_list *get_command_lst(void)
 {
 	t_list *token_lst;
 	t_list *cmd_lst;
 
 	cmd_lst = NULL;
 	add_history(rl_line_buffer);
-	token_lst = get_token(prg, rl_line_buffer);
+	token_lst = get_token(rl_line_buffer);
 	if (token_lst == NULL)
-		exit_failure(prg, NULL, "sh: insufficient memory", 1);
-	cmd_lst = parse_tokens(prg, token_lst);
+		exit_failure(NULL, "sh: insufficient memory", 1);
+	cmd_lst = parse_tokens(token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
 	return (cmd_lst);
 }
@@ -48,7 +50,25 @@ t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 	return (io_struct);
 }
 
-void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
+
+void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
+{
+	int ret;
+
+	io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
+	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
+		prg->pid = fork();
+	if (!prg->pid)
+	{
+		unwatch_signals();
+		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
+		ret = execute(cmd_lst->content);
+		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
+			exit_success(ret);
+	}
+}
+
+void	execute_cmd_list(t_list *cmd_lst)
 {
 	pid_t	pid;
 	int		status;
@@ -64,16 +84,17 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 	i = 0;
 	while (i < cmd_num)
 	{
+		// execute_cmd(cmd_lst, io_struct, i, cmd_num);
 		io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
 		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
 			pid = fork();
 		if (!pid)
 		{
 			unwatch_signals();
-			((t_cmd *)cmd_lst->content)->path = write_command(prg, ((t_cmd *)cmd_lst->content)->args);
-			ret = execute(prg, cmd_lst->content);
+			((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
+			ret = execute(cmd_lst->content);
 			if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
-				exit_success(prg, ret);
+				exit_success(ret);
 		}
 		cmd_lst = cmd_lst->next;
 		i++;
@@ -87,7 +108,6 @@ void	execute_cmd_list(t_prg *prg, t_list *cmd_lst)
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env)
 {
-	t_prg	*prg;
 	t_list	*cmd_lst;
 
 	prg = init_shell(env);	
@@ -96,19 +116,18 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		cmd_lst = NULL;
 		watch_signals();
 		rl_line_buffer = readline("$> ");
-
 		if (!rl_line_buffer)
 		{
 			ft_putstr_fd("exit\n", 1);
-			exit_success(prg, prg->last_exit_status);
+			exit_success(0);
 		}
 		else if (ft_strlen(rl_line_buffer))
 		{
-			cmd_lst = get_command_lst(prg);
+			cmd_lst = get_command_lst();
 			prg->cmds_len = ft_lstsize(cmd_lst);
 		}
 		if (cmd_lst)
-			execute_cmd_list(prg, cmd_lst);
+			execute_cmd_list(cmd_lst);
 	}
 	return (0);
 }

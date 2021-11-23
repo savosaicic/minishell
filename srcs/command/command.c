@@ -43,7 +43,7 @@ char *search_in_tab(char **env, char *var)
 	return (env[i]);
 }
 
-char *write_command(t_prg *prg, char **cmd)
+char *write_command(char **cmd)
 {
 	char	**paths;
 	char	*cmd_path;

@@ -41,7 +41,7 @@ void	print_token(t_list *list)
 	free_tab(types);
 }
 
-t_list	*get_token(t_prg *prg, char *cmd_buffer)
+t_list	*get_token(char *cmd_buffer)
 {
 	t_list	*token_lst;
 	int		i;
@@ -104,7 +104,7 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 			expander_var = NULL;
 			if (ft_strlen(buffer))
 				expander_var = ft_strdup(buffer);
-			handle_expansion(prg, &cmd_buffer, &expander_var, &token_lst);
+			handle_expansion(&cmd_buffer, &expander_var, &token_lst);
 			ft_bzero(buffer, 4096);
 			i = 0;
 			free(expander_var);
