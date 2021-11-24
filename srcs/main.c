@@ -57,7 +57,6 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 	int ret;
 
 	prg->pid = 0;
-	prg->child = 0;
 	io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
 	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
 	{
@@ -66,7 +65,6 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 	}
 	if (!prg->pid)
 	{
-		// unwatch_signals();
 		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
 		ret = execute(cmd_lst->content);
 		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
@@ -109,6 +107,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	{
 		cmd_lst = NULL;
 		watch_signals();
+		prg->child = 0;
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
 		{
