@@ -2,7 +2,7 @@ NAME = minishell
 CC = gcc 
 CFLAGS = -g -Wall -Wextra -Werror
 SRCS = main.c get_tokens.c  free.c lst_utils.c exit.c command.c handle_operators.c handle_redirection.c \
-		clear.c echo.c utils.c execute.c get_path.c parser.c expansion.c var.c directory.c exit_shell.c \
+		clear.c echo.c utils.c execute.c get_path.c parser.c handle_expansion.c var.c directory.c exit_shell.c \
 		environment.c plug_pipes.c handle_heredoc.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
