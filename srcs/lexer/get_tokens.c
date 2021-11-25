@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_ttype		get_token_type(char *token)
+t_ttype	get_token_type(char *token)
 {
 	if (!ft_strcmp(token, "|"))
 		return (T_PIPE);
@@ -37,7 +37,7 @@ void	print_token(t_list *list)
 	printf("\n");
 	while (list)
 	{
-		printf("[%s:%s]  ", types[((t_token*)list->content)->token_type], ((t_token*)list->content)->token);
+		printf("[%s:%s]  ", types[((t_token *)list->content)->token_type], ((t_token *)list->content)->token);
 		list = list->next;
 	}
 	printf("\n");
@@ -49,77 +49,25 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 {
 	t_list	*token_lst;
 	int		i;
-	char	buffer[4096];
-	char	*expander_var;
+	char	*buffer;
 
-	while (*cmd_buffer == ' ')
-		cmd_buffer++;
-
+	skip_spaces(&cmd_buffer);
 	token_lst = NULL;
 	i = 0;
+	buffer = xmalloc(sizeof(char) * 4096);
 	ft_bzero(buffer, 4096);
 	while (*cmd_buffer)
 	{
-		/* QUOTES */
 		if (*cmd_buffer == '\"' || *cmd_buffer == '\'')
-		{
-			buffer[i] = '\0';
-			if (ft_strlen(buffer))
-				handle_quote(prg, &cmd_buffer, buffer, &token_lst);
-			else
-				handle_quote(prg, &cmd_buffer, NULL, &token_lst);
-			ft_bzero(buffer, i);
-			i = 0;
-		}
-
-		/* OPERATOR (|, <, >) */
+			i = lex_quotes(prg, &token_lst, &cmd_buffer, &buffer);
 		else if (*cmd_buffer == '<' || *cmd_buffer == '>' || *cmd_buffer == '|')
-		{
-			buffer[i] = '\0';
-			if (ft_strlen(buffer))
-				ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-			ft_bzero(buffer, i);
-			i = 0;
-			if (handle_pipe_and_redirection(&cmd_buffer, &token_lst) == -1)
-			{
-				ft_lstclear(&token_lst, clear_token_struct);
-				write_error_msg("minishell", "parse error near", NULL, 1);
-				return (NULL);
-			}
-			
-		}
-
-		/* WHITE SPACES */
+			i = lex_operators(prg, &token_lst, &cmd_buffer, &buffer);
 		else if (*cmd_buffer == ' ')
-		{
-			while (*cmd_buffer == ' ')
-				cmd_buffer++;
-			buffer[i] = '\0';
-			if (ft_strlen(buffer))
-				ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
-			ft_bzero(buffer, i);
-			i = 0;
-		}
-
-		/* $ */
+			i = lex_spaces(prg, &token_lst, &cmd_buffer, &buffer);
 		else if (*cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')
-		{
-			expander_var = NULL;
-			if (ft_strlen(buffer))
-				expander_var = ft_strdup(buffer);
-			handle_expansion(prg, &cmd_buffer, &expander_var, &token_lst);
-			ft_bzero(buffer, 4096);
-			i = 0;
-			free(expander_var);
-		}
-
-		/* NORMAL CHARS */
+			i = lex_expansion(prg, &token_lst, &cmd_buffer, &buffer);
 		else
-		{
-			buffer[i] = *cmd_buffer;
-			cmd_buffer++;
-			i++;
-		}
+			i = lex_chars(i, &cmd_buffer, &buffer);
 	}
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));

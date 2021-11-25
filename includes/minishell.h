@@ -53,6 +53,11 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
 t_ttype	get_token_type(char *token);
 t_list	*get_token(t_prg *prg, char *cmd_buffer);
 t_token	*write_token(char *token);
+int		lex_expansion(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_quotes(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_operators(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_spaces(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_chars(int i, char **cmd_buffer, char **buffer);
 
 /*parser*/
 char *clean_command_line(char *line_buff);
@@ -83,6 +88,8 @@ void	clear_var_struct(void *var_struct);
 int		ft_charlen(char **tab);
 int		is_redirect(char c);
 int		is_pipe(char c);
+void	skip_spaces(char **str);
+void	*xmalloc(size_t size);
 
 void	print_tab(char **tab);
 void	free_tab(char **tab);

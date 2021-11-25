@@ -69,3 +69,21 @@ int	is_pipe(char c)
 {
 	return (c == '|');
 }
+
+void	skip_spaces(char **str)
+{
+	if (!str)
+		return ;
+	while (**str == ' ')
+		(*str)++;
+}
+
+void	*xmalloc(size_t size)
+{
+	void	*result;
+
+	result = malloc(size);
+	if (result == NULL)
+		exit(1);
+	return (result);
+}
