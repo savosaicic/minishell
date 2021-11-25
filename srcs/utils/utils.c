@@ -87,3 +87,18 @@ void	*xmalloc(size_t size)
 		exit(1);
 	return (result);
 }
+
+void	print_token(t_list *list)
+{
+	char **types = ft_split("UNIDENTIFIED WORD REDIRECT DGREAT DLESS PIPE ASSIGN", ' ');
+
+	printf("\n");
+	while (list)
+	{
+		printf("[%s:%s]  ", types[((t_token *)list->content)->token_type], ((t_token *)list->content)->token);
+		list = list->next;
+	}
+	printf("\n");
+	printf("__________________________\n\n");
+	free_tab(types);
+}

@@ -90,6 +90,7 @@ int		is_redirect(char c);
 int		is_pipe(char c);
 void	skip_spaces(char **str);
 void	*xmalloc(size_t size);
+void	print_token(t_list *list); //TO DELETE
 
 void	print_tab(char **tab);
 void	free_tab(char **tab);
