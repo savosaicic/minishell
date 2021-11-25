@@ -22,7 +22,12 @@ int	is_a_redirection_token(t_ttype token_type)
 	return (0);
 }
 
-t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
+/*
+** t_list cmd_lst->content points to a t_cmd struct
+** This function parse the token list made by the lexer
+** to get a list of commands
+*/
+t_list	*parse_tokens(t_list *token_lst)
 {
 	t_list *cmd_lst;
 	t_cmd *cmd;
