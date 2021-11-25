@@ -29,7 +29,7 @@ char	*quotes_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer, char quot
 	return (expanded_var);
 }
 
-int	handle_quote(t_prg *prg, char **cmd_buffer, char *str, t_list **token_lst)
+int	handle_quote(char **cmd_buffer, char *str, t_list **token_lst)
 {
 	unsigned char	quote;
 	char			buffer[4096];
