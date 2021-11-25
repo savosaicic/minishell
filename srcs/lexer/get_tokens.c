@@ -30,6 +30,12 @@ t_token	*write_token(char *token)
 	return (token_struct);
 }
 
+static void	set_to_zero(int *i, t_list **token_lst)
+{
+	*token_lst = NULL;
+	*i = 0;
+}
+
 t_list	*get_token(t_prg *prg, char *cmd_buffer)
 {
 	t_list	*token_lst;
@@ -37,8 +43,7 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 	char	*buffer;
 
 	skip_spaces(&cmd_buffer);
-	token_lst = NULL;
-	i = 0;
+	set_to_zero(&i, &token_lst);
 	buffer = xmalloc(sizeof(char) * 4096);
 	ft_bzero(buffer, 4096);
 	while (*cmd_buffer)
