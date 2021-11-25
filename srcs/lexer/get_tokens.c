@@ -54,7 +54,8 @@ t_list	*get_token(t_prg *prg, char *cmd_buffer)
 			i = lex_operators(prg, &token_lst, &cmd_buffer, &buffer);
 		else if (*cmd_buffer == ' ')
 			i = lex_spaces(prg, &token_lst, &cmd_buffer, &buffer);
-		else if (*cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1) != '$' && *(cmd_buffer + 1) != ' ')
+		else if (*cmd_buffer == '$' && *(cmd_buffer + 1) && *(cmd_buffer + 1)
+			!= '$' && *(cmd_buffer + 1) != ' ')
 			i = lex_expansion(prg, &token_lst, &cmd_buffer, &buffer);
 		else
 			i = lex_chars(i, &cmd_buffer, &buffer);
