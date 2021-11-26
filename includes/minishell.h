@@ -39,7 +39,7 @@ char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);
 
 void		exit_failure(char *item_name, char *error_msg, int status);
-int			write_error_msg(char *bin_name, char *item_name, char *error_msg, int status);
+int			puterror(char *item_name, char *error_msg, int status);
 
 /*builtin*/
 int export(t_cmd *cmd, t_list *env_lst);

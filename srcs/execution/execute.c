@@ -34,9 +34,9 @@ int execute_command(t_cmd *cmd)
     if (!pid)
     {
     	if (!cmd->path)
-        	return (write_error_msg("minishell", cmd->args[0], "command not found", 127));
+        	return (puterror(cmd->args[0], "command not found", 127));
 	    execve(cmd->path, cmd->args, prg->env);
-        exit(write_error_msg("minishell", cmd->args[0], strerror(errno), 1));
+        exit(puterror(cmd->args[0], strerror(errno), 1));
     }
     waitpid(pid, &status, 0);
     if (WIFEXITED(status))

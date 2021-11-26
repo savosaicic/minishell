@@ -23,7 +23,7 @@ void    sig_quit(int sig __attribute__((unused)))
 void    watch_signals(void)
 {
     if (signal(SIGINT, &sig_int) == SIG_ERR)
-        exit(write_error_msg("minishell", strerror(errno), NULL, 1));
+        exit(puterror(strerror(errno), NULL, 1));
     if (signal(SIGQUIT, &sig_quit) == SIG_ERR)
-        exit(write_error_msg("minishell", strerror(errno), NULL, 1));
+        exit(puterror(strerror(errno), NULL, 1));
 }

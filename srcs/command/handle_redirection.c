@@ -8,13 +8,13 @@ static int	redirect_input(t_list **token_lst, t_cmd **cmd)
 		close((*cmd)->r_io[1]);
 	*token_lst = (*token_lst)->next;
 	if (!*token_lst || ((t_token*)(*token_lst)->content)->token_type == T_PIPE)
-		return (write_error_msg("minishell", "parse error near \'<\'", NULL, 1));
+		return (puterror("parse error near \'<\'", NULL, 1));
 
 	//Check for $, expand if so
 	(*cmd)->r_io[0] = open(CAST((*token_lst), t_token*)->token, O_RDONLY);
 	if ((*cmd)->r_io[0] < 0)
 	{
-		write_error_msg("minishell", CAST((*token_lst), t_token*)->token, strerror(errno), 1);
+		puterror(CAST((*token_lst), t_token*)->token, strerror(errno), 1);
 		return (1);
 	}
 	
@@ -32,12 +32,12 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags)
 	*token_lst = (*token_lst)->next;
 
 	if (!*token_lst || ((t_token*)(*token_lst)->content)->token_type == T_PIPE)
-		return (write_error_msg("minishell", "parse error near \'>\'", NULL, 1));
+		return (puterror("parse error near \'>\'", NULL, 1));
 	
 	//Check for $, expand if so
 	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token*)->token, o_flags, 0644);
 	if ((*cmd)->r_io[1] < 0)
-		return (write_error_msg("minishell", CAST((*token_lst), t_token*)->token, strerror(errno), 1));
+		return (puterror(CAST((*token_lst), t_token*)->token, strerror(errno), 1));
 	*token_lst = (*token_lst)->next;
 	return (0);
 }

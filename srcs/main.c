@@ -4,22 +4,20 @@ t_prg	*prg;
 
 t_prg	*init_shell(char **env)
 {
-	t_prg	*prg;
-	char	*pwd;
-
-	prg = malloc(sizeof(t_prg));
+	prg = malloc(sizeof(*prg));
 	if (!prg)
-		exit_failure(NULL, "sh: insufficient memory", 1);
-	pwd = search_in_tab(env, "PWD=");
+		exit(puterror(NULL, "insufficient memory", 1));
 	prg->env = env;
-	prg->pwd = ft_strdup(pwd + ft_strlen("PWD="));
-	prg->child = 0;
-	if (prg->pwd == NULL)
-		exit_failure(NULL, "sh: insufficient memory", 1);
 	prg->env_lst = init_env(env);
+	prg->pwd = ft_getenv(prg->env_lst, "PWD");
+	// if (prg->pwd == NULL)
+		// need to manage this
 	rl_line_buffer = NULL;
-	prg->home_path = ft_strdup((((t_variable *)(ft_lstsearch(prg->env_lst, "HOME")->content))->value));
+	prg->home_path = ft_getenv(prg->env_lst, "HOME");
+	// if (prg->home_path == NULL)
+		// need to manage this
 	prg->last_exit_status = 0;
+	prg->child = 0;
 	return (prg);
 }
 
@@ -102,7 +100,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 {
 	t_list	*cmd_lst;
 
-	prg = init_shell(env);	
+	init_shell(env);	
 	while (1)
 	{
 		cmd_lst = NULL;

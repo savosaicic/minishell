@@ -83,7 +83,7 @@ t_list	*get_token(char *cmd_buffer)
 			if (handle_pipe_and_redirection(&cmd_buffer, &token_lst) == -1)
 			{
 				ft_lstclear(&token_lst, clear_token_struct);
-				write_error_msg("minishell", "parse error near", NULL, 1);
+				puterror(NULL, "syntax error near unexpected token `newline'", 1);
 				return (NULL);
 			}
 			

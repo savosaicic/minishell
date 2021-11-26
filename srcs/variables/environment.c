@@ -34,12 +34,12 @@ t_variable *write_variable(char *var)
 
 	var_struct = malloc(sizeof(*var_struct));
 	if (!var_struct)
-		return (NULL);
+		exit(puterror(NULL, "insufficient memory", 1));
 	var_split = ft_split(var, '=');
 	if (!var_split)
 	{
 		free(var_struct);
-		return (NULL);
+		exit(puterror(NULL, "insufficient memory", 1));
 	}
 	var_struct->name = ft_strdup(var_split[0]);
 	if (var_split[1])

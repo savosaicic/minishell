@@ -17,7 +17,7 @@ int export(t_cmd *cmd, t_list *env_lst)
 	if (ft_charlen(cmd->args) <= 1)
 		return (print_env(env_lst, "export "));
 	if (cmd->args[1][0] == '-')
-		return (write_error_msg("minishell", "-", "not a valid identifier", 1));
+		return (puterror("-", "not a valid identifier", 1));
 	i = 1;
 	while (cmd->args[i])
 	{
@@ -59,14 +59,14 @@ int unset(t_cmd *cmd, t_list *env_lst)
 
 	ret = 0;
 	if (ft_charlen(cmd->args) <= 1)
-		return (write_error_msg("minishell", "unset", "not enough arguments", 1));
+		return (puterror("unset", "not enough arguments", 1));
 	if (cmd->args[1][0] == '-')
-		return (write_error_msg("minishell", "-", "not a valid identifier", 1));
+		return (puterror("-", "not a valid identifier", 1));
 	i = 1;
 	while (cmd->args[i])
 	{
 		if (ft_strchr(cmd->args[i], '/') || ft_strchr(cmd->args[i], '.'))
-			ret = write_error_msg("minishell", cmd->args[i], "not a valid identifier", 1);
+			ret = puterror(cmd->args[i], "not a valid identifier", 1);
 		if (ft_lstsearch(env_lst, cmd->args[i]))
 			delete_variable(env_lst, cmd->args[i]);
 		i++;
