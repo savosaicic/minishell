@@ -50,3 +50,9 @@ void	parse_argument(t_list **token_lst, t_cmd **cmd, int *i)
 	}
 	*token_lst = (*token_lst)->next;
 }
+
+void	add_last_cmd(t_cmd **cmd, t_list **cmd_lst, int i)
+{
+	(*cmd)->args[i] = NULL;
+	ft_lstadd_back(cmd_lst, ft_lstnew((void *)(*cmd)));
+}

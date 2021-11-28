@@ -24,35 +24,28 @@ int	is_a_redirection_token(t_ttype token_type)
 
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 {
-	t_list *cmd_lst;
-	t_cmd *cmd;
-	int i;
+	t_list	*cmd_lst;
+	t_cmd	*cmd;
+	int		i;
 
 	(void)prg;
 	cmd = init_cmd_struct(ft_lstsize(token_lst));
 	if (!cmd)
 		return (NULL);
-
 	i = 0;
 	cmd_lst = NULL;
 	while (token_lst)
 	{
 		if (CAST((token_lst), t_token *)->token_type == T_DLESS)
 			parse_heredoc(&token_lst, &cmd);
-
 		else if (is_a_redirection_token(CAST(token_lst, t_token *)->token_type))
 			parse_redirection(&token_lst, &cmd);
-
 		else if (CAST(token_lst, t_token *)->token_type == T_PIPE)
 			parse_pipe(&token_lst, &cmd, &cmd_lst, &i);
-
 		else
 			parse_argument(&token_lst, &cmd, &i);
 	}
 	if (cmd->args[0])
-	{
-		cmd->args[i] = NULL;
-		ft_lstadd_back(&cmd_lst, ft_lstnew((void *)cmd));
-	}
+		add_last_cmd(&cmd, &cmd_lst, i);
 	return (cmd_lst);
 }
