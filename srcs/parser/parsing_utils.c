@@ -31,3 +31,12 @@ void	parse_redirection(t_list **token_lst, t_cmd **cmd)
 			*token_lst = (*token_lst)->next;
 	}
 }
+
+void	parse_pipe(t_list **token_lst, t_cmd **cmd, t_list **cmd_lst, int *i)
+{
+	(*cmd)->args[*i] = NULL;
+	ft_lstadd_back(cmd_lst, ft_lstnew((void *)(*cmd)));
+	*cmd = init_cmd_struct(ft_lstsize(*token_lst));
+	*i = 0;
+	*token_lst = (*token_lst)->next;
+}
