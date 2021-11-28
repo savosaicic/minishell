@@ -38,20 +38,9 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 	while (token_lst)
 	{
 		if (CAST((token_lst), t_token *)->token_type == T_DLESS)
-		{
-			if (handle_heredoc(&token_lst, &cmd) > 0)
-			{
-				int j = 0;
-				while (cmd->args[j])
-				{
-					free(cmd->args[j] = NULL);
-					cmd->args[j++] = NULL;
-				}
-				while (token_lst && CAST((token_lst), t_token *)->token_type != T_PIPE)
-					token_lst = token_lst->next;
-			}
-		}
+			parse_heredoc(&token_lst, &cmd);
 
+		///////////////////////////////////////////////////////
 		else if (is_a_redirection_token(CAST(token_lst, t_token *)->token_type))
 		{
 			if (parse_redirection(&cmd, &token_lst) > 0)
@@ -66,6 +55,9 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 					token_lst = token_lst->next;
 			}
 		}
+		///////////////////////////////////////////////////////
+
+		///////////////////////////////////////////////////////
 		else if (CAST(token_lst, t_token *)->token_type == T_PIPE)
 		{
 			cmd->args[i] = NULL;
@@ -74,6 +66,9 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 			i = 0;
 			token_lst = token_lst->next;
 		}
+		///////////////////////////////////////////////////////
+
+		///////////////////////////////////////////////////////
 		else
 		{
 			if ((CAST(token_lst, t_token *)->token_type == T_ASSIGN && i >= 1) || (CAST(token_lst, t_token *)->token_type != T_ASSIGN))
@@ -83,6 +78,7 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 			}
 			token_lst = token_lst->next;
 		}
+		///////////////////////////////////////////////////////
 	}
 	if (cmd->args[0])
 	{

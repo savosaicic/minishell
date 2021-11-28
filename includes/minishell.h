@@ -64,6 +64,7 @@ char *clean_command_line(char *line_buff);
 t_list *init_env(char **env);
 t_variable *write_variable(char *var);
 void add_var_in_env(char *variable, t_list *env_lst);
+void	parse_heredoc(t_list **token_lst, t_cmd **cmd);
 
 /*command*/
 char	*search_in_tab(char **env, char *var);
