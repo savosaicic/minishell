@@ -40,3 +40,13 @@ void	parse_pipe(t_list **token_lst, t_cmd **cmd, t_list **cmd_lst, int *i)
 	*i = 0;
 	*token_lst = (*token_lst)->next;
 }
+
+void	parse_argument(t_list **token_lst, t_cmd **cmd, int *i)
+{
+	if ((CAST((*token_lst), t_token *)->token_type == T_ASSIGN && *i >= 1) || (CAST((*token_lst), t_token *)->token_type != T_ASSIGN))
+	{
+		(*cmd)->args[*i] = ft_strdup(((t_token *)(*token_lst)->content)->token);
+		*i = *i + 1;
+	}
+	*token_lst = (*token_lst)->next;
+}

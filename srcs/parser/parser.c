@@ -46,17 +46,8 @@ t_list	*parse_tokens(t_prg *prg, t_list *token_lst)
 		else if (CAST(token_lst, t_token *)->token_type == T_PIPE)
 			parse_pipe(&token_lst, &cmd, &cmd_lst, &i);
 
-		///////////////////////////////////////////////////////
 		else
-		{
-			if ((CAST(token_lst, t_token *)->token_type == T_ASSIGN && i >= 1) || (CAST(token_lst, t_token *)->token_type != T_ASSIGN))
-			{
-				cmd->args[i] = ft_strdup(((t_token *)token_lst->content)->token);
-				i++;
-			}
-			token_lst = token_lst->next;
-		}
-		///////////////////////////////////////////////////////
+			parse_argument(&token_lst, &cmd, &i);
 	}
 	if (cmd->args[0])
 	{
