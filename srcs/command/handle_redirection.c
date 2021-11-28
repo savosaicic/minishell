@@ -45,7 +45,8 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags)
 	return (0);
 }
 
-int		parse_redirection(t_cmd **cmd, t_list **token_lst)
+//int		parse_redirection(t_cmd **cmd, t_list **token_lst)
+int		handle_redirection(t_cmd **cmd, t_list **token_lst)
 {
 	int	o_flags;
 

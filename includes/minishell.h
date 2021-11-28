@@ -26,8 +26,6 @@
 # define CAST(var, type) ((type)var->content)
 
 int			handle_quote(t_prg *prg, char **cmd_buffer, char *str, t_list **token_lst);
-int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
-int			parse_redirection(t_cmd **cmd, t_list **token_lst);
 char		*handle_expansion(t_prg *prg, char **cmd_buffer, char **save, t_list **token_lst);
 char		*ft_getenv(t_list *env_lst, char *var_search);
 char		*perform_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer);
@@ -49,6 +47,7 @@ int exit_shell
 (t_prg *prg, t_cmd *cmd);
 
 /*lexer*/
+int		handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
 t_list	*parse_tokens(t_prg *prg, t_list *token_lst);
 t_ttype	get_token_type(char *token);
 t_list	*get_token(t_prg *prg, char *cmd_buffer);
@@ -60,11 +59,13 @@ int		lex_spaces(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer
 int		lex_chars(int i, char **cmd_buffer, char **buffer);
 
 /*parser*/
-char *clean_command_line(char *line_buff);
-t_list *init_env(char **env);
-t_variable *write_variable(char *var);
-void add_var_in_env(char *variable, t_list *env_lst);
-void	parse_heredoc(t_list **token_lst, t_cmd **cmd);
+char		*clean_command_line(char *line_buff);
+t_list		*init_env(char **env);
+t_variable	*write_variable(char *var);
+void		add_var_in_env(char *variable, t_list *env_lst);
+void		parse_heredoc(t_list **token_lst, t_cmd **cmd);
+void		parse_redirection(t_list **token_lst, t_cmd **cmd);
+int			handle_redirection(t_cmd **cmd, t_list **token_lst);
 
 /*command*/
 char	*search_in_tab(char **env, char *var);
