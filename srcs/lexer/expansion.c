@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-int lex_expansion(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
+int	lex_expansion(t_prg *prg, t_list **token_lst, char **cmd_buffer,
+	char **buffer)
 {
-	char *expander_var;
+	char	*expander_var;
 
 	expander_var = NULL;
 	if (ft_strlen(*buffer))
@@ -13,7 +14,7 @@ int lex_expansion(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buff
 	return (0);
 }
 
-int lex_quotes(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
+int	lex_quotes(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
 {
 	if (ft_strlen(*buffer))
 		handle_quote(prg, cmd_buffer, *buffer, token_lst);
@@ -23,7 +24,8 @@ int lex_quotes(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
 	return (0);
 }
 
-int lex_operators(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
+int	lex_operators(t_prg *prg, t_list **token_lst, char **cmd_buffer,
+	char **buffer)
 {
 	if (ft_strlen(*buffer))
 		ft_lstadd_back(token_lst, ft_lstnew(write_token(*buffer)));
@@ -36,7 +38,7 @@ int lex_operators(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buff
 	return (0);
 }
 
-int lex_spaces(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
+int	lex_spaces(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
 {
 	(void)prg;
 	while (**cmd_buffer == ' ')
@@ -47,7 +49,7 @@ int lex_spaces(t_prg *prg, t_list **token_lst, char **cmd_buffer, char **buffer)
 	return (0);
 }
 
-int lex_chars(int i, char **cmd_buffer, char **buffer)
+int	lex_chars(int i, char **cmd_buffer, char **buffer)
 {
 	(*buffer)[i] = **cmd_buffer;
 	(*cmd_buffer)++;
