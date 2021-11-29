@@ -10,4 +10,5 @@ void	free_tab(char **tab)
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
+	// tab = NULL;
 }
