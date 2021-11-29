@@ -56,6 +56,10 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 		prg->child = TRUE;
 		prg->pid = fork();
 	}
+	if (ft_strchr(rl_line_buffer, '|'))
+	{
+		prg->child = TRUE;
+	}
 	if (!prg->pid)
 	{
 		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
@@ -84,6 +88,8 @@ void	excution_manager(t_list *cmd_lst)
 	waitpid(prg->pid, &status, 0);
 	if (WIFEXITED(status))
 		prg->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		prg->exit_status = WTERMSIG(status);
 	restore_and_close_fds(io_struct);
 	ft_lstclear(head_cmd_lst, clear_cmd_struct);
 }

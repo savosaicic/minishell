@@ -1,10 +1,10 @@
 cat |cat |ls (wait for 2 enter before displaying prompt)
 + it breaks the prompt
 
-exit a; echo $? == 2
-exit a b; echo $? == 2
+exit a; echo $? == 2   🏄🏽‍♀️
+exit a b; echo $? == 2 🏄🏽‍♀️
 
-cd .. ..; echo $? == 1
+cd .. ..; echo $? == 1 🏄🏽‍♀️
 
 env -i ./minishell (set envp a NULL)
 

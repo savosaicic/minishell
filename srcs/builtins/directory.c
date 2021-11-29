@@ -24,8 +24,10 @@ int cd(t_cmd *cmd, char *home_path)
 	(void)cmd;
 	char *tmp;
 
+	if (prg->child == TRUE)
+		return (0);
 	if (ft_charlen(cmd->args) > 2)
-		return (puterror("too many arguments", NULL, 1));
+		return (puterror(NULL, "too many arguments", 1));
 	if (!cmd->args[1] || cmd->args[1][0] == '~')
 		tmp = home_path;
 	else

@@ -11,15 +11,19 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include <stdio.h>
 int	ft_str_isdigit(char *str)
 {
 	unsigned int	i;
+	int		minus;
 
 	i = 0;
+	minus = 0;
 	while (str[i])
 	{
-		if (!(ft_isdigit(str[i])))
+		if (str[i] == '-' && minus == 0)
+			minus = 1;
+		else if (!(ft_isdigit(str[i])))
 			return (0);
 		i++;
 	}

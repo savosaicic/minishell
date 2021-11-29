@@ -3,12 +3,15 @@
 int exit_shell(t_cmd *cmd)
 {
     if (ft_charlen(cmd->args) > 2)
+    {
+        ft_putstr_fd("exit\n", 2);
 		return (puterror("exit", "too many arguments", 1));
-    else if (cmd->args[1] && cmd->args[1][0] == '-' && ft_strcmp(cmd->args[1], "-9223372036854775808") > 0)
-        exit(puterror("exit", "numeric argument required", 255));
-    else if (cmd->args[1] && ft_strcmp(cmd->args[1], "9223372036854775807") > 0)
-        exit(puterror("exit", "numeric argument required", 255));
-    else
+    }
+    else if (cmd->args[1] && !ft_str_isdigit(cmd->args[1]))
+        exit_failure("exit", "numeric argument required", 2);
+    else if (cmd->args[1])
         exit_success(ft_atoi(cmd->args[1]), TRUE);
+    else
+        exit_success(0, TRUE);
     return (1);
 }

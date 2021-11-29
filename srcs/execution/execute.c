@@ -28,6 +28,7 @@ int execute_command(t_cmd *cmd)
     int ret;
     int status;
 
+    (void)status;
     ret = 0;
     pid = fork();
     if (!pid)
@@ -40,6 +41,8 @@ int execute_command(t_cmd *cmd)
     waitpid(pid, &status, 0);
     if (WIFEXITED(status))
 		ret = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		ret = WTERMSIG(status) + 128;
 	return(ret);
 }
 
