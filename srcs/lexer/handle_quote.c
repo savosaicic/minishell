@@ -41,7 +41,7 @@ static int	add_back(t_list **token_lst, char *buffer, char *str)
 {
 	if (str)
 		ft_lstadd_back(token_lst, ft_lstnew(write_token(ft_strjoin(str, buffer))));
-	else
+	else if (ft_strlen(buffer))
 		ft_lstadd_back(token_lst, ft_lstnew(write_token(buffer)));
 	return (0);
 }
