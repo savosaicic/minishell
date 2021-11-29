@@ -22,7 +22,7 @@ char	*quotes_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer, char quot
 		(*cmd_buffer)++;
 	}
 	if (buffer[0] == '?')
-		return(ft_itoa(prg->last_exit_status));
+		return(ft_itoa(prg->exit_status));
 	expanded_var = ft_getenv(env_lst, buffer);
 	if (!expanded_var)
 		return (ft_strdup(""));

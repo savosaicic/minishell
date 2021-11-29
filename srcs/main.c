@@ -12,7 +12,7 @@ t_prg	*init_shell(char **env)
 	prg->pwd = ft_getenv(prg->env_lst, "PWD");
 	prg->home_path = ft_getenv(prg->env_lst, "HOME");
 	rl_line_buffer = NULL;
-	prg->last_exit_status = 0;
+	prg->exit_status = 0;
 	return (prg);
 }
 
@@ -31,11 +31,11 @@ t_list *get_command_lst(void)
 	return (cmd_lst);
 }
 
-t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
+t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int cmds_len)
 {
 	dup2(io_struct.fdin, STDIN_FILENO);
 	close(io_struct.fdin);
-	if (i == cmd_num - 1)
+	if (cmds_len == 1)
 		io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
 	else
 		io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
@@ -45,12 +45,12 @@ t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 }
 
 
-void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
+void execute_cmd(t_list *cmd_lst, t_io io_struct, int cmds_len)
 {
 	int ret;
 
 	prg->pid = 0;
-	io_struct = plug_pipe(cmd_lst, io_struct, i, cmd_num);
+	io_struct = plug_pipe(cmd_lst, io_struct, cmds_len);
 	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
 	{
 		prg->child = 1;
@@ -65,30 +65,27 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int i, int cmd_num)
 	}
 }
 
-void	execute_cmd_list(t_list *cmd_lst)
+void	excution_manager(t_list *cmd_lst)
 {
 	int		status;
-
-	t_list	**head;
-	int		cmd_num;
+	t_list	**head_cmd_lst;
 	t_io	io_struct;
-	int		i;
+	int		cmds_len;
 
-	head = &cmd_lst;
-	cmd_num = ft_lstsize(cmd_lst);
-	io_struct = init_io_struct();
-	i = 0;
-	while (i < cmd_num)
+	head_cmd_lst = &cmd_lst;
+	cmds_len = ft_lstsize(cmd_lst);
+	io_struct = init_io_struct(); //
+	while (cmds_len)
 	{
-		execute_cmd(cmd_lst, io_struct, i, cmd_num);
+		execute_cmd(cmd_lst, io_struct, cmds_len);
 		cmd_lst = cmd_lst->next;
-		i++;
+		cmds_len--;
 	}
 	waitpid(prg->pid, &status, 0);
 	if (WIFEXITED(status))
-		prg->last_exit_status = WEXITSTATUS(status);
+		prg->exit_status = WEXITSTATUS(status);
 	restore_and_close_fds(io_struct);
-	ft_lstclear(head, clear_cmd_struct);
+	ft_lstclear(head_cmd_lst, clear_cmd_struct);
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env)
@@ -103,17 +100,14 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		prg->child = FALSE;
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
-		{
-			ft_putstr_fd("exit\n", 1);
 			exit_success(0);
-		}
 		else if (ft_strlen(rl_line_buffer))
 		{
 			cmd_lst = get_command_lst();
 			prg->cmds_len = ft_lstsize(cmd_lst);
 		}
 		if (cmd_lst)
-			execute_cmd_list(cmd_lst);
+			excution_manager(cmd_lst);
 	}
 	return (0);
 }

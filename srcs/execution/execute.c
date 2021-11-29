@@ -50,9 +50,9 @@ int execute(t_cmd *cmd)
     if (is_builtin(cmd->args[0]))
     {
         // printf("execute builtin\n");
-        prg->last_exit_status = execute_builtin(cmd);
+        prg->exit_status = execute_builtin(cmd);
     }
     else
-        prg->last_exit_status = execute_command(cmd);
-    return (prg->last_exit_status);
+        prg->exit_status = execute_command(cmd);
+    return (prg->exit_status);
 }

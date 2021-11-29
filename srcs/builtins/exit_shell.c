@@ -9,9 +9,6 @@ int exit_shell(t_cmd *cmd)
     else if (cmd->args[1] && ft_strcmp(cmd->args[1], "9223372036854775807") > 0)
         exit(puterror("exit", "numeric argument required", 255));
     else
-    {
-        ft_putstr("exit\n");
         exit_success(ft_atoi(cmd->args[1]));
-    }
     return (1);
 }

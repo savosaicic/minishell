@@ -45,7 +45,7 @@ typedef struct s_prg
 	char 	**env;
 	t_list	*env_lst;
 	char	*cmd_buffer;
-	int		last_exit_status;
+	int		exit_status;
 	int		cmds_len;
 	char	*home_path;
 }				t_prg;

@@ -46,6 +46,7 @@ void	exit_failure(char *item_name, char *error_msg, int status)
 
 void	exit_success(int status)
 {
+	ft_putstr_fd("exit\n", 1);
 	rl_clear_history();
 	clear_prg_struct();
 	exit(status);

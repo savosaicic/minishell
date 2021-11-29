@@ -18,7 +18,7 @@ char	*perform_expansion(t_list *env_lst, char **cmd_buffer)
 		(*cmd_buffer)++;
 	}
 	if (buffer[0] == '?')
-		return(ft_itoa(prg->last_exit_status));
+		return(ft_itoa(prg->exit_status));
 	tmp = ft_getenv(env_lst, buffer);
 	if (!tmp)
 		expanded_var = ft_strdup("");
