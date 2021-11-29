@@ -29,29 +29,22 @@ int     is_space(char c)
     return (0);
 }
 
-// int wait_all_pids(void)
-// {
-// 	int ret;
-// 	int status;
-// 	int pid_ret;
+void wait_all_pids(void)
+{
+	int status;
+	int pid_ret;
 
-// 	pid_ret = 1;
-// 	ret = 0;
-// 	while (pid_ret > 0)
-// 	{
-// 		pid_ret = wait(&status);
-// 		if (WIFEXITED(status))
-// 			ret = WEXITSTATUS(status);
-// 		else if (WIFSIGNALED(status))
-// 		{
-// 			printf("go here\n");
-// 			ret = WTERMSIG(status);
-// 		}
-// 		else
-// 			ret = 1;
-// 	}
-// 	return (ret);
-// }
+	pid_ret = 1;
+    prg->exit_status = 0;
+	while (pid_ret > 0)
+	{
+		pid_ret = wait(&status);
+		if (WIFEXITED(status))
+            prg->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+            prg->exit_status = WTERMSIG(status);
+	}
+}
 
 int	ft_charlen(char **tab)
 {

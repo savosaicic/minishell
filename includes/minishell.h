@@ -97,7 +97,7 @@ int     is_space(char c);
 
 
 int     is_builtin(char *cmd_name);
-int     wait_all_pids(void);
+void     wait_all_pids(void);
 
 void	ft_lstadd_back2(t_list **alst, t_list *new);
 t_list  *ft_lstsearch(t_list *lst, char *search);
