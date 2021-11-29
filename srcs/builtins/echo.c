@@ -2,8 +2,8 @@
 
 int	echo(t_cmd *cmd)
 {
-	int option;
-	int i;
+	int	option;
+	int	i;
 
 	if (!cmd->args[1])
 	{
