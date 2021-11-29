@@ -6,18 +6,13 @@ t_prg	*init_shell(char **env)
 {
 	prg = malloc(sizeof(*prg));
 	if (!prg)
-		exit(puterror(NULL, "insufficient memory", 1));
+		exit_failure(NULL, "insufficient memory", 1);
 	prg->env = env;
-	prg->env_lst = init_env(env);
+	prg->env_lst = init_env();
 	prg->pwd = ft_getenv(prg->env_lst, "PWD");
-	// if (prg->pwd == NULL)
-		// need to manage this
-	rl_line_buffer = NULL;
 	prg->home_path = ft_getenv(prg->env_lst, "HOME");
-	// if (prg->home_path == NULL)
-		// need to manage this
+	rl_line_buffer = NULL;
 	prg->last_exit_status = 0;
-	prg->child = 0;
 	return (prg);
 }
 
@@ -30,7 +25,7 @@ t_list *get_command_lst(void)
 	add_history(rl_line_buffer);
 	token_lst = get_token(rl_line_buffer);
 	if (token_lst == NULL)
-		exit_failure(NULL, "sh: insufficient memory", 1);
+		exit_failure(NULL, "insufficient memory", 1);
 	cmd_lst = parse_tokens(token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
 	return (cmd_lst);
@@ -105,7 +100,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	{
 		cmd_lst = NULL;
 		watch_signals();
-		prg->child = 0;
+		prg->child = FALSE;
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
 		{

@@ -10,9 +10,7 @@ void    sig_int(int sig __attribute__((unused)))
         rl_redisplay();
     }
     else if (prg->pid)
-    {
         ft_putstr_fd("\n", 2);
-    }
 }
 
 void    sig_quit(int sig __attribute__((unused)))
@@ -23,7 +21,7 @@ void    sig_quit(int sig __attribute__((unused)))
 void    watch_signals(void)
 {
     if (signal(SIGINT, &sig_int) == SIG_ERR)
-        exit(puterror(strerror(errno), NULL, 1));
+		exit_failure(NULL, strerror(errno), 1);
     if (signal(SIGQUIT, &sig_quit) == SIG_ERR)
-        exit(puterror(strerror(errno), NULL, 1));
+		exit_failure(NULL, strerror(errno), 1);
 }

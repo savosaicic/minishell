@@ -39,10 +39,8 @@ int	puterror(char *item_name, char *error_msg, int status)
 
 void	exit_failure(char *item_name, char *error_msg, int status)
 {
-	(void)item_name;
-	(void)error_msg;
+	puterror(item_name, error_msg, status);
 	clear_prg_struct();
-	// puterror(item_name, error_msg, status);
 	exit(status);
 }
 

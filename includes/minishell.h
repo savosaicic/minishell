@@ -28,11 +28,22 @@
 
 extern t_prg	*prg;
 
+
+/* environment.c */
+char		*ft_getenv(t_list *env_lst, char *var_search);
+t_variable	*write_variable(char *var);
+t_list		*init_env(void);
+
+
+/* signal.c */
+void    sig_int(int sig __attribute__((unused)));
+void    sig_quit(int sig __attribute__((unused)));
+void    watch_signals(void);
+
 int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
 int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
 int			parse_redirection(t_cmd **cmd, t_list **token_lst);
 char		*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst);
-char		*ft_getenv(t_list *env_lst, char *var_search);
 char		*perform_expansion(t_list *env_lst, char **cmd_buffer);
 
 char    	**get_path(char **envp);
@@ -58,8 +69,7 @@ t_token	*write_token(char *token);
 
 /*parser*/
 char *clean_command_line(char *line_buff);
-t_list *init_env(char **env);
-t_variable *write_variable(char *var);
+
 void add_var_in_env(char *variable, t_list *env_lst);
 
 /*command*/
@@ -99,11 +109,6 @@ void	ft_lstadd_back2(t_list **alst, t_list *new);
 t_list  *ft_lstsearch(t_list *lst, char *search);
 
 void	ft_envlst_add_back(t_list **alst, t_list *new);
-void    sig_int(int sig __attribute__((unused)));
-void    sig_quit(int sig __attribute__((unused)));
-// void    manage_signals(void);
-void    watch_signals(void);
-void    unwatch_signals(void);
 
 
 int		handle_heredoc(t_list **token_lst, t_cmd **cmd);
