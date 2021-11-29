@@ -4,7 +4,6 @@ int     execute_builtin(t_cmd *cmd)
 {
     int ret;
 
-    (void)prg;
     ret = 1;
     if (!ft_strcmp(cmd->args[0], "echo"))
         ret = echo(cmd);
@@ -46,12 +45,8 @@ int execute_command(t_cmd *cmd)
 
 int execute(t_cmd *cmd)
 {
-    // printf("arg %s\n", cmd->args[0]);
     if (is_builtin(cmd->args[0]))
-    {
-        // printf("execute builtin\n");
         prg->exit_status = execute_builtin(cmd);
-    }
     else
         prg->exit_status = execute_command(cmd);
     return (prg->exit_status);

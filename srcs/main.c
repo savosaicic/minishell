@@ -45,7 +45,7 @@ t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int cmds_len)
 }
 
 
-void execute_cmd(t_list *cmd_lst, t_io io_struct, int cmds_len)
+void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 {
 	int ret;
 
@@ -53,7 +53,7 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int cmds_len)
 	io_struct = plug_pipe(cmd_lst, io_struct, cmds_len);
 	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
 	{
-		prg->child = 1;
+		prg->child = TRUE;
 		prg->pid = fork();
 	}
 	if (!prg->pid)
@@ -61,23 +61,23 @@ void execute_cmd(t_list *cmd_lst, t_io io_struct, int cmds_len)
 		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
 		ret = execute(cmd_lst->content);
 		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
-			exit_success(ret);
+			exit_success(ret, FALSE);
 	}
 }
 
 void	excution_manager(t_list *cmd_lst)
 {
-	int		status;
 	t_list	**head_cmd_lst;
 	t_io	io_struct;
 	int		cmds_len;
+	int		status;
 
 	head_cmd_lst = &cmd_lst;
 	cmds_len = ft_lstsize(cmd_lst);
-	io_struct = init_io_struct(); //
+	io_struct = init_io_struct();
 	while (cmds_len)
 	{
-		execute_cmd(cmd_lst, io_struct, cmds_len);
+		set_and_execute_command(cmd_lst, io_struct, cmds_len);
 		cmd_lst = cmd_lst->next;
 		cmds_len--;
 	}
@@ -93,19 +93,16 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	t_list	*cmd_lst;
 
 	init_shell(env);	
+	watch_signals();
 	while (1)
 	{
 		cmd_lst = NULL;
-		watch_signals();
 		prg->child = FALSE;
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
-			exit_success(0);
+			exit_success(0, TRUE);
 		else if (ft_strlen(rl_line_buffer))
-		{
 			cmd_lst = get_command_lst();
-			prg->cmds_len = ft_lstsize(cmd_lst);
-		}
 		if (cmd_lst)
 			excution_manager(cmd_lst);
 	}

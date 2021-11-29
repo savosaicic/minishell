@@ -76,7 +76,7 @@ void add_var_in_env(char *variable, t_list *env_lst);
 char	*search_in_tab(char **env, char *var);
 char	*write_command(char **cmd);
 
-/*execute*/
+/*execute_command*/
 int    	execute_builtin(t_cmd *cmd);
 int		execute_command(t_cmd *cmd);
 int     execute(t_cmd *cmd);
@@ -98,7 +98,7 @@ int		is_pipe(char c);
 
 void	print_tab(char **tab);
 void	free_tab(char **tab);
-void	exit_success(int status);
+void	exit_success(int status, bool display);
 int     is_space(char c);
 
 
