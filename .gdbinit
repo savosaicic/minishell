@@ -43,6 +43,7 @@ define reset
     delete display
 end
 
+set auto-load safe-path .
 init_gdb
 set follow-fork-mode child
 

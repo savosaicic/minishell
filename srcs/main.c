@@ -69,7 +69,7 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 	}
 }
 
-void	excution_manager(t_list *cmd_lst)
+void	execution_manager(t_list *cmd_lst)
 {
 	t_list	**head_cmd_lst;
 	t_io	io_struct;
@@ -84,7 +84,7 @@ void	excution_manager(t_list *cmd_lst)
 		cmd_lst = cmd_lst->next;
 		cmds_len--;
 	}
-	wait_all_pids();
+	wait_all_pids(io_struct);
 	restore_and_close_fds(io_struct);
 	ft_lstclear(head_cmd_lst, clear_cmd_struct);
 }
@@ -105,7 +105,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		else if (ft_strlen(rl_line_buffer))
 			cmd_lst = get_command_lst();
 		if (cmd_lst)
-			excution_manager(cmd_lst);
+			execution_manager(cmd_lst);
 	}
 	return (0);
 }

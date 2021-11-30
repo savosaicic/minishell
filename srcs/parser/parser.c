@@ -37,7 +37,6 @@ t_list	*parse_tokens(t_list *token_lst)
 	cmd = init_cmd_struct(ft_lstsize(token_lst));
 	if (!cmd)
 		return (NULL);
-
 	i = 0;
 	cmd_lst = NULL;
 	while (token_lst)

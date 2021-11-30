@@ -28,12 +28,16 @@ t_io	set_fd_last_cmd(t_cmd *cmd, t_io io_struct)
 	{
 		dup2(cmd->r_io[0], STDIN_FILENO);
 		close(cmd->r_io[0]);
-		close(io_struct.fdin);
+		close(io_struct.fdin); // change 
 	}
 	if (cmd->r_io[1] != STDOUT_FILENO)
+	{
 		io_struct.fdout = cmd->r_io[1];
+	}
 	else
+	{
 		io_struct.fdout = dup(io_struct.save_stdout);
+	}
 	return (io_struct);
 }
 
@@ -46,13 +50,17 @@ t_io	set_fds(t_cmd *cmd, t_io io_struct)
 		close(cmd->r_io[0]);
 	}
 	else
+	{
 		io_struct.fdin = io_struct.fds[0];
+	}
 	if (cmd->r_io[1] != STDOUT_FILENO)
 	{
 		io_struct.fdout = cmd->r_io[1];
-		close(io_struct.fds[1]);
+		close(io_struct.fds[1]); // change
 	}
 	else
+	{
 		io_struct.fdout = io_struct.fds[1];
+	}
 	return (io_struct);
 }
