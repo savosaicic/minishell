@@ -31,6 +31,8 @@ t_list *get_command_lst(t_prg *prg)
 	if (token_lst)
 		cmd_lst = parse_tokens(prg, token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
+	if (!cmd_lst)
+		ft_lstclear(&cmd_lst, clear_cmd_struct);
 	return (cmd_lst);
 }
 
