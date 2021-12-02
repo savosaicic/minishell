@@ -5,7 +5,7 @@ void	restore_and_close_fds(t_io io_struct)
 	dup2(io_struct.save_stdin, STDIN_FILENO);
 	dup2(io_struct.save_stdout, STDOUT_FILENO);
 	close(io_struct.save_stdin);
-	close(io_struct.save_stdout);
+	close(io_struct. save_stdout);
 	close(io_struct.fdin);
 	close(io_struct.fdout);
 }

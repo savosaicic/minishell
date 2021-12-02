@@ -35,6 +35,7 @@ void wait_all_pids(t_io	io_struct)
 	int pid_ret;
     // int first;
 
+    (void)io_struct;
 	pid_ret = 1;
     // first = 0;
     prg->exit_status = 0;

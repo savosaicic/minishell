@@ -39,6 +39,8 @@ t_list *init_env(void)
 	t_list		*env_lst;
 	int			i;
 
+	if (!prg->env)
+		return (NULL);
 	env_lst = NULL;
 	i = 0;
 	while (prg->env[i])
