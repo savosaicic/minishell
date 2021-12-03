@@ -38,6 +38,15 @@ define print_lst_var_next
     print ((t_variable *)((t_list *)((t_variable *)($arg0->next)))->content)->value
 end
 
+define print_lst_cmd
+	print *(t_cmd *)($arg0->content)
+end
+
+define display_lst_cmd
+	print *(t_cmd *)($arg0->content)
+	display *(t_cmd *)($arg0->content)
+end
+
 define reset
     delete break
     delete display
@@ -46,5 +55,3 @@ end
 init_gdb
 set follow-fork-mode child
 
-b handle_expansion
-r

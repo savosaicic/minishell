@@ -7,7 +7,12 @@ t_prg	*init_shell(char **env)
 	prg = malloc(sizeof(*prg));
 	if (!prg)
 		exit_failure(NULL, "insufficient memory", 1);
-	prg->env = env;
+	if (!*env)
+		prg->env = NULL;
+	else
+	{
+		prg->env = env;
+	}
 	prg->env_lst = init_env();
 	prg->pwd = ft_getenv(prg->env_lst, "PWD");
 	prg->home_path = ft_getenv(prg->env_lst, "HOME");
@@ -41,6 +46,7 @@ t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int cmds_len)
 		io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
 	else
 		io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
+
 	dup2(io_struct.fdout, STDOUT_FILENO);
 	close(io_struct.fdout);
 	return (io_struct);
@@ -58,6 +64,10 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 		prg->child = TRUE;
 		prg->pid = fork();
 	}
+	if (ft_strchr(rl_line_buffer, '|'))
+	{
+		prg->child = TRUE;
+	}
 	if (!prg->pid)
 	{
 		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
@@ -67,7 +77,7 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 	}
 }
 
-void	excution_manager(t_list *cmd_lst)
+void	execution_manager(t_list *cmd_lst)
 {
 	t_list	**head_cmd_lst;
 	t_io	io_struct;
@@ -103,7 +113,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		else if (ft_strlen(rl_line_buffer))
 			cmd_lst = get_command_lst();
 		if (cmd_lst)
-			excution_manager(cmd_lst);
+			execution_manager(cmd_lst);
 	}
 	return (0);
 }

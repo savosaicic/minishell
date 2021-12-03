@@ -89,6 +89,7 @@ t_io	set_fds(t_cmd *cmd, t_io io_struct);
 t_io	set_fd_last_cmd(t_cmd *cmd, t_io io_struct);
 t_io	init_io_struct(void);
 void	restore_and_close_fds(t_io io_struct);
+void	restore_and_close_fds2(t_io io_struct);
 
 /*utils*/
 void	clear_prg_struct(void);

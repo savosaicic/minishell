@@ -34,7 +34,6 @@ typedef struct	s_io
 	int	save_stdout;
 	int fdin;
 	int	fdout;
-
 }				t_io;
 
 typedef struct s_prg
