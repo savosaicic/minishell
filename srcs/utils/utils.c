@@ -29,25 +29,21 @@ int     is_space(char c)
     return (0);
 }
 
-int wait_all_pids(void)
+void wait_all_pids()
 {
-	int ret;
 	int status;
 	int pid_ret;
 
 	pid_ret = 1;
-	ret = 0;
+    prg->exit_status = 0;
 	while (pid_ret > 0)
 	{
 		pid_ret = wait(&status);
 		if (WIFEXITED(status))
-			ret = WEXITSTATUS(status);
+            prg->exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			ret = WTERMSIG(status);
-		else
-			ret = 1;
+            prg->exit_status = WTERMSIG(status);
 	}
-	return (ret);
 }
 
 int	ft_charlen(char **tab)
