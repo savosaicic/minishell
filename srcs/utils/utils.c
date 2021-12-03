@@ -33,31 +33,17 @@ void wait_all_pids(t_io	io_struct)
 {
 	int status;
 	int pid_ret;
-    // int first;
 
     (void)io_struct;
 	pid_ret = 1;
-    // first = 0;
     prg->exit_status = 0;
 	while (pid_ret > 0)
 	{
-        // if (first == 0)
-        // {
-        //     dprintf(2, "first child\n");
-        //     restore_and_close_fds(io_struct);
-        // }
-        // else
-        // {
-
-        //     dprintf(2, "second child\n");
-        //     restore_and_close_fds2(io_struct);
-        // }
 		pid_ret = wait(&status);
 		if (WIFEXITED(status))
             prg->exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
             prg->exit_status = WTERMSIG(status);
-        // first++;
 	}
 }
 
