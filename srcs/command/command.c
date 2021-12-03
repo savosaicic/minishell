@@ -6,6 +6,8 @@ char *get_cmd_path(char **path, char *cmd)
 	int ret;
 	int i;
 
+	if (path == NULL)
+		return (NULL);
 	ret = 1;
 	i = 1;
 	cmd_path = ft_strjoin(path[i - 1], cmd);
@@ -48,7 +50,7 @@ char *write_command(char **cmd)
 	char	**paths;
 	char	*cmd_path;
 
-	paths = get_path(prg->env);
+	paths = get_path();
 	if (!ft_strchr(cmd[0], '/'))
 		cmd_path = get_cmd_path(paths, cmd[0]);
 	else
