@@ -1,69 +1,57 @@
 #include "minishell.h"
 
-char	*perform_expansion(t_list *env_lst, char **cmd_buffer)
+int	lex_expansion(t_list **token_lst, char **cmd_buffer,
+	char **buffer)
 {
-	char	buffer[4096];
-	char	*expanded_var;
-	char	*tmp;
-	int		i;
+	char	*expander_var;
 
-	ft_bzero(buffer, 4096);
-	(*cmd_buffer)++;
-	i = 0;
-	while (**cmd_buffer)
+	expander_var = NULL;
+	if (ft_strlen(*buffer))
+		expander_var = ft_strdup(*buffer);
+	handle_expansion(prg, cmd_buffer, &expander_var, token_lst);
+	ft_bzero(*buffer, 4096);
+	free(expander_var);
+	return (0);
+}
+
+int	lex_quotes(t_list **token_lst, char **cmd_buffer, char **buffer)
+{
+	if (ft_strlen(*buffer))
+		handle_quote(prg, cmd_buffer, *buffer, token_lst);
+	else
+		handle_quote(prg, cmd_buffer, NULL, token_lst);
+	ft_bzero(*buffer, 4096);
+	return (0);
+}
+
+int	lex_operators(t_list **token_lst, char **cmd_buffer,
+	char **buffer)
+{
+	if (ft_strlen(*buffer))
+		ft_lstadd_back(token_lst, ft_lstnew(write_token(*buffer)));
+	ft_bzero(*buffer, 4096);
+	if (handle_pipe_and_redirection(cmd_buffer, token_lst) == -1)
 	{
-		if (is_space(**cmd_buffer) || **cmd_buffer == '$')
-			break;
-		buffer[i++] = **cmd_buffer;
+		ft_lstclear(token_lst, clear_token_struct);
+		exit_failure("parse error near", "TOCHANGE", 1);
+	}
+	return (0);
+}
+
+int	lex_spaces(t_list **token_lst, char **cmd_buffer, char **buffer)
+{
+	(void)prg;
+	while (**cmd_buffer == ' ')
 		(*cmd_buffer)++;
-	}
-	if (buffer[0] == '?')
-		return(ft_itoa(prg->exit_status));
-	tmp = ft_getenv(env_lst, buffer);
-	if (!tmp)
-		expanded_var = ft_strdup("");
-	else
-		expanded_var = ft_strdup(ft_getenv(env_lst, buffer));
-	free(tmp);
-	return (expanded_var);
+	if (ft_strlen(*buffer))
+		ft_lstadd_back(token_lst, ft_lstnew(write_token(*buffer)));
+	ft_bzero(*buffer, 4096);
+	return (0);
 }
 
-static void	split_buffer_and_add_back(char *buffer, t_list **token_lst)
+int	lex_chars(int i, char **cmd_buffer, char **buffer)
 {
-	char	**res;
-	int		i;
-
-	res = ft_split(buffer, ' ');
-	if (!res)
-		return ;
-	i = 0;
-	while (res[i])
-	{
-		ft_lstadd_back(token_lst, ft_lstnew(write_token(res[i])));
-		i++;
-	}
-	free_tab(res);
-}
-
-char	*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst)
-{
-	char	*expanded_var;
-	char	*buffer;
-
-	if (*save)
-	{
-		buffer = ft_strdup(*save);
-		free(*save);
-		*save = NULL;
-	}
-	else
-		buffer = ft_strdup("");
-	while (**cmd_buffer && !is_space(**cmd_buffer))
-	{
-		expanded_var = perform_expansion(prg->env_lst, cmd_buffer);
-		buffer = ft_memjoin(buffer, expanded_var);
-		free(expanded_var);
-	}
-	split_buffer_and_add_back(buffer, token_lst);
-	return (buffer);
+	(*buffer)[i] = **cmd_buffer;
+	(*cmd_buffer)++;
+	return (i + 1);
 }

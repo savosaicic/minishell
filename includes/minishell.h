@@ -29,16 +29,13 @@
 extern t_prg	*prg;
 
 
-/* environment.c */
-char		*ft_getenv(t_list *env_lst, char *var_search);
 t_variable	*write_variable(char *var);
 t_list		*init_env(void);
 
-int			handle_quote(char **cmd_buffer, char *str, t_list **token_lst);
-int			handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
-int			parse_redirection(t_cmd **cmd, t_list **token_lst);
-char		*handle_expansion(char **cmd_buffer, char **save, t_list **token_lst);
-char		*perform_expansion(t_list *env_lst, char **cmd_buffer);
+int			handle_quote(t_prg *prg, char **cmd_buffer, char *str, t_list **token_lst);
+char		*handle_expansion(t_prg *prg, char **cmd_buffer, char **save, t_list **token_lst);
+char		*ft_getenv(t_list *env_lst, char *var_search);
+char		*perform_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer);
 
 char    	**get_path(char **envp);
 char    	*get_cmd_path(char **path, char *cmd);
@@ -56,15 +53,27 @@ int cd(t_cmd *cmd, char *home_math);
 int exit_shell(t_cmd *cmd);
 
 /*lexer*/
+int		handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
 t_list	*parse_tokens(t_list *token_lst);
 t_ttype	get_token_type(char *token);
 t_list	*get_token(char *cmd_buffer);
 t_token	*write_token(char *token);
+int		lex_expansion(t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_quotes(t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_operators(t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_spaces(t_list **token_lst, char **cmd_buffer, char **buffer);
+int		lex_chars(int i, char **cmd_buffer, char **buffer);
 
 /*parser*/
-char *clean_command_line(char *line_buff);
-
-void add_var_in_env(char *variable, t_list *env_lst);
+char		*clean_command_line(char *line_buff);
+void		add_var_in_env(char *variable, t_list *env_lst);
+void		parse_heredoc(t_list **token_lst, t_cmd **cmd);
+void		parse_redirection(t_list **token_lst, t_cmd **cmd);
+int			handle_redirection(t_cmd **cmd, t_list **token_lst);
+void		parse_pipe(t_list **token_lst, t_cmd **cmd, t_list **cmd_lst, int *i);
+t_cmd		*init_cmd_struct(int args_num);
+void		parse_argument(t_list **token_lst, t_cmd **cmd, int *i);
+void		add_last_cmd(t_cmd **cmd, t_list **cmd_lst, int i);
 
 /*command*/
 char	*search_in_tab(char **env, char *var);
@@ -89,6 +98,9 @@ void	clear_var_struct(void *var_struct);
 int		ft_charlen(char **tab);
 int		is_redirect(char c);
 int		is_pipe(char c);
+void	skip_spaces(char **str);
+void	*xmalloc(size_t size);
+void	print_token(t_list *list); //TO DELETE
 
 void	print_tab(char **tab);
 void	free_tab(char **tab);

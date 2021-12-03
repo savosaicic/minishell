@@ -28,6 +28,8 @@ t_list *get_command_lst(void)
 		exit_failure(NULL, "insufficient memory", 1);
 	cmd_lst = parse_tokens(token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
+	if (!cmd_lst)
+		ft_lstclear(&cmd_lst, clear_cmd_struct);
 	return (cmd_lst);
 }
 
@@ -70,7 +72,6 @@ void	excution_manager(t_list *cmd_lst)
 	t_list	**head_cmd_lst;
 	t_io	io_struct;
 	int		cmds_len;
-	int		status;
 
 	head_cmd_lst = &cmd_lst;
 	cmds_len = ft_lstsize(cmd_lst);
@@ -81,9 +82,7 @@ void	excution_manager(t_list *cmd_lst)
 		cmd_lst = cmd_lst->next;
 		cmds_len--;
 	}
-	waitpid(prg->pid, &status, 0);
-	if (WIFEXITED(status))
-		prg->exit_status = WEXITSTATUS(status);
+	wait_all_pids();
 	restore_and_close_fds(io_struct);
 	ft_lstclear(head_cmd_lst, clear_cmd_struct);
 }
