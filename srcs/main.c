@@ -8,11 +8,15 @@ t_prg	*init_shell(char **env)
 	if (!prg)
 		exit_failure(NULL, "insufficient memory", 1);
 	if (!*env)
-		prg->env = NULL;
+	{
+		prg->env = xmalloc(sizeof(*prg->env));
+		*prg->env = NULL;
+	}
 	else
 	{
 		prg->env = env;
 	}
+	// printf("env %s\n", prg->env[0]);
 	prg->env_lst = init_env();
 	prg->pwd = ft_getenv(prg->env_lst, "PWD");
 	prg->home_path = ft_getenv(prg->env_lst, "HOME");
@@ -58,6 +62,7 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 	int ret;
 
 	prg->pid = 0;
+
 	io_struct = plug_pipe(cmd_lst, io_struct, cmds_len);
 	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
 	{
@@ -70,6 +75,7 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 	}
 	if (!prg->pid)
 	{
+		// printf("env %s\n", prg->env[0]);
 		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
 		ret = execute(cmd_lst->content);
 		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))

@@ -37,7 +37,7 @@ char		*handle_expansion(t_prg *prg, char **cmd_buffer, char **save, t_list **tok
 char		*ft_getenv(t_list *env_lst, char *var_search);
 char		*perform_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer);
 
-char    	**get_path(char **envp);
+char    	**get_path(void);
 char    	*get_cmd_path(char **path, char *cmd);
 
 void		exit_failure(char *item_name, char *error_msg, int status);
