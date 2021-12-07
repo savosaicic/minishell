@@ -8,6 +8,8 @@ void	restore_and_close_fds(t_io io_struct)
 	close(io_struct. save_stdout);
 	close(io_struct.fdin);
 	close(io_struct.fdout);
+	close(io_struct.fds[0]);
+	close(io_struct.fds[1]);
 }
 
 t_io	init_io_struct(void)
@@ -22,45 +24,41 @@ t_io	init_io_struct(void)
 	return (io_struct);
 }
 
-t_io	set_fd_last_cmd(t_cmd *cmd, t_io io_struct)
+t_io	set_fd_last_cmd(t_list **cmd_lst, t_io io_struct, int *is_first_cmd)
 {
-	if (cmd->r_io[0] != STDIN_FILENO)
-	{
-		dup2(cmd->r_io[0], STDIN_FILENO);
-		close(cmd->r_io[0]);
-		close(io_struct.fdin); // change 
-	}
-	if (cmd->r_io[1] != STDOUT_FILENO)
-	{
-		io_struct.fdout = cmd->r_io[1];
-	}
-	else
-	{
-		io_struct.fdout = dup(io_struct.save_stdout);
-	}
+	if (*is_first_cmd == 1)
+		((t_cmd *)(*cmd_lst)->content)->fdin = io_struct.fdin;
+
+	((t_cmd *)(*cmd_lst)->content)->fdout = dup(io_struct.save_stdout);
+	((t_cmd *)(*cmd_lst)->content)->fdin = io_struct.next_fdin;
+
+
+	io_struct.close_in_child = -1;
+	io_struct.close_in_parent = io_struct.fds[0];
+
 	return (io_struct);
 }
 
-t_io	set_fds(t_cmd *cmd, t_io io_struct)
+t_io	set_fds(t_list **cmd_lst, t_io io_struct, int *is_first_cmd)
 {
 	pipe(io_struct.fds);
-	if (cmd->r_io[0] != STDIN_FILENO)
+
+	if (*is_first_cmd == 1)
 	{
-		dup2(cmd->r_io[0], STDIN_FILENO);
-		close(cmd->r_io[0]);
+		((t_cmd *)(*cmd_lst)->content)->fdin = io_struct.fdin;
+		*is_first_cmd = 0;
 	}
 	else
-	{
-		io_struct.fdin = io_struct.fds[0];
-	}
-	if (cmd->r_io[1] != STDOUT_FILENO)
-	{
-		io_struct.fdout = cmd->r_io[1];
-		close(io_struct.fds[1]); // change
-	}
-	else
-	{
-		io_struct.fdout = io_struct.fds[1];
-	}
+		((t_cmd *)(*cmd_lst)->content)->fdin = io_struct.next_fdin;
+
+	((t_cmd *)(*cmd_lst)->content)->fdout = io_struct.fds[1];
+
+
+	//((t_cmd *)(*cmd_lst)->next)->fdin = io_struct.fds[0];
+	io_struct.next_fdin = io_struct.fds[0];
+
+	io_struct.close_in_child = io_struct.fds[0];
+	io_struct.close_in_parent = io_struct.fds[1];
+
 	return (io_struct);
 }

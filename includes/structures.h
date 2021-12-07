@@ -23,8 +23,10 @@ typedef struct s_cmd
 	bool	is_builtin;
 	char	**args;
 	char	*path;
-	int		fd[2];
 	int		r_io[2]; //array of 2 int to store respectively: INPUT and OUTPUT fds (For redirection)
+
+	int		fdin;
+	int		fdout;
 }				t_cmd;
 
 typedef struct	s_io
@@ -34,6 +36,11 @@ typedef struct	s_io
 	int	save_stdout;
 	int fdin;
 	int	fdout;
+
+	int	close_in_child;
+	int	close_in_parent;
+
+	int	next_fdin;
 }				t_io;
 
 typedef struct s_prg
