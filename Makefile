@@ -22,12 +22,6 @@ $(OBJS): %.o: %.c
 	mkdir -p obj
 	$(CC) -c $(CFLAGS) $< $(INC) -o obj/$@
 
-run: all 
-	./$(NAME)
-
-gdb: all
-	gdb -q ./$(NAME)
-
 clean:
 	make clean -C $(D_LIBFT)
 	$(RM) -rf obj
@@ -40,5 +34,17 @@ re: fclean all
 
 .PHONY: all fclean clean re
 
+run: all 
+	./$(NAME)
+
 fsanitize: all 
 	$(CC) -fsanitize=address $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
+
+gdb: all
+	gdb -q ./$(NAME)
+
+val: all
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.val ./$(NAME)
+
+vgdb: all
+	valgrind --leak-check=full --show-leak-kinds=all --vgdb=yes --vgdb-error=0 ./$(NAME)
