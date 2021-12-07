@@ -3,7 +3,7 @@
 static int	redirect_input(t_list **token_lst, t_cmd **cmd)
 {
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
-		close((*cmd)->r_io[0]);
+		ft_close((*cmd)->r_io[0]);
 	*token_lst = (*token_lst)->next;
 	if (!*token_lst || ((t_token*)(*token_lst)->content)->token_type == T_PIPE
 		|| ((t_token*)(*token_lst)->content)->token_type == T_REDIRECT)
@@ -24,7 +24,7 @@ static int	redirect_input(t_list **token_lst, t_cmd **cmd)
 static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags)
 {
 	if ((*cmd)->r_io[1] != STDOUT_FILENO)
-		close((*cmd)->r_io[1]);
+		ft_close((*cmd)->r_io[1]);
 
 	*token_lst = (*token_lst)->next;
 

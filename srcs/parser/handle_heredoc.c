@@ -3,14 +3,14 @@
 static int	redirect_heredoc(t_list **token_lst, t_cmd **cmd, int pipe_fd)
 {
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
-		close((*cmd)->r_io[0]);
+		ft_close((*cmd)->r_io[0]);
 	else if ((*cmd)->r_io[1] != STDOUT_FILENO)
-		close((*cmd)->r_io[1]);
+		ft_close((*cmd)->r_io[1]);
 
 	//Check for $, expand if so
 	(*cmd)->r_io[0] = dup(pipe_fd);
 	*token_lst = (*token_lst)->next;
-	close(pipe_fd);
+	ft_close(pipe_fd);
 	return (0);
 }
 
@@ -35,6 +35,6 @@ int		handle_heredoc(t_list **token_lst, t_cmd **cmd)
 		free(line);
 	}
 	free(line);
-	close(fds[1]);
+	ft_close(fds[1]);
 	return (redirect_heredoc(token_lst, cmd, fds[0]));
 }

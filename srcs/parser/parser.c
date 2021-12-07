@@ -7,6 +7,9 @@ t_cmd	*init_cmd_struct(int args_num)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
+
+	// while (((t_cmd *)cmd_struct)->args[i] != NULL)
+	cmd->path = NULL;
 	cmd->args = (char **)malloc(sizeof(char *) * (args_num + 1));
 	if (!cmd->args)
 		return (NULL);

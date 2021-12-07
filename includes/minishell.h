@@ -51,6 +51,8 @@ int	print_env(t_list *env_lst, char *str);
 int		pwd(t_cmd *cmd);
 int cd(t_cmd *cmd, char *home_math);
 int exit_shell(t_cmd *cmd);
+void	ft_close(int fd);
+
 
 /*lexer*/
 int		handle_pipe_and_redirection(char **cmd_buffer, t_list **token_lst);
@@ -123,5 +125,6 @@ void    sig_quit(int sig __attribute__((unused)));
 void    watch_signals(void);
 
 int		handle_heredoc(t_list **token_lst, t_cmd **cmd);
+void	ft_exit(int status, bool display);
 
 #endif

@@ -29,7 +29,7 @@ typedef struct s_cmd
 
 typedef struct	s_io
 {
-	int	fds[2];
+	int	fds[2]; 
 	int	save_stdin;
 	int	save_stdout;
 	int fdin;
@@ -43,6 +43,7 @@ typedef struct s_prg
 	bool		child;
 	char 	**env;
 	t_list	*env_lst;
+	t_list	*cmd_lst;
 	char	*cmd_buffer;
 	int		exit_status;
 	int		cmds_len;

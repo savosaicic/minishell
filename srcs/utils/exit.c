@@ -47,8 +47,28 @@ void	exit_failure(char *item_name, char *error_msg, int status)
 void	exit_success(int status, bool display)
 {
 	if (display == TRUE)
-	ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("exit\n", 1);
 	rl_clear_history();
 	clear_prg_struct();
+	exit(status);
+}
+
+
+void	ft_exit(int status, bool display)
+{
+	if (display == TRUE)
+		ft_putstr_fd("exit\n", 1);
+	rl_clear_history();
+	ft_lstclear(&prg->env_lst, clear_var_struct);
+	// free(rl_line_buffer);
+	// ft_lstclear(&prg->cmd_lst, clear_cmd_struct);
+	free(prg->env_lst);
+	prg->env_lst = NULL;
+	free(prg->pwd);
+	prg->pwd = NULL;
+	free(prg->home_path);
+	prg->home_path = NULL;
+	free(prg);
+	prg = NULL;
 	exit(status);
 }

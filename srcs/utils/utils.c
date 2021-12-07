@@ -98,3 +98,9 @@ void	print_token(t_list *list)
 	printf("__________________________\n\n");
 	free_tab(types);
 }
+
+void	ft_close(int fd)
+{
+	if (fd > 0)
+		close(fd);
+}

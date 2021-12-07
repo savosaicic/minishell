@@ -13,10 +13,7 @@ t_prg	*init_shell(char **env)
 		*prg->env = NULL;
 	}
 	else
-	{
 		prg->env = env;
-	}
-	// printf("env %s\n", prg->env[0]);
 	prg->env_lst = init_env();
 	prg->pwd = ft_getenv(prg->env_lst, "PWD");
 	prg->home_path = ft_getenv(prg->env_lst, "HOME");
@@ -45,14 +42,14 @@ t_list *get_command_lst(void)
 t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int cmds_len)
 {
 	dup2(io_struct.fdin, STDIN_FILENO);
-	close(io_struct.fdin);
+	ft_close(io_struct.fdin);
 	if (cmds_len == 1)
 		io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
 	else
 		io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
 
 	dup2(io_struct.fdout, STDOUT_FILENO);
-	close(io_struct.fdout);
+	ft_close(io_struct.fdout);
 	return (io_struct);
 }
 
@@ -90,6 +87,7 @@ void	execution_manager(t_list *cmd_lst)
 
 	cmds_len = ft_lstsize(cmd_lst);
 	io_struct = init_io_struct();
+	prg->cmd_lst = cmd_lst;
 	prg->cmds_len = cmds_len;
 	while (cmds_len)
 	{
@@ -114,7 +112,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		prg->child = FALSE;
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
-			exit_success(0, TRUE);
+			ft_exit(0, TRUE);
 		else if (ft_strlen(rl_line_buffer))
 			cmd_lst = get_command_lst();
 		if (cmd_lst)
