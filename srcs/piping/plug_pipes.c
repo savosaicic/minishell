@@ -48,6 +48,7 @@ t_io	set_fds(t_cmd *cmd, t_io io_struct)
 	{
 		dup2(cmd->r_io[0], STDIN_FILENO);
 		close(cmd->r_io[0]);
+		close(io_struct.fdin); // new ? 
 	}
 	else
 	{

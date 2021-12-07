@@ -23,7 +23,7 @@ int		handle_heredoc(t_list **token_lst, t_cmd **cmd)
 	pipe(fds);
 	*token_lst = (*token_lst)->next;
 	if (!*token_lst || ((t_token*)(*token_lst)->content)->token_type == T_PIPE)
-		return (puterror("parse error near \'<<\'", NULL, 1));
+		return (puterror(NULL, "syntax error near unexpected token `newline\'", 1));
 	delimiter = CAST((*token_lst), t_token*)->token;
 	while (1)
 	{

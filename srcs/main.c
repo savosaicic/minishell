@@ -85,22 +85,21 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 
 void	execution_manager(t_list *cmd_lst)
 {
-	t_list	**head_cmd_lst;
 	t_io	io_struct;
 	int		cmds_len;
 
-	head_cmd_lst = &cmd_lst;
 	cmds_len = ft_lstsize(cmd_lst);
 	io_struct = init_io_struct();
+	prg->cmds_len = cmds_len;
 	while (cmds_len)
 	{
 		set_and_execute_command(cmd_lst, io_struct, cmds_len);
 		cmd_lst = cmd_lst->next;
 		cmds_len--;
 	}
-	wait_all_pids();
+	if (prg->child)
+		wait_all_pids();
 	restore_and_close_fds(io_struct);
-	ft_lstclear(head_cmd_lst, clear_cmd_struct);
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env)
@@ -120,6 +119,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 			cmd_lst = get_command_lst();
 		if (cmd_lst)
 			execution_manager(cmd_lst);
+		ft_lstclear(&cmd_lst, clear_cmd_struct);
 	}
 	return (0);
 }

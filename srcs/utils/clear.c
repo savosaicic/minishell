@@ -42,6 +42,8 @@ void	clear_var_struct(void *var_struct)
 		return ;
 	free(((t_variable *)var_struct)->name);
 	free(((t_variable *)var_struct)->value);
+	free((t_variable *)var_struct);
+
 }
 
 void	clear_prg_struct(void)
@@ -49,7 +51,9 @@ void	clear_prg_struct(void)
 	if (!prg)
 		return ;
 	free(rl_line_buffer);
+	ft_lstclear(&prg->env_lst, clear_var_struct);
 	free(prg->env_lst);
 	free(prg->pwd);
+	free(prg->home_path);
 	free(prg);
 }
