@@ -128,7 +128,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		if (cmd_lst)
 			execution_manager(cmd_lst);
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
-		free(rl_line_buffer);
 	}
 	return (0);
 }
