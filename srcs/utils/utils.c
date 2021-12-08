@@ -104,3 +104,17 @@ void	ft_close(int fd)
 	if (fd > 0)
 		close(fd);
 }
+
+int		is_rl_line_empty(char *line)
+{
+	int	i;
+
+	i = 1;
+	while (*line)
+	{
+		if (!is_space(*line))
+			i = 0;
+		line++;
+	}
+	return (i);
+}

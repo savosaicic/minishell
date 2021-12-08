@@ -123,11 +123,12 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		rl_line_buffer = readline("$> ");
 		if (!rl_line_buffer)
 			ft_exit(0, TRUE);
-		else if (ft_strlen(rl_line_buffer))
+		else if (!is_rl_line_empty(rl_line_buffer))
 			cmd_lst = get_command_lst();
 		if (cmd_lst)
 			execution_manager(cmd_lst);
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
+		free(rl_line_buffer);
 	}
 	return (0);
 }

@@ -111,6 +111,7 @@ void	print_tab(char **tab);
 void	free_tab(char **tab);
 void	exit_success(int status, bool display);
 int     is_space(char c);
+int		is_rl_line_empty(char *line);
 
 
 int     is_builtin(char *cmd_name);
