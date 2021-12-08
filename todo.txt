@@ -30,3 +30,6 @@ cat << 'a'
 |
 
 cat << a << b avec un ctrlC
+
+
+prompt with space -> insufficient memory
