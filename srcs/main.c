@@ -38,14 +38,12 @@ t_list *get_command_lst(void)
 	return (cmd_lst);
 }
 
-t_io plug_pipe(t_list **cmd_lst, t_io io_struct, int cmds_len, int *is_first)
+t_io set_file_descriptors(t_list **cmd_lst, t_io io_struct, int cmds_len, int *is_first)
 {
 	if (cmds_len == 1)
 		io_struct = set_fd_last_cmd(cmd_lst, io_struct, is_first);
 	else
 		io_struct = set_fds(cmd_lst, io_struct, is_first);
-
-
 	return (io_struct);
 }
 
@@ -55,7 +53,7 @@ t_io set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int
 	int ret;
 
 	prg->pid = 0;
-	io_struct = plug_pipe(cmd_lst, io_struct, cmds_len, is_first);
+	io_struct = set_file_descriptors(cmd_lst, io_struct, cmds_len, is_first);
 	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
 	{
 		prg->child = TRUE;
@@ -70,8 +68,9 @@ t_io set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int
 		dup2(((t_cmd *)(*cmd_lst)->content)->fdin, STDIN_FILENO);
 		dup2(((t_cmd *)(*cmd_lst)->content)->fdout, STDOUT_FILENO);
 
-		//close(((t_cmd *)(*cmd_lst)->content)->fdout);
-		//close(((t_cmd *)(*cmd_lst)->content)->fdin);
+		close(((t_cmd *)(*cmd_lst)->content)->fdout);
+		close(((t_cmd *)(*cmd_lst)->content)->fdin);
+
 		close(io_struct.close_in_child);
 
 		((t_cmd *)(*cmd_lst)->content)->path = write_command(((t_cmd *)(*cmd_lst)->content)->args);
@@ -82,6 +81,9 @@ t_io set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int
 	else
 	{
 		close(io_struct.close_in_parent);
+		////
+		close(((t_cmd *)(*cmd_lst)->content)->fdout);
+		close(((t_cmd *)(*cmd_lst)->content)->fdin);
 	}
 	return (io_struct);
 }

@@ -26,6 +26,8 @@
 
 # define CAST(var, type) ((type)var->content)
 
+# define MAX_PIPE 64
+
 extern t_prg	*prg;
 
 
