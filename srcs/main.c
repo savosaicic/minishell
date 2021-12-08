@@ -81,7 +81,6 @@ t_io set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int
 	else
 	{
 		close(io_struct.close_in_parent);
-		////
 		close(((t_cmd *)(*cmd_lst)->content)->fdout);
 		close(((t_cmd *)(*cmd_lst)->content)->fdin);
 	}
