@@ -129,5 +129,6 @@ void    watch_signals(void);
 
 int		handle_heredoc(t_list **token_lst, t_cmd **cmd);
 void	ft_exit(int status, bool display);
+int		ft_onlychr(char *str, char c);
 
 #endif

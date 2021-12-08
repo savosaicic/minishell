@@ -1,9 +1,26 @@
 #include "minishell.h"
 
+
+int ft_onlychr(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i++] != c)
+			return (0);
+	}
+	return (1);
+}
+
 t_ttype	get_token_type(char *token)
 {
-	if (!ft_strcmp(token, "|"))
+	if (ft_onlychr(token, '|'))
 		return (T_PIPE);
+	else if (ft_onlychr(token, '<') || ft_onlychr(token, '>'))
+		return (T_REDIRECT);
+
 	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
 		return (T_REDIRECT);
 	else if (ft_strchr(token, '='))
@@ -63,5 +80,6 @@ t_list	*get_token(char *cmd_buffer)
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
 	free(buffer);
+	print_token(token_lst);
 	return (token_lst);
 }

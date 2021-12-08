@@ -22,6 +22,27 @@ t_prg	*init_shell(char **env)
 	return (prg);
 }
 
+int		check_token(t_list *token_lst)
+{
+	int	is_first;
+
+	is_first = 1;
+	while (token_lst)
+	{
+		if ( ((t_token *)token_lst->content)->token_type == T_PIPE
+			&& (ft_strlen(((t_token *)token_lst->content)->token) > 1 || !token_lst->next || is_first))
+			return (puterror(NULL, "syntax error near unexpected token `|\'", -1));
+
+		else if ( ((t_token *)token_lst->content)->token_type == T_REDIRECT
+			&& (ft_strlen(((t_token *)token_lst->content)->token) > 2 || !token_lst->next))
+			return (puterror("syntax error near unexpected token", ((t_token *)token_lst->content)->token, -1));
+		token_lst = token_lst->next;
+		is_first = 0;
+	}
+
+	return (0);
+}
+
 t_list *get_command_lst(void)
 {
 	t_list *token_lst;
@@ -30,9 +51,13 @@ t_list *get_command_lst(void)
 	cmd_lst = NULL;
 	add_history(rl_line_buffer);
 	token_lst = get_token(rl_line_buffer);
+
+
 	if (token_lst == NULL)
 		exit_failure(NULL, "insufficient memory", 1);
-	cmd_lst = parse_tokens(token_lst);
+
+	if (check_token(token_lst) != -1)
+		cmd_lst = parse_tokens(token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
 	if (!cmd_lst)
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
