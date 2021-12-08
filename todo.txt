@@ -1,0 +1,35 @@
+cat |cat |ls (wait for 2 enter before displaying prompt)
++ it breaks the prompt
+
+exit a; echo $? == 2   🏄🏽‍♀️
+exit a b; echo $? == 2 🏄🏽‍♀️
+
+cd .. ..; echo $? == 1 🏄🏽‍♀️
+
+env -i ./minishell (set envp a NULL)
+
+
+cat then ctrlC -> echo $? == 130 🏄🏽‍♀️
+cat then ctrl\ -> echo $? == 131 🏄🏽‍♀️
+
+ls | pwd | cat | bonjour| ls | bonjour | ls | bonjour | ls
+-> output error has a scrambled view, use write once per error !
+
+ls | exit | ls
+
+unset PATH; ls (ls should not execute)
+
+ls >> a >> b >> c < coucou >> d 
+    creates a b c, fails to open coucou returns 1
+
+a voir
+cat << a 
+cat << 'a'
+
+<
+|
+
+cat << a << b avec un ctrlC
+
+
+prompt with space -> insufficient memory

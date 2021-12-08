@@ -26,6 +26,8 @@
 
 # define CAST(var, type) ((type)var->content)
 
+# define MAX_PIPE 64
+
 extern t_prg	*prg;
 
 
@@ -87,8 +89,8 @@ int		execute_command(t_cmd *cmd);
 int     execute(t_cmd *cmd);
 
 /*piping*/
-t_io	set_fds(t_cmd *cmd, t_io io_struct);
-t_io	set_fd_last_cmd(t_cmd *cmd, t_io io_struct);
+t_io	set_fds(t_list **cmd_lst, t_io io_struct, int *is_first_cmd);
+t_io	set_fd_last_cmd(t_list **cmd_lst, t_io io_struct, int *is_first_cmd);
 t_io	init_io_struct(void);
 void	restore_and_close_fds(t_io io_struct);
 void	restore_and_close_fds2(t_io io_struct);

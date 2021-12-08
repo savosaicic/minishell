@@ -1,0 +1,59 @@
+➜  minishell git:(fix_pipeline) ./minishell
+$> ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+$> ls | cat
+includes
+libft
+Makefile
+minishell
+obj
+outfile
+srcs
+tester
+todo.txt
+$> ls | cat | wc
+      9       9      67
+$> ls | cat | wc -l
+9
+$> ls | sleep 2
+$> sleep 3 | sleep 2
+$> cat | cat | ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+$> cat | cat | ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+
+
+$> cat | cat | cat | cat | ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+
+
+
+
+$> cat | cat | cat | cat | ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+
+
+
+
+
+$> cat | cat | cat | cat | ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+
+
+
+
+$> cat | cat | cat | cat | ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+
+
+
+
+$> cat | cat | cat | cat | ls
+includes  libft  Makefile  minishell  obj  outfile  srcs  tester  todo.txt
+
+
+
+
+$> exit
+[1]    1469029 segmentation fault (core dumped)  ./minishell
+

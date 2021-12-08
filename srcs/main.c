@@ -39,29 +39,23 @@ t_list *get_command_lst(void)
 	return (cmd_lst);
 }
 
-t_io plug_pipe(t_list *cmd_lst, t_io io_struct, int cmds_len)
+t_io set_file_descriptors(t_list **cmd_lst, t_io io_struct, int cmds_len, int *is_first)
 {
-	dup2(io_struct.fdin, STDIN_FILENO);
-	ft_close(io_struct.fdin);
 	if (cmds_len == 1)
-		io_struct = set_fd_last_cmd(((t_cmd *)(cmd_lst->content)), io_struct);
+		io_struct = set_fd_last_cmd(cmd_lst, io_struct, is_first);
 	else
-		io_struct = set_fds(((t_cmd *)(cmd_lst->content)), io_struct);
-
-	dup2(io_struct.fdout, STDOUT_FILENO);
-	ft_close(io_struct.fdout);
+		io_struct = set_fds(cmd_lst, io_struct, is_first);
 	return (io_struct);
 }
 
 
-void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
+t_io set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int *is_first)
 {
 	int ret;
 
 	prg->pid = 0;
-
-	io_struct = plug_pipe(cmd_lst, io_struct, cmds_len);
-	if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
+	io_struct = set_file_descriptors(cmd_lst, io_struct, cmds_len, is_first);
+	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
 	{
 		prg->child = TRUE;
 		prg->pid = fork();
@@ -72,12 +66,26 @@ void set_and_execute_command(t_list *cmd_lst, t_io io_struct, int cmds_len)
 	}
 	if (!prg->pid)
 	{
-		// printf("env %s\n", prg->env[0]);
-		((t_cmd *)cmd_lst->content)->path = write_command(((t_cmd *)cmd_lst->content)->args);
-		ret = execute(cmd_lst->content);
-		if (!is_builtin(((t_cmd *)cmd_lst->content)->args[0]))
+		dup2(((t_cmd *)(*cmd_lst)->content)->fdin, STDIN_FILENO);
+		dup2(((t_cmd *)(*cmd_lst)->content)->fdout, STDOUT_FILENO);
+
+		close(((t_cmd *)(*cmd_lst)->content)->fdout);
+		close(((t_cmd *)(*cmd_lst)->content)->fdin);
+
+		close(io_struct.close_in_child);
+
+		((t_cmd *)(*cmd_lst)->content)->path = write_command(((t_cmd *)(*cmd_lst)->content)->args);
+		ret = execute((*cmd_lst)->content);
+		if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
 			exit_success(ret, FALSE);
 	}
+	else
+	{
+		close(io_struct.close_in_parent);
+		close(((t_cmd *)(*cmd_lst)->content)->fdout);
+		close(((t_cmd *)(*cmd_lst)->content)->fdin);
+	}
+	return (io_struct);
 }
 
 void	execution_manager(t_list *cmd_lst)
@@ -89,22 +97,24 @@ void	execution_manager(t_list *cmd_lst)
 	io_struct = init_io_struct();
 	prg->cmd_lst = cmd_lst;
 	prg->cmds_len = cmds_len;
+
+	int	is_first = 1;
 	while (cmds_len)
 	{
-		set_and_execute_command(cmd_lst, io_struct, cmds_len);
+		io_struct = set_and_execute_command(&cmd_lst, io_struct, cmds_len, &is_first);
 		cmd_lst = cmd_lst->next;
 		cmds_len--;
 	}
+	restore_and_close_fds(io_struct);
 	if (prg->child)
 		wait_all_pids();
-	restore_and_close_fds(io_struct);
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env)
 {
 	t_list	*cmd_lst;
 
-	init_shell(env);	
+	init_shell(env);
 	watch_signals();
 	while (1)
 	{
