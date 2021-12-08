@@ -107,7 +107,6 @@ void	execution_manager(t_list *cmd_lst)
 	}
 	restore_and_close_fds(io_struct);
 	wait_all_pids();
-//	restore_and_close_fds(io_struct);
 	ft_lstclear(head_cmd_lst, clear_cmd_struct);
 }
 
