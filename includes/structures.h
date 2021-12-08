@@ -41,6 +41,8 @@ typedef struct	s_io
 	int	close_in_parent;
 
 	int	next_fdin;
+
+	int	last_close[64];
 }				t_io;
 
 typedef struct s_prg
