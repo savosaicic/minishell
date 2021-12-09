@@ -18,17 +18,16 @@ t_ttype	get_token_type(char *token)
 {
 	if (ft_onlychr(token, '|'))
 		return (T_PIPE);
-	else if (ft_onlychr(token, '<') || ft_onlychr(token, '>'))
-		return (T_REDIRECT);
-
-	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
-		return (T_REDIRECT);
-	else if (ft_strchr(token, '='))
-		return (T_ASSIGN);
 	else if (!ft_strcmp(token, ">>"))
 		return (T_DGREAT);
 	else if (!ft_strcmp(token, "<<"))
 		return (T_DLESS);
+	else if (ft_onlychr(token, '<') || ft_onlychr(token, '>'))
+		return (T_REDIRECT);
+	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
+		return (T_REDIRECT);
+	else if (ft_strchr(token, '='))
+		return (T_ASSIGN);
 	else
 		return (T_WORD);
 }
