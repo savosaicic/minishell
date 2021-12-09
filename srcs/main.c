@@ -97,12 +97,18 @@ t_io set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int
 		close(((t_cmd *)(*cmd_lst)->content)->fdout);
 		close(((t_cmd *)(*cmd_lst)->content)->fdin);
 
-		close(io_struct.close_in_child);
+		if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
+			close(io_struct.close_in_child);
 
 		((t_cmd *)(*cmd_lst)->content)->path = write_command(((t_cmd *)(*cmd_lst)->content)->args);
 		ret = execute((*cmd_lst)->content);
 		if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
 			exit_success(ret, FALSE);
+		else
+		{
+			dup2(io_struct.save_stdin, STDIN_FILENO);
+			dup2(io_struct.save_stdout, STDOUT_FILENO);
+		}
 	}
 	else
 	{
