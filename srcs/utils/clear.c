@@ -17,7 +17,6 @@ void	clear_cmd_struct(void *cmd_struct)
 	if (!cmd_struct)
 		return ;
 	i = 0;
-	(void)i;
 	while (((t_cmd *)cmd_struct)->args[i] != NULL)
 	{
 		free(((t_cmd *)cmd_struct)->args[i]);

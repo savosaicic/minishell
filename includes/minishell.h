@@ -78,6 +78,7 @@ void		parse_pipe(t_list **token_lst, t_cmd **cmd, t_list **cmd_lst, int *i);
 t_cmd		*init_cmd_struct(int args_num);
 void		parse_argument(t_list **token_lst, t_cmd **cmd, int *i);
 void		add_last_cmd(t_cmd **cmd, t_list **cmd_lst, int i);
+int			is_token_in_list(t_list *token_lst, t_ttype type);
 
 /*command*/
 char	*search_in_tab(char **env, char *var);

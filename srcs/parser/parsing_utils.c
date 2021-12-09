@@ -21,12 +21,12 @@ void	parse_redirection(t_list **token_lst, t_cmd **cmd)
 {
 	if (handle_redirection(cmd, token_lst) > 0)
 	{
-		int j = 0;
-		while ((*cmd)->args[j])
-		{
-			free((*cmd)->args[j] = NULL);
-			(*cmd)->args[j++] = NULL;
-		}
+//		int j = 0;
+//		while ((*cmd)->args[j])
+//		{
+//			free((*cmd)->args[j] = NULL);
+//			(*cmd)->args[j++] = NULL;
+//		}
 		while (*token_lst && ((t_token *)(*token_lst)->content)->token_type != T_PIPE)
 			*token_lst = (*token_lst)->next;
 	}
@@ -55,4 +55,15 @@ void	add_last_cmd(t_cmd **cmd, t_list **cmd_lst, int i)
 {
 	(*cmd)->args[i] = NULL;
 	ft_lstadd_back(cmd_lst, ft_lstnew((void *)(*cmd)));
+}
+
+int		is_token_in_list(t_list *token_lst, t_ttype type)
+{
+	while (token_lst)
+	{
+		if (((t_token *)token_lst->content)->token_type == type)
+			return (1);
+		token_lst = token_lst->next;
+	}
+	return (0);
 }

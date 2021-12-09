@@ -5,15 +5,20 @@ static int	redirect_input(t_list **token_lst, t_cmd **cmd)
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
 		ft_close((*cmd)->r_io[0]);
 	*token_lst = (*token_lst)->next;
-	if (!*token_lst || ((t_token*)(*token_lst)->content)->token_type == T_PIPE
-		|| ((t_token*)(*token_lst)->content)->token_type == T_REDIRECT)
-		return (puterror(NULL, "syntax error near unexpected token `newline\'", 1));
 
 	//Check for $, expand if so
 	(*cmd)->r_io[0] = open(CAST((*token_lst), t_token*)->token, O_RDONLY);
 	if ((*cmd)->r_io[0] < 0)
 	{
 		puterror(CAST((*token_lst), t_token*)->token, strerror(errno), 1);
+		clear_cmd_struct(*cmd);
+		if (is_token_in_list(*token_lst, T_PIPE))
+			*cmd = init_cmd_struct(ft_lstsize(*token_lst));
+		else
+		{
+			// while (..) token->next to go to NULL
+			*cmd = NULL;
+		}
 		return (1);
 	}
 	
@@ -28,14 +33,21 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags)
 
 	*token_lst = (*token_lst)->next;
 
-	if (!*token_lst || ((t_token*)(*token_lst)->content)->token_type == T_PIPE
-		|| ((t_token*)(*token_lst)->content)->token_type == T_REDIRECT)
-		return (puterror(NULL, "syntax error near unexpected token `newline\'", 1));
-	
 	//Check for $, expand if so
 	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token*)->token, o_flags, 0644);
 	if ((*cmd)->r_io[1] < 0)
-		return (puterror(CAST((*token_lst), t_token*)->token, strerror(errno), 1));
+	{
+		puterror(CAST((*token_lst), t_token*)->token, strerror(errno), 1);
+		clear_cmd_struct(*cmd);
+		if (is_token_in_list(*token_lst, T_PIPE))
+			*cmd = init_cmd_struct(ft_lstsize(*token_lst));
+		else
+		{
+			// while (..) token->next to go to NULL
+			*cmd = NULL;
+		}
+		return (1);
+	}
 	*token_lst = (*token_lst)->next;
 	return (0);
 }
