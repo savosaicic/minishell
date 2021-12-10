@@ -19,6 +19,8 @@ int     execute_builtin(t_cmd *cmd)
 		ret = cd(cmd, prg->home_path);
 	else if (!ft_strcmp(cmd->args[0], "exit"))
 		ret = exit_shell(cmd);
+	else if (!ft_strcmp(cmd->args[0], ":"))
+		ret = do_nothing();
 	return (ret);
 }
 

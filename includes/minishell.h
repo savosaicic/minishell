@@ -28,6 +28,8 @@
 
 # define MAX_PIPE 64
 
+# define MALLOC_CHECK_ 3
+
 extern t_prg	*prg;
 
 
@@ -53,7 +55,8 @@ int	print_env(t_list *env_lst, char *str);
 int		pwd(t_cmd *cmd);
 int cd(t_cmd *cmd, char *home_math);
 int exit_shell(t_cmd *cmd);
-void	ft_close(int fd);
+int		ft_close(int fd);
+int		do_nothing(void);
 
 
 /*lexer*/
@@ -105,7 +108,7 @@ int		ft_charlen(char **tab);
 int		is_redirect(char c);
 int		is_pipe(char c);
 void	skip_spaces(char **str);
-void	*xmalloc(size_t size);
+void	*xxmalloc(size_t size);
 void	print_token(t_list *list); //TO DELETE
 
 void	print_tab(char **tab);
@@ -113,6 +116,7 @@ void	free_tab(char **tab);
 void	exit_success(int status, bool display);
 int     is_space(char c);
 int		is_rl_line_empty(char *line);
+void	print_cmd_lst(t_list *cmd_lst);
 
 
 int     is_builtin(char *cmd_name);

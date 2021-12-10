@@ -2,19 +2,13 @@
 
 void	reset_cmd_and_jump_to_next(t_cmd **cmd, int *args_index, t_list **token_lst)
 {
-	int	i;
-
 	if (!cmd || !*cmd)
 		return ;
-	i = 0;
-	while (((t_cmd *)(*cmd))->args[i] != NULL)
-	{
-		free(((t_cmd *)(*cmd))->args[i]);
-		((t_cmd *)(*cmd))->args[i] = NULL;
-		i++;
-	}
-	free(((t_cmd *)(*cmd))->path);
-	((t_cmd *)(*cmd))->path = NULL;
+
+	free(((t_cmd *)(*cmd))->args[0]);
+	((t_cmd *)(*cmd))->args[0] = ft_strdup(":");
+	if (*args_index == 0)
+		*args_index = 1;
 
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
 		ft_close((*cmd)->r_io[0]);
@@ -22,10 +16,8 @@ void	reset_cmd_and_jump_to_next(t_cmd **cmd, int *args_index, t_list **token_lst
 		ft_close((*cmd)->r_io[1]);
 	(*cmd)->r_io[0] = STDIN_FILENO;
 	(*cmd)->r_io[1] = STDOUT_FILENO;
-	*args_index = 0;
 	while (CAST((*token_lst), t_token *)->token_type != T_PIPE)
 		*token_lst = (*token_lst)->next;
-	*token_lst = (*token_lst)->next;
 }
 
 static int	redirect_input(t_list **token_lst, t_cmd **cmd, int *i)

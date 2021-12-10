@@ -9,7 +9,7 @@ t_prg	*init_shell(char **env)
 		exit_failure(NULL, "insufficient memory", 1);
 	if (!*env)
 	{
-		prg->env = xmalloc(sizeof(*prg->env));
+		prg->env = xxmalloc(sizeof(*prg->env));
 		*prg->env = NULL;
 	}
 	else

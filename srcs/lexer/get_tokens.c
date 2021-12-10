@@ -60,7 +60,7 @@ t_list	*get_token(char *cmd_buffer)
 
 	skip_spaces(&cmd_buffer);
 	set_to_zero(&i, &token_lst);
-	buffer = xmalloc(sizeof(char) * 4096);
+	buffer = xxmalloc(sizeof(char) * 4096);
 	ft_bzero(buffer, 4096);
 	while (*cmd_buffer)
 	{

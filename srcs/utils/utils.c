@@ -18,6 +18,8 @@ int     is_builtin(char *cmd_name)
         return (1);
     else if (!ft_strcmp(cmd_name, "env"))
         return (1);
+    else if (!ft_strcmp(cmd_name, ":"))
+        return (1);
     return (0);
 }
 
@@ -74,7 +76,7 @@ void	skip_spaces(char **str)
 		(*str)++;
 }
 
-void	*xmalloc(size_t size)
+void	*xxmalloc(size_t size)
 {
 	void	*result;
 
