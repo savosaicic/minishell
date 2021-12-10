@@ -79,6 +79,5 @@ t_list	*get_token(char *cmd_buffer)
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
 	free(buffer);
-	print_token(token_lst);
 	return (token_lst);
 }

@@ -52,13 +52,13 @@ t_list	*parse_tokens(t_list *token_lst)
 		if (CAST((token_lst), t_token *)->token_type == T_DLESS)
 			parse_heredoc(&token_lst, &cmd);
 		else if (is_a_redirection_token(CAST(token_lst, t_token *)->token_type))
-			parse_redirection(&token_lst, &cmd);
+			parse_redirection(&token_lst, &cmd, &i);
 		else if (CAST(token_lst, t_token *)->token_type == T_PIPE)
 			parse_pipe(&token_lst, &cmd, &cmd_lst, &i);
 		else
 			parse_argument(&token_lst, &cmd, &i);
 	}
-	if (cmd->args[0])
+	if (cmd && cmd->args[0])
 		add_last_cmd(&cmd, &cmd_lst, i);
 	return (cmd_lst);
 }

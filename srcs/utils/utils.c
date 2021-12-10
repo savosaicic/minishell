@@ -99,10 +99,11 @@ void	print_token(t_list *list)
 	free_tab(types);
 }
 
-void	ft_close(int fd)
+int		ft_close(int fd)
 {
 	if (fd > 0)
 		close(fd);
+	return (-1);
 }
 
 int		is_rl_line_empty(char *line)
