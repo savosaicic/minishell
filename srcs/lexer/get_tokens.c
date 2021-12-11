@@ -75,13 +75,13 @@ t_list	*get_token(char *cmd_buffer)
 			i = lex_expansion(&token_lst, &cmd_buffer, &buffer);
 		else
 			i = lex_chars(i, &cmd_buffer, &buffer);
+
 		if (i >= MAX_TOKEN_SIZE - 1)
 		{
 			ft_lstclear(&token_lst, clear_token_struct);
 			write(2, "Command to long : ", 18);
 			write(2, rl_line_buffer, ft_strlen(rl_line_buffer));
 			write(2, "\n", 1);
-
 			free(buffer);
 			buffer = NULL;
 			return (NULL);
