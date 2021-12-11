@@ -1,5 +1,15 @@
 #include "minishell.h"
 
+static int	is_eof_delimiter(char *line, char *delimiter)
+{
+	if (line)
+		return (0);
+	write(2, "warning: here-document delimited by end-of-file (wanted `", 58);
+	write(2, delimiter, ft_strlen(delimiter));
+	write(2, "')\n", 3);
+	return (1);
+}
+
 static int	redirect_heredoc(t_list **token_lst, t_cmd **cmd, int pipe_fd)
 {
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
@@ -28,6 +38,8 @@ int		handle_heredoc(t_list **token_lst, t_cmd **cmd)
 	while (1)
 	{
 		line = readline("> ");
+		if (is_eof_delimiter(line, delimiter))
+			break ;
 		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		write(fds[1], line, ft_strlen(line));

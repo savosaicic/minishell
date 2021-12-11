@@ -60,6 +60,6 @@ t_list	*parse_tokens(t_list *token_lst)
 	}
 	if (cmd && cmd->args[0])
 		add_last_cmd(&cmd, &cmd_lst, i);
-	print_cmd_lst(cmd_lst);
+//	print_cmd_lst(cmd_lst);
 	return (cmd_lst);
 }
