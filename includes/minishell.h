@@ -115,7 +115,7 @@ void	print_tab(char **tab);
 void	free_tab(char **tab);
 void	exit_success(int status, bool display);
 int     is_space(char c);
-int		is_rl_line_empty(char *line);
+int		is_line_empty(char *line);
 void	print_cmd_lst(t_list *cmd_lst);
 
 

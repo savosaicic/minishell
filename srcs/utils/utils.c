@@ -108,7 +108,7 @@ int		ft_close(int fd)
 	return (-1);
 }
 
-int		is_rl_line_empty(char *line)
+int		is_line_empty(char *line)
 {
 	int	i;
 

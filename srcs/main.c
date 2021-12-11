@@ -157,7 +157,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 		line = readline("$> ");
 		if (!line)
 			ft_exit(0, TRUE);
-		else if (!is_rl_line_empty(line))
+		else if (!is_line_empty(line))
 			cmd_lst = get_command_lst(line);
 		if (cmd_lst)
 			execution_manager(cmd_lst);
