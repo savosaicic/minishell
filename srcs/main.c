@@ -43,14 +43,14 @@ int		check_token(t_list *token_lst)
 	return (0);
 }
 
-t_list *get_command_lst(void)
+t_list *get_command_lst(char *cmd_buffer)
 {
 	t_list *token_lst;
 	t_list *cmd_lst;
 
 	cmd_lst = NULL;
-	add_history(rl_line_buffer);
-	token_lst = get_token(rl_line_buffer);
+	add_history(cmd_buffer);
+	token_lst = get_token(cmd_buffer);
 
 
 	if (token_lst == NULL)
@@ -144,6 +144,7 @@ void	execution_manager(t_list *cmd_lst)
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env)
 {
 	t_list	*cmd_lst;
+	char	*line = NULL;
 
 	init_shell(env);
 	watch_signals();
@@ -151,11 +152,13 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	{
 		cmd_lst = NULL;
 		prg->child = FALSE;
-		rl_line_buffer = readline("$> ");
-		if (!rl_line_buffer)
+		free(line);
+		line = NULL;
+		line = readline("$> ");
+		if (!line)
 			ft_exit(0, TRUE);
-		else if (!is_rl_line_empty(rl_line_buffer))
-			cmd_lst = get_command_lst();
+		else if (!is_rl_line_empty(line))
+			cmd_lst = get_command_lst(line);
 		if (cmd_lst)
 			execution_manager(cmd_lst);
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
