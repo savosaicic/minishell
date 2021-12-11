@@ -5,7 +5,7 @@ char	*treat_error_msg(char *str)
 	char *lower_str;
 	int i;
 
-	lower_str = malloc(sizeof(*lower_str) * ft_strlen(str) + 1);
+	lower_str = malloc(sizeof(*lower_str) * ft_strlen(str) + 2);
 	if (!lower_str)
 		return (NULL);
 	i = 0;
