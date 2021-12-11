@@ -60,8 +60,8 @@ t_list	*get_token(char *cmd_buffer)
 
 	skip_spaces(&cmd_buffer);
 	set_to_zero(&i, &token_lst);
-	buffer = xxmalloc(sizeof(char) * 4096);
-	ft_bzero(buffer, 4096);
+	buffer = xxmalloc(sizeof(char) * MAX_TOKEN_SIZE);
+	ft_bzero(buffer, MAX_TOKEN_SIZE);
 	while (*cmd_buffer)
 	{
 		if (*cmd_buffer == '\"' || *cmd_buffer == '\'')
@@ -75,6 +75,17 @@ t_list	*get_token(char *cmd_buffer)
 			i = lex_expansion(&token_lst, &cmd_buffer, &buffer);
 		else
 			i = lex_chars(i, &cmd_buffer, &buffer);
+		if (i >= MAX_TOKEN_SIZE - 1)
+		{
+			ft_lstclear(&token_lst, clear_token_struct);
+			write(2, "Command to long : ", 18);
+			write(2, rl_line_buffer, ft_strlen(rl_line_buffer));
+			write(2, "\n", 1);
+
+			free(buffer);
+			buffer = NULL;
+			return (NULL);
+		}
 	}
 	if (ft_strlen(buffer))
 		ft_lstadd_back(&token_lst, ft_lstnew(write_token(buffer)));
