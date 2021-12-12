@@ -29,7 +29,6 @@
 # define MAX_TOKEN_SIZE 256 
 # define MAX_PIPE 64
 
-# define MALLOC_CHECK_ 3
 
 extern t_prg	*prg;
 

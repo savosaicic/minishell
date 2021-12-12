@@ -55,7 +55,6 @@ t_list *get_command_lst(char *cmd_buffer)
 
 	if (token_lst == NULL)
 		return (NULL);
-//		exit_failure(NULL, "insufficient memory", 1);
 
 	else if (check_token(token_lst) != -1)
 		cmd_lst = parse_tokens(token_lst);
