@@ -27,6 +27,7 @@ typedef struct s_cmd
 
 	int		fdin;
 	int		fdout;
+	bool	is_first;
 }				t_cmd;
 
 typedef struct	s_io

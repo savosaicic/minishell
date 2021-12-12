@@ -16,7 +16,7 @@ void	reset_cmd_and_jump_to_next(t_cmd **cmd, int *args_index, t_list **token_lst
 		ft_close((*cmd)->r_io[1]);
 	(*cmd)->r_io[0] = STDIN_FILENO;
 	(*cmd)->r_io[1] = STDOUT_FILENO;
-	while (CAST((*token_lst), t_token *)->token_type != T_PIPE)
+	while (*token_lst && CAST((*token_lst), t_token *)->token_type != T_PIPE)
 		*token_lst = (*token_lst)->next;
 }
 
@@ -31,7 +31,7 @@ static int	redirect_input(t_list **token_lst, t_cmd **cmd, int *i)
 	if ((*cmd)->r_io[0] < 0)
 	{
 		puterror(CAST((*token_lst), t_token*)->token, strerror(errno), 1);
-		if (is_token_in_list(*token_lst, T_PIPE))
+		if (is_token_in_list(*token_lst, T_PIPE) || !(*cmd)->is_first)
 			reset_cmd_and_jump_to_next(cmd, i, token_lst);
 		else
 		{
@@ -59,7 +59,7 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags, int *i)
 	if ((*cmd)->r_io[1] < 0)
 	{
 		puterror(CAST((*token_lst), t_token*)->token, strerror(errno), 1);
-		if (is_token_in_list(*token_lst, T_PIPE))
+		if (is_token_in_list(*token_lst, T_PIPE) || !(*cmd)->is_first)
 			reset_cmd_and_jump_to_next(cmd, i, token_lst);
 		else
 		{
@@ -76,15 +76,14 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags, int *i)
 
 int		handle_redirection(t_cmd **cmd, t_list **token_lst, int *i)
 {
-	int	o_flags;
-
-	o_flags = O_CREAT | O_TRUNC | O_RDWR;
-	if (CAST((*token_lst), t_token*)->token_type == T_DGREAT)
-		o_flags = O_CREAT | O_APPEND | O_RDWR;
-
 	if (*CAST((*token_lst), t_token*)->token == '<')
 		return (redirect_input(token_lst, cmd, i));
 	else
-		return (redirect_output(token_lst, cmd, o_flags, i));
+	{
+		if (CAST((*token_lst), t_token*)->token_type == T_DGREAT)
+			return (redirect_output(token_lst, cmd, O_CREAT | O_APPEND | O_RDWR, i));
+		else
+			return (redirect_output(token_lst, cmd, O_CREAT | O_TRUNC | O_RDWR, i));
+	}
 	return (0);
 }

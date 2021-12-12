@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_cmd	*init_cmd_struct(int args_num)
+t_cmd	*init_cmd_struct(int args_num, bool is_first)
 {
 	t_cmd	*cmd;
 	int		i;
@@ -8,18 +8,19 @@ t_cmd	*init_cmd_struct(int args_num)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-
-	// while (((t_cmd *)cmd_struct)->args[i] != NULL)
 	cmd->path = NULL;
 	cmd->args = (char **)malloc(sizeof(char *) * (args_num + 1));
 	if (!cmd->args)
 		return (NULL);
-
 	i = 0;
 	while (i < args_num + 1)
 		cmd->args[i++] = NULL;
 	cmd->r_io[0] = STDIN_FILENO;
 	cmd->r_io[1] = STDOUT_FILENO;
+	if (is_first == true)
+		cmd->is_first = true;
+	else
+		cmd->is_first = false;
 	return (cmd);
 }
 
@@ -42,7 +43,7 @@ t_list	*parse_tokens(t_list *token_lst)
 	int		i;
 
 	(void)prg;
-	cmd = init_cmd_struct(ft_lstsize(token_lst));
+	cmd = init_cmd_struct(ft_lstsize(token_lst), true);
 	if (!cmd)
 		return (NULL);
 	i = 0;
