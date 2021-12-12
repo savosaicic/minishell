@@ -117,6 +117,7 @@ void	exit_success(int status, bool display);
 int     is_space(char c);
 int		is_line_empty(char *line);
 void	print_cmd_lst(t_list *cmd_lst);
+int		check_quote_and_forbiden_char(char *buffer);
 
 
 int     is_builtin(char *cmd_name);

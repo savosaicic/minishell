@@ -50,6 +50,9 @@ t_list *get_command_lst(char *cmd_buffer)
 
 	cmd_lst = NULL;
 	add_history(cmd_buffer);
+
+	if (check_quote_and_forbiden_char(cmd_buffer) > 0)
+		return (NULL);
 	token_lst = get_token(cmd_buffer);
 
 
