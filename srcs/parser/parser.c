@@ -24,18 +24,13 @@ t_cmd	*init_cmd_struct(int args_num, bool is_first)
 	return (cmd);
 }
 
-int	is_a_redirection_token(t_ttype token_type)
+static int	is_a_redirection_token(t_ttype token_type)
 {
 	if (token_type == T_REDIRECT || token_type == T_DGREAT)
 		return (1);
 	return (0);
 }
 
-/*
-** t_list cmd_lst->content points to a t_cmd struct
-** This function parse the token list made by the lexer
-** to get a list of commands
-*/
 t_list	*parse_tokens(t_list *token_lst)
 {
 	t_list	*cmd_lst;
@@ -61,6 +56,5 @@ t_list	*parse_tokens(t_list *token_lst)
 	}
 	if (cmd && cmd->args[0])
 		add_last_cmd(&cmd, &cmd_lst, i);
-//	print_cmd_lst(cmd_lst);
 	return (cmd_lst);
 }
