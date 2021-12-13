@@ -51,10 +51,7 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags, int *i)
 {
 	if ((*cmd)->r_io[1] != STDOUT_FILENO)
 		ft_close((*cmd)->r_io[1]);
-
 	*token_lst = (*token_lst)->next;
-
-	//Check for $, expand if so
 	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token*)->token, o_flags, 0644);
 	if ((*cmd)->r_io[1] < 0)
 	{
