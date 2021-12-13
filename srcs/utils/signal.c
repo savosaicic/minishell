@@ -4,9 +4,11 @@ void    sig_int(int sig __attribute__((unused)))
 {
     if (!prg->child)
     {
+        ft_putstr_fd("$> ", 2);
+        ft_putstr_fd(rl_line_buffer, 2);
+        ft_putstr_fd("  \b\b\n", 2);
         rl_replace_line("", 0);
         rl_on_new_line();
-        ft_putstr_fd("\n", 2);
         rl_redisplay();
     }
     else if (prg->pid)
@@ -15,7 +17,15 @@ void    sig_int(int sig __attribute__((unused)))
 
 void    sig_quit(int sig __attribute__((unused)))
 {
-    ft_putstr_fd("\b\b  \b\b", 1);
+    if (!prg->child)
+    {
+
+        ft_putstr_fd("$> ", 2);
+        ft_putstr_fd(rl_line_buffer, 2);
+        ft_putstr_fd("  \b\b", 2);
+    }
+    else if (prg->pid)
+        ft_putstr_fd("\n", 2);
 }
 
 void    watch_signals(void)

@@ -18,6 +18,7 @@ t_prg	*init_shell(char **env)
 	prg->pwd = ft_getenv(prg->env_lst, "PWD");
 	prg->home_path = ft_getenv(prg->env_lst, "HOME");
 	rl_line_buffer = NULL;
+	prg->cmd_buffer = NULL;
 	prg->exit_status = 0;
 	return (prg);
 }
@@ -144,7 +145,6 @@ void	execution_manager(t_list *cmd_lst)
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char **env)
 {
 	t_list	*cmd_lst;
-	char	*line = NULL;
 
 	init_shell(env);
 	watch_signals();
@@ -152,13 +152,14 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)), char
 	{
 		cmd_lst = NULL;
 		prg->child = FALSE;
-		free(line);
-		line = NULL;
-		line = readline("$> ");
-		if (!line)
+		free(prg->cmd_buffer);
+		prg->cmd_buffer = NULL;
+		prg->cmd_buffer = readline("$> ");
+		ft_bzero(rl_line_buffer, 50);
+		if (!prg->cmd_buffer)
 			ft_exit(0, TRUE);
-		else if (!is_line_empty(line))
-			cmd_lst = get_command_lst(line);
+		else if (!is_line_empty(prg->cmd_buffer))
+			cmd_lst = get_command_lst(prg->cmd_buffer);
 		if (cmd_lst)
 			execution_manager(cmd_lst);
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
