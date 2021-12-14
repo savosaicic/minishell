@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:43:59 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 10:21:08 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,22 +104,21 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	char **env)
 {
 	t_list	*cmd_lst;
-	char	*line;
 
 	init_shell(env);
 	watch_signals();
-	line = NULL;
+	g_prg->cmd_buffer = NULL;
 	while (1)
 	{
 		cmd_lst = NULL;
 		g_prg->child = FALSE;
-		free(line);
-		line = NULL;
-		line = readline("$> ");
-		if (!line)
+		free(g_prg->cmd_buffer);
+		g_prg->cmd_buffer = NULL;
+		g_prg->cmd_buffer = readline("$> ");
+		if (!g_prg->cmd_buffer)
 			ft_exit(0, TRUE);
-		else if (!is_line_empty(line))
-			cmd_lst = get_command_lst(line);
+		else if (!is_line_empty(g_prg->cmd_buffer))
+			cmd_lst = get_command_lst(g_prg->cmd_buffer);
 		if (cmd_lst)
 			execution_manager(cmd_lst);
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
