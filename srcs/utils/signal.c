@@ -1,27 +1,27 @@
 #include "minishell.h"
 
-void    sig_int(int sig __attribute__((unused)))
+void	sig_int(int sig __attribute__((unused)))
 {
-    if (!prg->child)
-    {
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        ft_putstr_fd("\n", 2);
-        rl_redisplay();
-    }
-    else if (prg->pid)
-        ft_putstr_fd("\n", 2);
+	if (!prg->child)
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		ft_putstr_fd("\n", 2);
+		rl_redisplay();
+	}
+	else if (prg->pid)
+		ft_putstr_fd("\n", 2);
 }
 
-void    sig_quit(int sig __attribute__((unused)))
+void	sig_quit(int sig __attribute__((unused)))
 {
-    ft_putstr_fd("\b\b  \b\b", 1);
+	ft_putstr_fd("\b\b  \b\b", 1);
 }
 
-void    watch_signals(void)
+void	watch_signals(void)
 {
-    if (signal(SIGINT, &sig_int) == SIG_ERR)
+	if (signal(SIGINT, &sig_int) == SIG_ERR)
 		exit_failure(NULL, strerror(errno), 1);
-    if (signal(SIGQUIT, &sig_quit) == SIG_ERR)
+	if (signal(SIGQUIT, &sig_quit) == SIG_ERR)
 		exit_failure(NULL, strerror(errno), 1);
 }

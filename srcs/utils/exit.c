@@ -2,8 +2,8 @@
 
 char	*treat_error_msg(char *str)
 {
-	char *lower_str;
-	int i;
+	char	*lower_str;
+	int		i;
 
 	lower_str = malloc(sizeof(*lower_str) * ft_strlen(str) + 2);
 	if (!lower_str)
@@ -21,9 +21,10 @@ char	*treat_error_msg(char *str)
 	lower_str[i + 1] = '\0';
 	return (lower_str);
 }
+
 int	puterror(char *item_name, char *error_msg, int status)
 {
-	char *strerror;
+	char	*strerror;
 
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (item_name)
@@ -52,7 +53,6 @@ void	exit_success(int status, bool display)
 	clear_prg_struct();
 	exit(status);
 }
-
 
 void	ft_exit(int status, bool display)
 {
