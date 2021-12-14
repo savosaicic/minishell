@@ -88,6 +88,7 @@ char	*search_in_tab(char **env, char *var);
 char	*write_command(char **cmd);
 
 /*execute_command*/
+t_io	set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int *is_first);
 int    	execute_builtin(t_cmd *cmd);
 int		execute_command(t_cmd *cmd);
 int     execute(t_cmd *cmd);
