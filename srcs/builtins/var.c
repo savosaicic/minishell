@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:00:44 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int print_env(t_list *env_lst, char *str)
+int	print_env(t_list *env_lst, char *str)
 {
 	while (env_lst)
 	{
@@ -10,9 +22,9 @@ int print_env(t_list *env_lst, char *str)
 	return (0);
 }
 
-int export(t_cmd *cmd, t_list *env_lst)
+int	export(t_cmd *cmd, t_list *env_lst)
 {
-	int i;
+	int	i;
 
 	if (ft_charlen(cmd->args) <= 1)
 		return (print_env(env_lst, "export "));
@@ -27,14 +39,14 @@ int export(t_cmd *cmd, t_list *env_lst)
 	return (0);
 }
 
-void delete_variable(t_list *env_lst, char *del)
+void	delete_variable(t_list *env_lst, char *del)
 {
-	t_list *next;
+	t_list	*next;
 
 	if (!ft_strcmp(((t_variable *)env_lst->content)->name, del))
 	{
 		*env_lst = *env_lst->next;
-		return;
+		return ;
 	}
 	next = env_lst->next;
 	while (next)
@@ -45,17 +57,17 @@ void delete_variable(t_list *env_lst, char *del)
 			// free(((t_variable *)next)->name);
 			// free(((t_variable *)next)->value);
 			// free(next);
-			return;
+			return ;
 		}
 		env_lst = env_lst->next;
 		next = next->next;
 	}
 }
 
-int unset(t_cmd *cmd, t_list *env_lst)
+int	unset(t_cmd *cmd, t_list *env_lst)
 {
-	int i;
-	int ret;
+	int	i;
+	int	ret;
 
 	ret = 0;
 	if (ft_charlen(cmd->args) <= 1)

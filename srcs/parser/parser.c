@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-t_cmd	*init_cmd_struct(int args_num)
+t_cmd	*init_cmd_struct(int args_num, bool is_first)
 {
 	t_cmd	*cmd;
 	int		i;
@@ -8,41 +20,37 @@ t_cmd	*init_cmd_struct(int args_num)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-
-	// while (((t_cmd *)cmd_struct)->args[i] != NULL)
 	cmd->path = NULL;
 	cmd->args = (char **)malloc(sizeof(char *) * (args_num + 1));
 	if (!cmd->args)
 		return (NULL);
-
 	i = 0;
 	while (i < args_num + 1)
 		cmd->args[i++] = NULL;
 	cmd->r_io[0] = STDIN_FILENO;
 	cmd->r_io[1] = STDOUT_FILENO;
+	if (is_first == true)
+		cmd->is_first = true;
+	else
+		cmd->is_first = false;
 	return (cmd);
 }
 
-int	is_a_redirection_token(t_ttype token_type)
+static int	is_a_redirection_token(t_ttype token_type)
 {
 	if (token_type == T_REDIRECT || token_type == T_DGREAT)
 		return (1);
 	return (0);
 }
 
-/*
-** t_list cmd_lst->content points to a t_cmd struct
-** This function parse the token list made by the lexer
-** to get a list of commands
-*/
 t_list	*parse_tokens(t_list *token_lst)
 {
 	t_list	*cmd_lst;
 	t_cmd	*cmd;
 	int		i;
 
-	(void)prg;
-	cmd = init_cmd_struct(ft_lstsize(token_lst));
+	(void)g_prg;
+	cmd = init_cmd_struct(ft_lstsize(token_lst), true);
 	if (!cmd)
 		return (NULL);
 	i = 0;
@@ -60,6 +68,5 @@ t_list	*parse_tokens(t_list *token_lst)
 	}
 	if (cmd && cmd->args[0])
 		add_last_cmd(&cmd, &cmd_lst, i);
-//	print_cmd_lst(cmd_lst);
 	return (cmd_lst);
 }

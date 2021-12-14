@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_quote.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_operator(char c)
@@ -6,7 +18,7 @@ static int	is_operator(char c)
 		|| c == ' ');
 }
 
-static char	*quotes_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer,
+static char	*quotes_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer,
 	char quote)
 {
 	char	buffer[4096];
@@ -24,7 +36,7 @@ static char	*quotes_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer,
 		(*cmd_buffer)++;
 	}
 	if (buffer[0] == '?')
-		return (ft_itoa(prg->exit_status));
+		return (ft_itoa(g_prg->exit_status));
 	expanded_var = ft_getenv(env_lst, buffer);
 	if (!expanded_var)
 		return (ft_strdup(""));
@@ -55,7 +67,7 @@ int	need_to_expand(char **cmd_buffer, char quote)
 		!= '$' && *(*cmd_buffer + 1) != ' ' && quote != '\'');
 }
 
-int	handle_quote(t_prg *prg, char **cmd_buffer, char *str, t_list **token_lst)
+int	handle_quote(t_prg *g_prg, char **cmd_buffer, char *str, t_list **token_lst)
 {
 	char	quote;
 	char	buffer[4096];
@@ -67,7 +79,7 @@ int	handle_quote(t_prg *prg, char **cmd_buffer, char *str, t_list **token_lst)
 	{
 		while (need_to_expand(cmd_buffer, quote))
 		{
-			tmp = quotes_expansion(prg, prg->env_lst, cmd_buffer, quote);
+			tmp = quotes_expansion(g_prg, g_prg->env_lst, cmd_buffer, quote);
 			ft_strcat(buffer, tmp);
 			i += ft_strlen(tmp);
 			free(tmp);

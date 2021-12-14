@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_eof_delimiter(char *line, char *delimiter)
@@ -16,15 +28,13 @@ static int	redirect_heredoc(t_list **token_lst, t_cmd **cmd, int pipe_fd)
 		ft_close((*cmd)->r_io[0]);
 	else if ((*cmd)->r_io[1] != STDOUT_FILENO)
 		ft_close((*cmd)->r_io[1]);
-
-	//Check for $, expand if so
 	(*cmd)->r_io[0] = dup(pipe_fd);
 	*token_lst = (*token_lst)->next;
 	ft_close(pipe_fd);
 	return (0);
 }
 
-int		handle_heredoc(t_list **token_lst, t_cmd **cmd)
+int	handle_heredoc(t_list **token_lst, t_cmd **cmd)
 {
 	int		fds[2];
 	char	*line;
@@ -32,9 +42,10 @@ int		handle_heredoc(t_list **token_lst, t_cmd **cmd)
 
 	pipe(fds);
 	*token_lst = (*token_lst)->next;
-	if (!*token_lst || ((t_token*)(*token_lst)->content)->token_type == T_PIPE)
-		return (puterror(NULL, "syntax error near unexpected token `newline\'", 1));
-	delimiter = CAST((*token_lst), t_token*)->token;
+	if (!*token_lst || ((t_token *)(*token_lst)->content)->token_type == T_PIPE)
+		return (puterror(NULL,
+				"syntax error near unexpected token `newline\'", 1));
+	delimiter = CAST((*token_lst), t_token *)->token;
 	while (1)
 	{
 		line = readline("> ");

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   directory.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int pwd(t_cmd *cmd)
+int	pwd(t_cmd *cmd)
 {
-	char *buf;
+	char	*buf;
 
 	(void)cmd;
 	buf = NULL;
@@ -19,12 +31,12 @@ int pwd(t_cmd *cmd)
 	return (0);
 }
 
-int cd(t_cmd *cmd, char *home_path)
+int	cd(t_cmd *cmd, char *home_path)
 {
+	char	*tmp;
 	(void)cmd;
-	char *tmp;
 
-	if (prg->child == TRUE)
+	if (g_prg->child == TRUE)
 		return (0);
 	if (ft_charlen(cmd->args) > 2)
 		return (puterror(NULL, "too many arguments", 1));

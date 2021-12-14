@@ -1,11 +1,24 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/14 10:03:15 by sasaicic          #+#    #+#              #
+#    Updated: 2021/12/14 10:06:04 by sasaicic         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 CC = gcc 
 CFLAGS = -g -Wall -Wextra -Werror
-SRCS = main.c get_tokens.c  free.c lst_utils.c exit.c command.c handle_operators.c handle_redirection.c \
-		clear.c echo.c utils.c execute.c get_path.c parser.c expansion.c var.c directory.c exit_shell.c \
-		environment.c plug_pipes.c handle_heredoc.c signal.c handle_expansion.c parsing_utils.c handle_quote.c \
-		colons.c
-
+SRCS =	main.c get_tokens.c  free.c lst_utils.c exit.c command.c \
+		handle_operators.c handle_redirection.c clear.c echo.c utils.c \
+		execute.c get_path.c parser.c expansion.c var.c directory.c exit_shell.c \
+		environment.c plug_pipes.c handle_heredoc.c signal.c handle_expansion.c \
+		parsing_utils.c handle_quote.c colons.c buffer_checks.c set_io_exec.c \
+		utils_2.c utils_3.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 D_LIBFT = ./libft/

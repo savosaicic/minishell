@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*treat_error_msg(char *str)
 {
-	char *lower_str;
-	int i;
+	char	*lower_str;
+	int		i;
 
 	lower_str = malloc(sizeof(*lower_str) * ft_strlen(str) + 2);
 	if (!lower_str)
@@ -21,9 +33,10 @@ char	*treat_error_msg(char *str)
 	lower_str[i + 1] = '\0';
 	return (lower_str);
 }
+
 int	puterror(char *item_name, char *error_msg, int status)
 {
-	char *strerror;
+	char	*strerror;
 
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (item_name)
@@ -53,22 +66,21 @@ void	exit_success(int status, bool display)
 	exit(status);
 }
 
-
 void	ft_exit(int status, bool display)
 {
 	if (display == TRUE)
 		ft_putstr_fd("exit\n", 1);
 	rl_clear_history();
-	ft_lstclear(&prg->env_lst, clear_var_struct);
+	ft_lstclear(&g_prg->env_lst, clear_var_struct);
 	// free(rl_line_buffer);
 	// ft_lstclear(&prg->cmd_lst, clear_cmd_struct);
-	free(prg->env_lst);
-	prg->env_lst = NULL;
-	free(prg->pwd);
-	prg->pwd = NULL;
-	free(prg->home_path);
-	prg->home_path = NULL;
-	free(prg);
-	prg = NULL;
+	free(g_prg->env_lst);
+	g_prg->env_lst = NULL;
+	free(g_prg->pwd);
+	g_prg->pwd = NULL;
+	free(g_prg->home_path);
+	g_prg->home_path = NULL;
+	free(g_prg);
+	g_prg = NULL;
 	exit(status);
 }

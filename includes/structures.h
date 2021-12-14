@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structures.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 09:09:48 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
@@ -27,6 +39,7 @@ typedef struct s_cmd
 
 	int		fdin;
 	int		fdout;
+	bool	is_first;
 }				t_cmd;
 
 typedef struct	s_io

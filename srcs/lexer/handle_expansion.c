@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_expansion.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*perform_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer)
+char	*perform_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer)
 {
 	char	buffer[4096];
 	char	*expanded_var;
@@ -18,7 +30,7 @@ char	*perform_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer)
 		(*cmd_buffer)++;
 	}
 	if (buffer[0] == '?')
-		return (ft_itoa(prg->exit_status));
+		return (ft_itoa(g_prg->exit_status));
 	tmp = ft_getenv(env_lst, buffer);
 	if (!tmp)
 		expanded_var = ft_strdup("");
@@ -45,7 +57,7 @@ static void	split_buffer_and_add_back(char *buffer, t_list **token_lst)
 	free_tab(res);
 }
 
-char	*handle_expansion(t_prg *prg, char **cmd_buffer, char **save,
+char	*handle_expansion(t_prg *g_prg, char **cmd_buffer, char **save,
 	t_list **token_lst)
 {
 	char	*expanded_var;
@@ -61,7 +73,7 @@ char	*handle_expansion(t_prg *prg, char **cmd_buffer, char **save,
 		buffer = ft_strdup("");
 	while (**cmd_buffer && !is_space(**cmd_buffer))
 	{
-		expanded_var = perform_expansion(prg, prg->env_lst, cmd_buffer);
+		expanded_var = perform_expansion(g_prg, g_prg->env_lst, cmd_buffer);
 		buffer = ft_memjoin(buffer, expanded_var);
 		free(expanded_var);
 	}

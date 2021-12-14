@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clear.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:24:06 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	clear_token_struct(void *token_struct)
@@ -45,18 +57,18 @@ void	clear_var_struct(void *var_struct)
 
 void	clear_prg_struct(void)
 {
-	if (!prg)
+	if (!g_prg)
 		return ;
-	free(rl_line_buffer);
-	rl_line_buffer = NULL;
-	ft_lstclear(&prg->env_lst, clear_var_struct);
-	ft_lstclear(&prg->cmd_lst, clear_cmd_struct);
-	free(prg->env_lst);
-	prg->env_lst = NULL;
-	free(prg->pwd);
-	prg->pwd = NULL;
-	free(prg->home_path);
-	prg->home_path = NULL;
-	free(prg);
-	prg = NULL;
+	free(g_prg->cmd_buffer);
+	g_prg->cmd_buffer = NULL;
+	ft_lstclear(&g_prg->env_lst, clear_var_struct);
+	ft_lstclear(&g_prg->cmd_lst, clear_cmd_struct);
+	free(g_prg->env_lst);
+	g_prg->env_lst = NULL;
+	free(g_prg->pwd);
+	g_prg->pwd = NULL;
+	free(g_prg->home_path);
+	g_prg->home_path = NULL;
+	free(g_prg);
+	g_prg = NULL;
 }

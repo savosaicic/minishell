@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
@@ -30,16 +42,16 @@
 # define MAX_PIPE 64
 
 
-extern t_prg	*prg;
+extern t_prg	*g_prg;
 
 
 t_variable	*write_variable(char *var);
 t_list		*init_env(void);
 
-int			handle_quote(t_prg *prg, char **cmd_buffer, char *str, t_list **token_lst);
-char		*handle_expansion(t_prg *prg, char **cmd_buffer, char **save, t_list **token_lst);
+int			handle_quote(t_prg *g_prg, char **cmd_buffer, char *str, t_list **token_lst);
+char		*handle_expansion(t_prg *g_prg, char **cmd_buffer, char **save, t_list **token_lst);
 char		*ft_getenv(t_list *env_lst, char *var_search);
-char		*perform_expansion(t_prg *prg, t_list *env_lst, char **cmd_buffer);
+char		*perform_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer);
 
 char    	**get_path(void);
 char    	*get_cmd_path(char **path, char *cmd);
@@ -75,10 +87,9 @@ int		lex_chars(int i, char **cmd_buffer, char **buffer);
 char		*clean_command_line(char *line_buff);
 void		add_var_in_env(char *variable, t_list *env_lst);
 void		parse_heredoc(t_list **token_lst, t_cmd **cmd);
-void		parse_redirection(t_list **token_lst, t_cmd **cmd, int *i);
-int			handle_redirection(t_cmd **cmd, t_list **token_lst, int *i);
+int			parse_redirection(t_list **token_lst, t_cmd **cmd, int *i);
 void		parse_pipe(t_list **token_lst, t_cmd **cmd, t_list **cmd_lst, int *i);
-t_cmd		*init_cmd_struct(int args_num);
+t_cmd		*init_cmd_struct(int args_num, bool is_first);
 void		parse_argument(t_list **token_lst, t_cmd **cmd, int *i);
 void		add_last_cmd(t_cmd **cmd, t_list **cmd_lst, int i);
 int			is_token_in_list(t_list *token_lst, t_ttype type);
@@ -88,6 +99,7 @@ char	*search_in_tab(char **env, char *var);
 char	*write_command(char **cmd);
 
 /*execute_command*/
+t_io	set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len, int *is_first);
 int    	execute_builtin(t_cmd *cmd);
 int		execute_command(t_cmd *cmd);
 int     execute(t_cmd *cmd);
@@ -117,6 +129,7 @@ void	exit_success(int status, bool display);
 int     is_space(char c);
 int		is_line_empty(char *line);
 void	print_cmd_lst(t_list *cmd_lst);
+int		check_quote_and_forbiden_char(char *buffer);
 
 
 int     is_builtin(char *cmd_name);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	lex_expansion(t_list **token_lst, char **cmd_buffer,
@@ -8,7 +20,7 @@ int	lex_expansion(t_list **token_lst, char **cmd_buffer,
 	expander_var = NULL;
 	if (ft_strlen(*buffer))
 		expander_var = ft_strdup(*buffer);
-	handle_expansion(prg, cmd_buffer, &expander_var, token_lst);
+	handle_expansion(g_prg, cmd_buffer, &expander_var, token_lst);
 	ft_bzero(*buffer, MAX_TOKEN_SIZE);
 	free(expander_var);
 	return (0);
@@ -17,9 +29,9 @@ int	lex_expansion(t_list **token_lst, char **cmd_buffer,
 int	lex_quotes(t_list **token_lst, char **cmd_buffer, char **buffer)
 {
 	if (ft_strlen(*buffer))
-		handle_quote(prg, cmd_buffer, *buffer, token_lst);
+		handle_quote(g_prg, cmd_buffer, *buffer, token_lst);
 	else
-		handle_quote(prg, cmd_buffer, NULL, token_lst);
+		handle_quote(g_prg, cmd_buffer, NULL, token_lst);
 	ft_bzero(*buffer, MAX_TOKEN_SIZE);
 	return (0);
 }
@@ -40,7 +52,7 @@ int	lex_operators(t_list **token_lst, char **cmd_buffer,
 
 int	lex_spaces(t_list **token_lst, char **cmd_buffer, char **buffer)
 {
-	(void)prg;
+	(void)g_prg;
 	while (**cmd_buffer == ' ')
 		(*cmd_buffer)++;
 	if (ft_strlen(*buffer))
