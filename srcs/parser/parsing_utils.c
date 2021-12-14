@@ -18,11 +18,6 @@ void	parse_heredoc(t_list **token_lst, t_cmd **cmd)
 	}
 }
 
-void	parse_redirection(t_list **token_lst, t_cmd **cmd, int *i)
-{
-	handle_redirection(cmd, token_lst, i);
-}
-
 void	parse_pipe(t_list **token_lst, t_cmd **cmd, t_list **cmd_lst, int *i)
 {
 	(*cmd)->args[*i] = NULL;
