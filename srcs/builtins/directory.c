@@ -6,15 +6,15 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 10:01:26 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int pwd(t_cmd *cmd)
+int	pwd(t_cmd *cmd)
 {
-	char *buf;
+	char	*buf;
 
 	(void)cmd;
 	buf = NULL;
@@ -31,10 +31,10 @@ int pwd(t_cmd *cmd)
 	return (0);
 }
 
-int cd(t_cmd *cmd, char *home_path)
+int	cd(t_cmd *cmd, char *home_path)
 {
+	char	*tmp;
 	(void)cmd;
-	char *tmp;
 
 	if (prg->child == TRUE)
 		return (0);

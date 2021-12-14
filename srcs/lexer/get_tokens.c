@@ -6,24 +6,11 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 09:59:03 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_onlychr(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i++] != c)
-			return (0);
-	}
-	return (1);
-}
 
 t_ttype	get_token_type(char *token)
 {
@@ -57,7 +44,7 @@ t_token	*write_token(char *token)
 	return (token_struct);
 }
 
-void	*max_token_size_reached(t_list **token_lst, char *buffer)
+static void	*max_token_size_reached(t_list **token_lst, char *buffer)
 {
 	ft_lstclear(token_lst, clear_token_struct);
 	write(2, "Command too long : ", 19);

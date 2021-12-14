@@ -6,13 +6,13 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 09:46:36 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_getenv(t_list *env_lst, char *var_search)
+char	*ft_getenv(t_list *env_lst, char *var_search)
 {
 	while (env_lst)
 	{
@@ -23,7 +23,7 @@ char *ft_getenv(t_list *env_lst, char *var_search)
 	return (NULL);
 }
 
-t_variable *write_variable(char *var)
+t_variable	*write_variable(char *var)
 {
 	t_variable	*var_struct;
 	char		**var_split;
@@ -46,10 +46,10 @@ t_variable *write_variable(char *var)
 	return (var_struct);
 }
 
-t_list *init_env(void)
+t_list	*init_env(void)
 {
-	t_list		*env_lst;
-	int			i;
+	t_list	*env_lst;
+	int		i;
 
 	if (!prg->env)
 		return (NULL);

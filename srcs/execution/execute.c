@@ -6,15 +6,15 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 09:45:48 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     execute_builtin(t_cmd *cmd)
+int	execute_builtin(t_cmd *cmd)
 {
-	int ret;
+	int	ret;
 
 	ret = 1;
 	if (!ft_strcmp(cmd->args[0], "echo"))
@@ -36,11 +36,11 @@ int     execute_builtin(t_cmd *cmd)
 	return (ret);
 }
 
-int execute_command(t_cmd *cmd)
+int	execute_command(t_cmd *cmd)
 {
-	pid_t pid;
-	int ret;
-	int status;
+	pid_t	pid;
+	int		ret;
+	int		status;
 
 	ret = 0;
 	pid = fork();
@@ -56,10 +56,10 @@ int execute_command(t_cmd *cmd)
 		ret = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		ret = WTERMSIG(status) + 128;
-	return(ret);
+	return (ret);
 }
 
-int execute(t_cmd *cmd)
+int	execute(t_cmd *cmd)
 {
 	if (is_builtin(cmd->args[0]))
 		prg->exit_status = execute_builtin(cmd);

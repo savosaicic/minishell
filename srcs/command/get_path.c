@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 09:50:46 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	add_path_slash(char **path)
 {
-	int		i;
+	int	i;
 
 	if (!path)
 		return ;
@@ -26,7 +26,7 @@ static void	add_path_slash(char **path)
 	}
 }
 
-char	**get_path()
+char	**get_path(void)
 {
 	char	**path;
 	char	*ptr;

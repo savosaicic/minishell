@@ -6,17 +6,17 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 09:50:12 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_cmd_path(char **path, char *cmd)
+char	*get_cmd_path(char **path, char *cmd)
 {
-	char *cmd_path;
-	int ret;
-	int i;
+	char	*cmd_path;
+	int		ret;
+	int		i;
 
 	if (path == NULL)
 		return (NULL);
@@ -41,23 +41,23 @@ char *get_cmd_path(char **path, char *cmd)
 	}
 }
 
-char *search_in_tab(char **env, char *var)
+char	*search_in_tab(char **env, char *var)
 {
-	int i;
-	int var_len;
+	int	i;
+	int	var_len;
 
 	i = 0;
 	var_len = ft_strlen(var);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], var, var_len) == 0)
-			break;
+			break ;
 		i++;
 	}
 	return (env[i]);
 }
 
-char *write_command(char **cmd)
+char	*write_command(char **cmd)
 {
 	char	**paths;
 	char	*cmd_path;
