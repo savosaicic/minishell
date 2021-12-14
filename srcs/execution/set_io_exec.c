@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ t_io	replace_cmd_io_and_exec(t_list **cmd_lst, t_io io_struct)
 t_io	set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len,
 		int *is_first)
 {
-	prg->pid = 0;
+	g_prg->pid = 0;
 	io_struct = set_file_descriptors(cmd_lst, io_struct, cmds_len, is_first);
 	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
 	{
-		prg->child = TRUE;
-		prg->pid = fork();
+		g_prg->child = TRUE;
+		g_prg->pid = fork();
 	}
 	if (ft_strchr(rl_line_buffer, '|')) //May be done before ?
-		prg->child = TRUE;
-	if (!prg->pid)
+		g_prg->child = TRUE;
+	if (!g_prg->pid)
 		io_struct = replace_cmd_io_and_exec(cmd_lst, io_struct);
 	else
 	{

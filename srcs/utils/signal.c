@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	sig_int(int sig __attribute__((unused)))
 {
-	if (!prg->child)
+	if (!g_prg->child)
 	{
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		ft_putstr_fd("\n", 2);
 		rl_redisplay();
 	}
-	else if (prg->pid)
+	else if (g_prg->pid)
 		ft_putstr_fd("\n", 2);
 }
 

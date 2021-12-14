@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	wait_all_pids(void)
 	int	pid_ret;
 
 	pid_ret = 1;
-	prg->exit_status = 0;
+	g_prg->exit_status = 0;
 	while (pid_ret > 0)
 	{
 		pid_ret = wait(&status);
 		if (WIFEXITED(status))
-			prg->exit_status = WEXITSTATUS(status);
+			g_prg->exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
-			prg->exit_status = WTERMSIG(status);
+			g_prg->exit_status = WTERMSIG(status);
 	}
 }
 

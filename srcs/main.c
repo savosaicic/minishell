@@ -6,32 +6,32 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:43:59 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:44:00 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_prg	*prg;
+t_prg	*g_prg;
 
 t_prg	*init_shell(char **env)
 {
-	prg = malloc(sizeof(*prg));
-	if (!prg)
+	g_prg = malloc(sizeof(*g_prg));
+	if (!g_prg)
 		exit_failure(NULL, "insufficient memory", 1);
 	if (!*env)
 	{
-		prg->env = xxmalloc(sizeof(*prg->env));
-		*prg->env = NULL;
+		g_prg->env = xxmalloc(sizeof(*g_prg->env));
+		*g_prg->env = NULL;
 	}
 	else
-		prg->env = env;
-	prg->env_lst = init_env();
-	prg->pwd = ft_getenv(prg->env_lst, "PWD");
-	prg->home_path = ft_getenv(prg->env_lst, "HOME");
+		g_prg->env = env;
+	g_prg->env_lst = init_env();
+	g_prg->pwd = ft_getenv(g_prg->env_lst, "PWD");
+	g_prg->home_path = ft_getenv(g_prg->env_lst, "HOME");
 	rl_line_buffer = NULL;
-	prg->exit_status = 0;
-	return (prg);
+	g_prg->exit_status = 0;
+	return (g_prg);
 }
 
 int	check_token(t_list *token_lst)
@@ -85,8 +85,8 @@ void	execution_manager(t_list *cmd_lst)
 
 	cmds_len = ft_lstsize(cmd_lst);
 	io_struct = init_io_struct();
-	prg->cmd_lst = cmd_lst;
-	prg->cmds_len = cmds_len;
+	g_prg->cmd_lst = cmd_lst;
+	g_prg->cmds_len = cmds_len;
 	is_first = 1;
 	while (cmds_len)
 	{
@@ -96,7 +96,7 @@ void	execution_manager(t_list *cmd_lst)
 		cmds_len--;
 	}
 	restore_and_close_fds(io_struct);
-	if (prg->child)
+	if (g_prg->child)
 		wait_all_pids();
 }
 
@@ -112,7 +112,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	while (1)
 	{
 		cmd_lst = NULL;
-		prg->child = FALSE;
+		g_prg->child = FALSE;
 		free(line);
 		line = NULL;
 		line = readline("$> ");

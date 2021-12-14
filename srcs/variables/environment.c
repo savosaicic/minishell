@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:46:36 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ t_list	*init_env(void)
 	t_list	*env_lst;
 	int		i;
 
-	if (!prg->env)
+	if (!g_prg->env)
 		return (NULL);
 	env_lst = NULL;
 	i = 0;
-	while (prg->env[i])
-		ft_envlst_add_back(&env_lst, ft_lstnew(write_variable(prg->env[i++])));
+	while (g_prg->env[i])
+		ft_envlst_add_back(&env_lst, ft_lstnew(write_variable(g_prg->env[i++])));
 	return (env_lst);
 }
