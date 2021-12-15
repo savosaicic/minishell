@@ -6,7 +6,7 @@
 #    By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 10:03:15 by sasaicic          #+#    #+#              #
-#    Updated: 2021/12/15 14:48:03 by sasaicic         ###   ########.fr        #
+#    Updated: 2021/12/15 14:57:31 by sasaicic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS =	main.c get_tokens.c  free.c lst_utils.c exit.c command.c \
 		execute.c get_path.c parser.c expansion.c var.c directory.c exit_shell.c \
 		environment.c plug_pipes.c handle_heredoc.c signal.c handle_expansion.c \
 		parsing_utils.c handle_quote.c colons.c buffer_checks.c set_io_exec.c \
-		utils_2.c utils_3.c debug.c
+		utils_2.c utils_3.c
 INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 D_LIBFT = ./libft/
