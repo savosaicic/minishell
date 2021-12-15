@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/15 14:51:54 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:07:49 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_list	*get_token(char *cmd_buffer)
 	while (*cmd_buffer)
 	{
 		if (*cmd_buffer == '\"' || *cmd_buffer == '\'')
-			i = lex_quotes(&token_lst, &cmd_buffer, &buffer);
+			i = lex_quotes(&cmd_buffer, &buffer);
 		else if (*cmd_buffer == '<' || *cmd_buffer == '>' || *cmd_buffer == '|')
 			i = lex_operators(&token_lst, &cmd_buffer, &buffer);
 		else if (*cmd_buffer == ' ')

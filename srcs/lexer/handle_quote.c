@@ -6,17 +6,11 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/15 14:53:26 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:05:50 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_operator(char c)
-{
-	return (c == '|' || c == '<' || c == '>' || c == '\"' || c == '\''
-		|| c == ' ');
-}
 
 static char	*quotes_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer,
 	char quote)
@@ -51,23 +45,13 @@ static void	init_vars(char **cmd_buffer, int *i, char *quote, char *buffer)
 	ft_bzero(buffer, 4096);
 }
 
-static char	*add_back(t_list **token_lst, char *buffer, char *str)
-{
-	if (str)
-		ft_lstadd_back(token_lst,
-			ft_lstnew(write_token(ft_strjoin(str, buffer))));
-	else if (ft_strlen(buffer))
-		ft_lstadd_back(token_lst, ft_lstnew(write_token(buffer)));
-	return (0);
-}
-
 int	need_to_expand(char **cmd_buffer, char quote)
 {
 	return (**cmd_buffer == '$' && *(*cmd_buffer + 1) && *(*cmd_buffer + 1)
 		!= '$' && *(*cmd_buffer + 1) != ' ' && quote != '\'');
 }
 
-char	*handle_quote(t_prg *g_prg, char **cmd_buffer, char *str, t_list **token_lst)
+char	*handle_quote(t_prg *g_prg, char **cmd_buffer, char *str)
 {
 	char	quote;
 	char	buffer[4096];

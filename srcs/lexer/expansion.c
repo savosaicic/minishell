@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/15 14:51:41 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:07:02 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int	lex_expansion(t_list **token_lst, char **cmd_buffer,
 	return (0);
 }
 
-int	lex_quotes(t_list **token_lst, char **cmd_buffer, char **buffer)
+int	lex_quotes(char **cmd_buffer, char **buffer)
 {
 	char	*tmp;
 
 	if (ft_strlen(*buffer))
-		tmp = handle_quote(g_prg, cmd_buffer, *buffer, token_lst);
+		tmp = handle_quote(g_prg, cmd_buffer, *buffer);
 	else
-		tmp = handle_quote(g_prg, cmd_buffer, NULL, token_lst);
+		tmp = handle_quote(g_prg, cmd_buffer, NULL);
 	ft_bzero(*buffer, MAX_TOKEN_SIZE);
 	if (tmp)
 		ft_strcat(*buffer, tmp);
