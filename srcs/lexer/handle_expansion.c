@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:52:32 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	*perform_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer)
 	i = 0;
 	while (**cmd_buffer)
 	{
-		if (is_space(**cmd_buffer) || **cmd_buffer == '$')
+		if (is_space(**cmd_buffer) || **cmd_buffer == '$'
+			|| **cmd_buffer == '\"' || **cmd_buffer == '\'')
 			break ;
 		buffer[i++] = **cmd_buffer;
 		(*cmd_buffer)++;
@@ -40,12 +41,12 @@ char	*perform_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer)
 	return (expanded_var);
 }
 
-static void	split_buffer_and_add_back(char *buffer, t_list **token_lst)
+static void	split_buffer_and_add_back(char **buffer, t_list **token_lst)
 {
 	char	**res;
 	int		i;
 
-	res = ft_split(buffer, ' ');
+	res = ft_split(*buffer, ' ');
 	if (!res)
 		return ;
 	i = 0;
@@ -55,6 +56,8 @@ static void	split_buffer_and_add_back(char *buffer, t_list **token_lst)
 		i++;
 	}
 	free_tab(res);
+	free(*buffer);
+	*buffer = NULL;
 }
 
 char	*handle_expansion(t_prg *g_prg, char **cmd_buffer, char **save,
@@ -71,12 +74,14 @@ char	*handle_expansion(t_prg *g_prg, char **cmd_buffer, char **save,
 	}
 	else
 		buffer = ft_strdup("");
-	while (**cmd_buffer && !is_space(**cmd_buffer))
+	while (**cmd_buffer && !is_space(**cmd_buffer)
+		&& **cmd_buffer != '\"' && **cmd_buffer != '\'')
 	{
 		expanded_var = perform_expansion(g_prg, g_prg->env_lst, cmd_buffer);
 		buffer = ft_memjoin(buffer, expanded_var);
 		free(expanded_var);
 	}
-	split_buffer_and_add_back(buffer, token_lst);
+	if (**cmd_buffer != '\"' && **cmd_buffer != '\'')
+		split_buffer_and_add_back(&buffer, token_lst);
 	return (buffer);
 }

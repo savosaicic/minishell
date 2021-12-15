@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:51:41 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,33 @@ int	lex_expansion(t_list **token_lst, char **cmd_buffer,
 	char **buffer)
 {
 	char	*expander_var;
+	char	*tmp;
 
 	expander_var = NULL;
 	if (ft_strlen(*buffer))
 		expander_var = ft_strdup(*buffer);
-	handle_expansion(g_prg, cmd_buffer, &expander_var, token_lst);
+	tmp = handle_expansion(g_prg, cmd_buffer, &expander_var, token_lst);
 	ft_bzero(*buffer, MAX_TOKEN_SIZE);
+	if (ft_strlen(tmp))
+		ft_memcpy(*buffer, tmp, ft_strlen(tmp));
+	free(tmp);
 	free(expander_var);
 	return (0);
 }
 
 int	lex_quotes(t_list **token_lst, char **cmd_buffer, char **buffer)
 {
+	char	*tmp;
+
 	if (ft_strlen(*buffer))
-		handle_quote(g_prg, cmd_buffer, *buffer, token_lst);
+		tmp = handle_quote(g_prg, cmd_buffer, *buffer, token_lst);
 	else
-		handle_quote(g_prg, cmd_buffer, NULL, token_lst);
+		tmp = handle_quote(g_prg, cmd_buffer, NULL, token_lst);
 	ft_bzero(*buffer, MAX_TOKEN_SIZE);
-	return (0);
+	if (tmp)
+		ft_strcat(*buffer, tmp);
+	free(tmp);
+	return (ft_strlen(*buffer));
 }
 
 int	lex_operators(t_list **token_lst, char **cmd_buffer,

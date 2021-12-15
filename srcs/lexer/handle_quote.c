@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/15 14:53:26 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	init_vars(char **cmd_buffer, int *i, char *quote, char *buffer)
 	ft_bzero(buffer, 4096);
 }
 
-static int	add_back(t_list **token_lst, char *buffer, char *str)
+static char	*add_back(t_list **token_lst, char *buffer, char *str)
 {
 	if (str)
 		ft_lstadd_back(token_lst,
@@ -67,7 +67,7 @@ int	need_to_expand(char **cmd_buffer, char quote)
 		!= '$' && *(*cmd_buffer + 1) != ' ' && quote != '\'');
 }
 
-int	handle_quote(t_prg *g_prg, char **cmd_buffer, char *str, t_list **token_lst)
+char	*handle_quote(t_prg *g_prg, char **cmd_buffer, char *str, t_list **token_lst)
 {
 	char	quote;
 	char	buffer[4096];
@@ -91,7 +91,9 @@ int	handle_quote(t_prg *g_prg, char **cmd_buffer, char *str, t_list **token_lst)
 		buffer[i++] = *(*cmd_buffer)++;
 	}
 	(*cmd_buffer)++;
-	while (!is_operator(**cmd_buffer) && **cmd_buffer)
-		buffer[i++] = *(*cmd_buffer)++;
-	return (add_back(token_lst, &buffer[0], str));
+	if (str)
+		return (ft_strjoin(str, &buffer[0]));
+	if (ft_strlen(buffer))
+		return (ft_strdup(&buffer[0]));
+	return (NULL);
 }
