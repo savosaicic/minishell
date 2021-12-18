@@ -6,10 +6,11 @@
 #    By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 10:03:15 by sasaicic          #+#    #+#              #
-#    Updated: 2021/12/15 14:57:31 by sasaicic         ###   ########.fr        #
+#    Updated: 2021/12/18 13:00:44 by sasaicic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+OS := $(shell uname -s)
 NAME = minishell
 CC = gcc 
 CFLAGS = -g -Wall -Wextra -Werror
@@ -23,6 +24,13 @@ INC = -Iincludes -Ilibft
 OBJS = $(SRCS:.c=.o)
 D_LIBFT = ./libft/
 LIBFT = $(D_LIBFT)libft.a
+LDFLAGS = -lreadline -L$(D_LIBFT) -lft
+READLINE_PATH = $(shell brew --prefix readline)
+
+ifeq ($(OS), Darwin)
+	INC += -I $(READLINE_PATH)/include
+	LDFLAGS += -L$(READLINE_PATH)/lib
+endif
 
 vpath %.c srcs srcs/lexer srcs/parser srcs/execution srcs/command srcs/builtins srcs/utils srcs/piping srcs/variables
 vpath %.o obj
@@ -30,7 +38,7 @@ vpath %.h includes libft
 
 all: $(OBJS)
 	$(MAKE) -C $(D_LIBFT)
-	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) -lreadline -L$(D_LIBFT) -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) $(LDFLAGS) -o $(NAME)
 
 $(OBJS): %.o: %.c
 	mkdir -p obj
