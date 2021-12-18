@@ -66,7 +66,7 @@ int	echo(t_cmd *cmd);
 int	print_env(t_list *env_lst, char *str);
 int		pwd(t_cmd *cmd);
 int cd(t_cmd *cmd, char *home_math);
-int exit_shell(t_cmd *cmd);
+int	exit_shell(t_cmd *cmd, char *exit_str);
 int		ft_close(int fd);
 int		do_nothing(void);
 
@@ -148,5 +148,6 @@ void    watch_signals(void);
 int		handle_heredoc(t_list **token_lst, t_cmd **cmd);
 void	ft_exit(int status, bool display);
 int		ft_onlychr(char *str, char c);
+int		wait_pid(pid_t pid);
 
 #endif
