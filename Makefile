@@ -6,7 +6,7 @@
 #    By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 10:03:15 by sasaicic          #+#    #+#              #
-#    Updated: 2021/12/18 13:00:44 by sasaicic         ###   ########.fr        #
+#    Updated: 2021/12/21 14:05:07 by sasaicic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,17 @@ vpath %.c srcs srcs/lexer srcs/parser srcs/execution srcs/command srcs/builtins 
 vpath %.o obj
 vpath %.h includes libft
 
-all: $(OBJS)
-	$(MAKE) -C $(D_LIBFT)
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(addprefix obj/, $(OBJS)) $(LDFLAGS) -o $(NAME)
 
-$(OBJS): %.o: %.c
+%.o: %.c
 	mkdir -p obj
 	$(CC) -c $(CFLAGS) $< $(INC) -o obj/$@
+
+$(LIBFT):
+	$(MAKE) -C $(D_LIBFT)
 
 clean:
 	make clean -C $(D_LIBFT)
@@ -53,8 +57,6 @@ fclean: clean
 	$(RM) -rf $(NAME)
 
 re: fclean all
-
-.PHONY: all fclean clean re
 
 run: all 
 	./$(NAME)
@@ -70,3 +72,5 @@ val: all
 
 vgdb: all
 	valgrind --leak-check=full --show-leak-kinds=all --vgdb=yes --vgdb-error=0 ./$(NAME)
+
+.PHONY: all fclean clean re run fsanitize gdb val vgdb
