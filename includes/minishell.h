@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/15 15:07:13 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/21 11:51:50 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ extern t_prg	*g_prg;
 t_variable	*write_variable(char *var);
 t_list		*init_env(void);
 
-char		*handle_quote(t_prg *g_prg, char **cmd_buffer, char *str);
+char		*handle_quote(t_prg *g_prg, t_list **token_lst, char **cmd_buffer, char *str);
 char		*handle_expansion(t_prg *g_prg, char **cmd_buffer, char **save, t_list **token_lst);
 char		*ft_getenv(t_list *env_lst, char *var_search);
 char		*perform_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer);
@@ -78,7 +78,7 @@ t_ttype	get_token_type(char *token);
 t_list	*get_token(char *cmd_buffer);
 t_token	*write_token(char *token);
 int		lex_expansion(t_list **token_lst, char **cmd_buffer, char **buffer);
-int		lex_quotes(char **cmd_buffer, char **buffer);
+int		lex_quotes(t_list **token_lst, char **cmd_buffer, char **buffer);
 int		lex_operators(t_list **token_lst, char **cmd_buffer, char **buffer);
 int		lex_spaces(t_list **token_lst, char **cmd_buffer, char **buffer);
 int		lex_chars(int i, char **cmd_buffer, char **buffer);

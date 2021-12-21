@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/15 15:05:50 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/21 11:54:06 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	need_to_expand(char **cmd_buffer, char quote)
 		!= '$' && *(*cmd_buffer + 1) != ' ' && quote != '\'');
 }
 
-char	*handle_quote(t_prg *g_prg, char **cmd_buffer, char *str)
+char	*handle_quote(t_prg *g_prg, t_list **token_lst, char **cmd_buffer, char *str)
 {
 	char	quote;
 	char	buffer[4096];
@@ -75,6 +75,11 @@ char	*handle_quote(t_prg *g_prg, char **cmd_buffer, char *str)
 		buffer[i++] = *(*cmd_buffer)++;
 	}
 	(*cmd_buffer)++;
+
+	if (!str && !ft_strlen(buffer) && (**cmd_buffer == ' ' || **cmd_buffer == '\0'))
+	{
+		ft_lstadd_back(token_lst, ft_lstnew(write_token("")));
+	}
 	if (str)
 		return (ft_strjoin(str, &buffer[0]));
 	if (ft_strlen(buffer))
