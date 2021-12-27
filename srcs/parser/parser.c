@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/27 15:32:56 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,21 @@ static int	is_a_redirection_token(t_ttype token_type)
 	return (0);
 }
 
+static void	*heredoc_sigint(t_list **cmd_lst)
+{
+	dup2(g_prg->save_stdin, STDIN_FILENO);
+	ft_lstclear(cmd_lst, clear_cmd_struct);
+	g_prg->sig_int = false;
+	rl_replace_line("", 0);
+	return (NULL);
+}
+
 t_list	*parse_tokens(t_list *token_lst)
 {
 	t_list	*cmd_lst;
 	t_cmd	*cmd;
 	int		i;
 
-	(void)g_prg;
 	cmd = init_cmd_struct(ft_lstsize(token_lst), true);
 	if (!cmd)
 		return (NULL);
@@ -65,6 +73,8 @@ t_list	*parse_tokens(t_list *token_lst)
 			parse_pipe(&token_lst, &cmd, &cmd_lst, &i);
 		else
 			parse_argument(&token_lst, &cmd, &i);
+		if (g_prg->sig_int)
+			return (heredoc_sigint(&cmd_lst));
 	}
 	if (cmd && cmd->args[0])
 		add_last_cmd(&cmd, &cmd_lst, i);

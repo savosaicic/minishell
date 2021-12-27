@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:09:48 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/27 15:35:06 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_prg
 {
 	pid_t 	pid;
 	char	*pwd;
-	bool		child;
+	bool	child;
 	char 	**env;
 	t_list	*env_lst;
 	t_list	*cmd_lst;
@@ -70,6 +70,9 @@ typedef struct s_prg
 	int		exit_status;
 	int		cmds_len;
 	char	*home_path;
+	bool	in_heredoc;
+	bool	sig_int;
+	int		save_stdin;
 }				t_prg;
 
 typedef struct	s_variable

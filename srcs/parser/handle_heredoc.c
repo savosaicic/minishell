@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/27 15:22:18 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ static int	redirect_heredoc(t_list **token_lst, t_cmd **cmd, int pipe_fd)
 	return (0);
 }
 
+static int	sig_int_heredoc(char *line, int fds[2])
+{
+	free(line);
+	ft_close(fds[1]);
+	ft_close(fds[0]);
+	return (0);
+}
+
 int	handle_heredoc(t_list **token_lst, t_cmd **cmd)
 {
 	int		fds[2];
@@ -49,9 +57,9 @@ int	handle_heredoc(t_list **token_lst, t_cmd **cmd)
 	while (1)
 	{
 		line = readline("> ");
-		if (is_eof_delimiter(line, delimiter))
-			break ;
-		if (ft_strcmp(line, delimiter) == 0)
+		if (g_prg->sig_int)
+			return (sig_int_heredoc(line, fds));
+		if (is_eof_delimiter(line, delimiter) || !ft_strcmp(line, delimiter))
 			break ;
 		write(fds[1], line, ft_strlen(line));
 		write(fds[1], "\n", 1);

@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:43:59 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:48:11 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/27 15:07:30 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ t_prg	*init_shell(char **env)
 	rl_line_buffer = NULL;
 	g_prg->cmd_buffer = NULL;
 	g_prg->exit_status = 0;
+	g_prg->in_heredoc = false;
+	g_prg->save_stdin = dup(STDIN_FILENO);
+	g_prg->sig_int = 0;
 	return (g_prg);
 }
 
