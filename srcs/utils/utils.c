@@ -35,23 +35,6 @@ int	is_builtin(char *cmd_name)
 	return (0);
 }
 
-void	wait_all_pids(void)
-{
-	int	status;
-	int	pid_ret;
-
-	pid_ret = 1;
-	g_prg->exit_status = 0;
-	while (pid_ret > 0)
-	{
-		pid_ret = wait(&status);
-		if (WIFEXITED(status))
-			g_prg->exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_prg->exit_status = WTERMSIG(status);
-	}
-}
-
 void	*xxmalloc(size_t size)
 {
 	void	*result;

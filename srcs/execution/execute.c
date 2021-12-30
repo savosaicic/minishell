@@ -29,8 +29,10 @@ int	execute_builtin(t_cmd *cmd)
 		ret = pwd(cmd);
 	else if (!ft_strcmp(cmd->args[0], "cd"))
 		ret = cd(cmd, g_prg->home_path);
+	else if (!ft_strcmp(cmd->args[0], "exit") && g_prg->cmds_len > 1)
+		ret = exit_shell(cmd, NULL);
 	else if (!ft_strcmp(cmd->args[0], "exit"))
-		ret = exit_shell(cmd);
+		ret = exit_shell(cmd, "exit\n");
 	else if (!ft_strcmp(cmd->args[0], ":"))
 		ret = do_nothing();
 	return (ret);
@@ -39,10 +41,7 @@ int	execute_builtin(t_cmd *cmd)
 int	execute_command(t_cmd *cmd)
 {
 	pid_t	pid;
-	int		ret;
-	int		status;
 
-	ret = 0;
 	pid = fork();
 	if (!pid)
 	{
@@ -51,12 +50,7 @@ int	execute_command(t_cmd *cmd)
 		execve(cmd->path, cmd->args, g_prg->env);
 		exit(puterror(cmd->args[0], strerror(errno), 1));
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		ret = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		ret = WTERMSIG(status) + 128;
-	return (ret);
+	return (wait_pid(pid));
 }
 
 int	execute(t_cmd *cmd)

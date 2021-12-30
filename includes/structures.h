@@ -81,4 +81,10 @@ typedef struct	s_variable
 	char	*value;
 }				t_variable;
 
+typedef struct	s_exit
+{
+	pid_t 	pid_ret;
+	int		value;
+}				t_exit;
+
 #endif

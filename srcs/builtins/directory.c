@@ -26,7 +26,7 @@ int	pwd(t_cmd *cmd)
 		free(buf);
 		return (puterror(strerror(errno), NULL, 1));
 	}
-	printf("%s\n", buf);
+	ft_putstr(buf);
 	free(buf);
 	return (0);
 }
@@ -34,7 +34,6 @@ int	pwd(t_cmd *cmd)
 int	cd(t_cmd *cmd, char *home_path)
 {
 	char	*tmp;
-	(void)cmd;
 
 	if (g_prg->child == TRUE)
 		return (0);

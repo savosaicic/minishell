@@ -16,7 +16,8 @@ int	print_env(t_list *env_lst, char *str)
 {
 	while (env_lst)
 	{
-		printf("%s%s=%s\n", str, ((t_variable *)env_lst->content)->name, ((t_variable *)env_lst->content)->value);
+		printf("%s%s=%s\n", str, ((t_variable *)env_lst->content)->name,
+			((t_variable *)env_lst->content)->value);
 		env_lst = env_lst->next;
 	}
 	return (0);
@@ -54,9 +55,6 @@ void	delete_variable(t_list *env_lst, char *del)
 		if (!ft_strcmp(((t_variable *)next->content)->name, del))
 		{
 			env_lst->next = next->next;
-			// free(((t_variable *)next)->name);
-			// free(((t_variable *)next)->value);
-			// free(next);
 			return ;
 		}
 		env_lst = env_lst->next;

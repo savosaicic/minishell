@@ -30,12 +30,16 @@ t_io	replace_cmd_io_and_exec(t_list **cmd_lst, t_io io_struct)
 	dup2(((t_cmd *)(*cmd_lst)->content)->fdout, STDOUT_FILENO);
 	close(((t_cmd *)(*cmd_lst)->content)->fdout);
 	close(((t_cmd *)(*cmd_lst)->content)->fdin);
-	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
+	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0])
+		|| (ft_strcmp(((t_cmd *)(*cmd_lst)->content)->args[0], "exit") == 0
+		&& g_prg->child))
 		close(io_struct.close_in_child);
 	((t_cmd *)(*cmd_lst)->content)->path
 		= write_command(((t_cmd *)(*cmd_lst)->content)->args);
 	ret = execute((*cmd_lst)->content);
-	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
+	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0])
+		|| (ft_strcmp(((t_cmd *)(*cmd_lst)->content)->args[0], "exit") == 0
+		&& g_prg->child))
 		exit_success(ret, FALSE);
 	else
 	{
@@ -50,13 +54,15 @@ t_io	set_and_execute_command(t_list **cmd_lst, t_io io_struct, int cmds_len,
 {
 	g_prg->pid = 0;
 	io_struct = set_file_descriptors(cmd_lst, io_struct, cmds_len, is_first);
-	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0]))
+	if (ft_strchr(rl_line_buffer, '|')) //May be done before ?
+		g_prg->child = TRUE;
+	if (!is_builtin(((t_cmd *)(*cmd_lst)->content)->args[0])
+		|| (ft_strcmp(((t_cmd *)(*cmd_lst)->content)->args[0], "exit") == 0
+		&& g_prg->child))
 	{
 		g_prg->child = TRUE;
 		g_prg->pid = fork();
 	}
-	if (ft_strchr(rl_line_buffer, '|')) //May be done before ?
-		g_prg->child = TRUE;
 	if (!g_prg->pid)
 		io_struct = replace_cmd_io_and_exec(cmd_lst, io_struct);
 	else
