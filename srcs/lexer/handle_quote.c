@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/21 11:54:06 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/30 16:12:21 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,32 @@ int	need_to_expand(char **cmd_buffer, char quote)
 		!= '$' && *(*cmd_buffer + 1) != ' ' && quote != '\'');
 }
 
-char	*handle_quote(t_prg *g_prg, t_list **token_lst, char **cmd_buffer, char *str)
+static int	expand(char **cmd_buffer, char *buffer, char quote, int *i)
+{
+	char	*tmp;
+
+	tmp = quotes_expansion(g_prg, g_prg->env_lst, cmd_buffer, quote);
+	ft_strcat(buffer, tmp);
+	*i += ft_strlen(tmp);
+	free(tmp);
+	if (**cmd_buffer == quote)
+		return (1);
+	return (0);
+}
+
+char	*handle_quote(t_list **token_lst, char **cmd_buffer,
+		char *str)
 {
 	char	quote;
 	char	buffer[4096];
 	int		i;
-	char	*tmp;
 
 	init_vars(cmd_buffer, &i, &quote, &buffer[0]);
 	while (**cmd_buffer != quote && **cmd_buffer)
 	{
 		while (need_to_expand(cmd_buffer, quote))
 		{
-			tmp = quotes_expansion(g_prg, g_prg->env_lst, cmd_buffer, quote);
-			ft_strcat(buffer, tmp);
-			i += ft_strlen(tmp);
-			free(tmp);
-			if (**cmd_buffer == quote)
+			if (expand(cmd_buffer, &buffer[i], quote, &i))
 				break ;
 		}
 		if (**cmd_buffer == quote)
@@ -75,11 +84,9 @@ char	*handle_quote(t_prg *g_prg, t_list **token_lst, char **cmd_buffer, char *st
 		buffer[i++] = *(*cmd_buffer)++;
 	}
 	(*cmd_buffer)++;
-
-	if (!str && !ft_strlen(buffer) && (**cmd_buffer == ' ' || **cmd_buffer == '\0'))
-	{
+	if (!str && !ft_strlen(buffer) && (**cmd_buffer == ' '
+			|| **cmd_buffer == '\0'))
 		ft_lstadd_back(token_lst, ft_lstnew(write_token("")));
-	}
 	if (str)
 		return (ft_strjoin(str, &buffer[0]));
 	if (ft_strlen(buffer))

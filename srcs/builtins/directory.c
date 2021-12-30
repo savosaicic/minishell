@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/30 16:04:25 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,13 @@
 
 int	pwd(t_cmd *cmd)
 {
-	char	*buf;
+	char	buffer[256];
 
 	(void)cmd;
-	buf = NULL;
-	buf = malloc(sizeof(*buf) * 400);
-	if (!buf)
+	if (!getcwd(buffer, 256))
 		return (puterror(strerror(errno), NULL, 1));
-	if (!getcwd(buf, 100))
-	{
-		free(buf);
-		return (puterror(strerror(errno), NULL, 1));
-	}
-	ft_putstr(buf);
-	free(buf);
+	ft_putstr(buffer);
+	ft_putchar_fd('\n', 1);
 	return (0);
 }
 

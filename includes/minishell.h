@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/21 11:51:50 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/30 15:45:30 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ extern t_prg	*g_prg;
 t_variable	*write_variable(char *var);
 t_list		*init_env(void);
 
-char		*handle_quote(t_prg *g_prg, t_list **token_lst, char **cmd_buffer, char *str);
+char		*handle_quote(t_list **token_lst, char **cmd_buffer, char *str);
 char		*handle_expansion(t_prg *g_prg, char **cmd_buffer, char **save, t_list **token_lst);
 char		*ft_getenv(t_list *env_lst, char *var_search);
 char		*perform_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer);
