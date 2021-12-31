@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/31 09:48:38 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ void	restore_and_close_fds(t_io io_struct)
 
 	dup2(io_struct.save_stdin, STDIN_FILENO);
 	dup2(io_struct.save_stdout, STDOUT_FILENO);
-	close(io_struct.save_stdin);
-	close(io_struct. save_stdout);
-	close(io_struct.fdin);
-	close(io_struct.fdout);
-	close(io_struct.fds[0]);
-	close(io_struct.fds[1]);
+	ft_close(&io_struct.save_stdin);
+	ft_close(&io_struct. save_stdout);
+	ft_close(&io_struct.fdin);
+	ft_close(&io_struct.fdout);
+	ft_close(&io_struct.fds[0]);
+	ft_close(&io_struct.fds[1]);
 	i = 0;
 	while (io_struct.last_close[i] != 0)
-		close(io_struct.last_close[i++]);
+		ft_close(&io_struct.last_close[i++]);
 }
 
 t_io	init_io_struct(void)
@@ -70,7 +70,7 @@ t_io	set_fd_last_cmd(t_list **cmd_lst, t_io io_struct, int *is_first_cmd)
 	{
 		((t_cmd *)(*cmd_lst)->content)->fdout
 			= ((t_cmd *)(*cmd_lst)->content)->r_io[1];
-		close(io_struct.fds[1]);
+		ft_close(&io_struct.fds[1]);
 	}
 	else
 		((t_cmd *)(*cmd_lst)->content)->fdout = dup(io_struct.save_stdout);
@@ -93,7 +93,8 @@ t_io	set_fds(t_list **cmd_lst, t_io io_struct, int *is_first_cmd)
 	{
 		((t_cmd *)(*cmd_lst)->content)->fdout
 			= ((t_cmd *)(*cmd_lst)->content)->r_io[1];
-		close(io_struct.fds[1]);
+		ft_close(&io_struct.fds[1]);
+		//////////////////////////////
 		io_struct.fds[1] = -1;
 	}
 	else

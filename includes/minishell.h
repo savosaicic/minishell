@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/30 15:45:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/31 09:46:05 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	print_env(t_list *env_lst, char *str);
 int		pwd(t_cmd *cmd);
 int cd(t_cmd *cmd, char *home_math);
 int	exit_shell(t_cmd *cmd, char *exit_str);
-int		ft_close(int fd);
+void		ft_close(int *fd);
 int		do_nothing(void);
 
 

@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:43:59 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/27 15:07:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/31 15:24:47 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_prg	*init_shell(char **env)
 	g_prg->env_lst = init_env();
 	g_prg->pwd = ft_getenv(g_prg->env_lst, "PWD");
 	g_prg->home_path = ft_getenv(g_prg->env_lst, "HOME");
-	rl_line_buffer = NULL;
 	g_prg->cmd_buffer = NULL;
 	g_prg->exit_status = 0;
 	g_prg->in_heredoc = false;

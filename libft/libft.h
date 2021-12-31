@@ -6,7 +6,7 @@
 /*   By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 14:33:29 by jboisser          #+#    #+#             */
-/*   Updated: 2021/08/12 18:31:17 by boisseran        ###   ########.fr       */
+/*   Updated: 2021/12/31 14:48:55 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putstr_fd(char *s, int fd);
 char			**ft_split(char const *s, char c);
+char			**ft_split_savo(char const *s, char c);
 char			*ft_strchr(const char *s, int c);
 char			*ft_strdup(const char *s1);
 char			*ft_strjoin(char const *s1, char const *s2);

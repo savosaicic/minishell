@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 09:08:30 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/31 09:54:09 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	reset_cmd_and_jump_to_next(t_cmd **cmd, int *args_index,
 	if (*args_index == 0)
 		*args_index = 1;
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
-		ft_close((*cmd)->r_io[0]);
+		ft_close(&(*cmd)->r_io[0]);
 	if ((*cmd)->r_io[1] != STDOUT_FILENO)
-		ft_close((*cmd)->r_io[1]);
+		ft_close(&(*cmd)->r_io[1]);
 	(*cmd)->r_io[0] = STDIN_FILENO;
 	(*cmd)->r_io[1] = STDOUT_FILENO;
 	while (*token_lst && CAST((*token_lst), t_token *)->token_type != T_PIPE)
@@ -34,7 +34,7 @@ void	reset_cmd_and_jump_to_next(t_cmd **cmd, int *args_index,
 static int	redirect_input(t_list **token_lst, t_cmd **cmd, int *i)
 {
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
-		ft_close((*cmd)->r_io[0]);
+		ft_close(&(*cmd)->r_io[0]);
 	*token_lst = (*token_lst)->next;
 	(*cmd)->r_io[0] = open(CAST((*token_lst), t_token *)->token, O_RDONLY);
 	if ((*cmd)->r_io[0] < 0)
@@ -59,7 +59,7 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags,
 	int *i)
 {
 	if ((*cmd)->r_io[1] != STDOUT_FILENO)
-		ft_close((*cmd)->r_io[1]);
+		ft_close(&(*cmd)->r_io[1]);
 	*token_lst = (*token_lst)->next;
 	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token *)->token, o_flags, 0644);
 	if ((*cmd)->r_io[1] < 0)

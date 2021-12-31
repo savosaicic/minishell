@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/27 15:22:18 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/31 09:54:12 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,20 @@ static int	is_eof_delimiter(char *line, char *delimiter)
 static int	redirect_heredoc(t_list **token_lst, t_cmd **cmd, int pipe_fd)
 {
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
-		ft_close((*cmd)->r_io[0]);
+		ft_close(&(*cmd)->r_io[0]);
 	else if ((*cmd)->r_io[1] != STDOUT_FILENO)
-		ft_close((*cmd)->r_io[1]);
+		ft_close(&(*cmd)->r_io[1]);
 	(*cmd)->r_io[0] = dup(pipe_fd);
 	*token_lst = (*token_lst)->next;
-	ft_close(pipe_fd);
+	ft_close(&pipe_fd);
 	return (0);
 }
 
 static int	sig_int_heredoc(char *line, int fds[2])
 {
 	free(line);
-	ft_close(fds[1]);
-	ft_close(fds[0]);
+	ft_close(&fds[1]);
+	ft_close(&fds[0]);
 	return (0);
 }
 
@@ -66,6 +66,6 @@ int	handle_heredoc(t_list **token_lst, t_cmd **cmd)
 		free(line);
 	}
 	free(line);
-	ft_close(fds[1]);
+	ft_close(&fds[1]);
 	return (redirect_heredoc(token_lst, cmd, fds[0]));
 }

@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/31 15:41:34 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_variable	*write_variable(char *var)
 	var_struct = malloc(sizeof(*var_struct));
 	if (!var_struct)
 		exit_failure(NULL, "insufficient memory", 1);
-	var_split = ft_split(var, '=');
+	var_split = ft_split_savo(var, '=');
 	if (!var_split)
 	{
 		free(var_struct);
