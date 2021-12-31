@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2021/12/31 08:24:18 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	ft_exit(int status, bool display)
 		ft_putstr_fd("exit\n", 1);
 	rl_clear_history();
 	ft_lstclear(&g_prg->env_lst, clear_var_struct);
-	// free(rl_line_buffer);
-	// ft_lstclear(&prg->cmd_lst, clear_cmd_struct);
 	free(g_prg->env_lst);
 	g_prg->env_lst = NULL;
 	free(g_prg->pwd);
