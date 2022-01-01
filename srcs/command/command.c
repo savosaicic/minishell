@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/21 13:41:53 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 15:34:06 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ char	*write_command(char **cmd)
 	char	*cmd_path;
 
 	paths = get_path();
-
 	if (**cmd == '\0')
 		cmd_path = NULL;
 	else if (!ft_strchr(cmd[0], '/'))

@@ -6,14 +6,14 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/27 15:35:06 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 15:42:17 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
-#define STRUCTURES_H
+# define STRUCTURES_H
 
-typedef enum	e_ttype
+typedef enum e_ttype
 {
 	UNIDENTIFIED,
 	T_WORD,
@@ -24,10 +24,10 @@ typedef enum	e_ttype
 	T_ASSIGN
 }				t_ttype;
 
-typedef struct	s_token
+typedef struct s_token
 {
-	t_ttype			token_type;
-	char			*token;
+	t_ttype	token_type;
+	char	*token;
 }				t_token;
 
 typedef struct s_cmd
@@ -35,35 +35,31 @@ typedef struct s_cmd
 	bool	is_builtin;
 	char	**args;
 	char	*path;
-	int		r_io[2]; //array of 2 int to store respectively: INPUT and OUTPUT fds (For redirection)
-
+	int		r_io[2];
 	int		fdin;
 	int		fdout;
 	bool	is_first;
 }				t_cmd;
 
-typedef struct	s_io
+typedef struct s_io
 {
-	int	fds[2]; 
+	int	fds[2];
 	int	save_stdin;
 	int	save_stdout;
-	int fdin;
+	int	fdin;
 	int	fdout;
-
 	int	close_in_child;
 	int	close_in_parent;
-
 	int	next_fdin;
-
 	int	last_close[64];
 }				t_io;
 
 typedef struct s_prg
 {
-	pid_t 	pid;
+	pid_t	pid;
 	char	*pwd;
 	bool	child;
-	char 	**env;
+	char	**env;
 	t_list	*env_lst;
 	t_list	*cmd_lst;
 	char	*cmd_buffer;
@@ -75,15 +71,15 @@ typedef struct s_prg
 	int		save_stdin;
 }				t_prg;
 
-typedef struct	s_variable
+typedef struct s_variable
 {
 	char	*name;
 	char	*value;
 }				t_variable;
 
-typedef struct	s_exit
+typedef struct s_exit
 {
-	pid_t 	pid_ret;
+	pid_t	pid_ret;
 	int		value;
 }				t_exit;
 

@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/31 09:48:38 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 15:30:45 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ t_io	set_fds(t_list **cmd_lst, t_io io_struct, int *is_first_cmd)
 		((t_cmd *)(*cmd_lst)->content)->fdout
 			= ((t_cmd *)(*cmd_lst)->content)->r_io[1];
 		ft_close(&io_struct.fds[1]);
-		//////////////////////////////
 		io_struct.fds[1] = -1;
 	}
 	else
