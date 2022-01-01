@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/31 09:54:12 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 16:17:41 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	handle_heredoc(t_list **token_lst, t_cmd **cmd)
 	if (!*token_lst || ((t_token *)(*token_lst)->content)->token_type == T_PIPE)
 		return (puterror(NULL,
 				"syntax error near unexpected token `newline\'", 1));
-	delimiter = CAST((*token_lst), t_token *)->token;
+	delimiter = ((t_token *)(*token_lst)->content)->token;
 	while (1)
 	{
 		line = readline("> ");

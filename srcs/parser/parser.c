@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/27 15:32:56 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 16:26:04 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_cmd	*init_cmd_struct(int args_num, bool is_first)
 	return (cmd);
 }
 
-static int	is_a_redirection_token(t_ttype token_type)
+static int	is_redirect_token(t_ttype token_type)
 {
 	if (token_type == T_REDIRECT || token_type == T_DGREAT)
 		return (1);
@@ -65,11 +65,11 @@ t_list	*parse_tokens(t_list *token_lst)
 	cmd_lst = NULL;
 	while (token_lst)
 	{
-		if (CAST((token_lst), t_token *)->token_type == T_DLESS)
+		if (((t_token *)(token_lst)->content)->token_type == T_DLESS)
 			parse_heredoc(&token_lst, &cmd);
-		else if (is_a_redirection_token(CAST(token_lst, t_token *)->token_type))
+		else if (is_redirect_token(((t_token *)token_lst->content)->token_type))
 			parse_redirection(&token_lst, &cmd, &i);
-		else if (CAST(token_lst, t_token *)->token_type == T_PIPE)
+		else if (((t_token *)token_lst->content)->token_type == T_PIPE)
 			parse_pipe(&token_lst, &cmd, &cmd_lst, &i);
 		else
 			parse_argument(&token_lst, &cmd, &i);

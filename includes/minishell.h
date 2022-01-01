@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 16:04:15 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 16:21:22 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 
 # define TRUE 1
 # define FALSE 0
-# define CAST(var, type) ((type)var->content)
 # define MAX_TOKEN_SIZE 256 
 # define MAX_PIPE 64
 

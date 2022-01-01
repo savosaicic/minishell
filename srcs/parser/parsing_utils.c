@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/27 15:33:28 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 16:20:28 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	parse_pipe(t_list **token_lst, t_cmd **cmd, t_list **cmd_lst, int *i)
 
 void	parse_argument(t_list **token_lst, t_cmd **cmd, int *i)
 {
-	if ((CAST((*token_lst), t_token *)->token_type == T_ASSIGN && *i >= 1)
-		|| (CAST((*token_lst), t_token *)->token_type != T_ASSIGN))
+	if ((((t_token *)(*token_lst)->content)->token_type == T_ASSIGN && *i >= 1)
+		|| (((t_token *)(*token_lst)->content)->token_type != T_ASSIGN))
 	{
 		(*cmd)->args[*i] = ft_strdup(((t_token *)(*token_lst)->content)->token);
 		*i = *i + 1;

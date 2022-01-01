@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/31 09:54:09 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 16:25:08 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	reset_cmd_and_jump_to_next(t_cmd **cmd, int *args_index,
 		ft_close(&(*cmd)->r_io[1]);
 	(*cmd)->r_io[0] = STDIN_FILENO;
 	(*cmd)->r_io[1] = STDOUT_FILENO;
-	while (*token_lst && CAST((*token_lst), t_token *)->token_type != T_PIPE)
+	while (*token_lst && ((t_token *)(*token_lst)->content)->token_type
+			!= T_PIPE)
 		*token_lst = (*token_lst)->next;
 }
 
@@ -36,10 +37,10 @@ static int	redirect_input(t_list **token_lst, t_cmd **cmd, int *i)
 	if ((*cmd)->r_io[0] != STDIN_FILENO)
 		ft_close(&(*cmd)->r_io[0]);
 	*token_lst = (*token_lst)->next;
-	(*cmd)->r_io[0] = open(CAST((*token_lst), t_token *)->token, O_RDONLY);
+	(*cmd)->r_io[0] = open(((t_token *)(*token_lst)->content)->token, O_RDONLY);
 	if ((*cmd)->r_io[0] < 0)
 	{
-		puterror(CAST((*token_lst), t_token *)->token, strerror(errno), 1);
+		puterror(((t_token *)(*token_lst)->content)->token, strerror(errno), 1);
 		if (is_token_in_list(*token_lst, T_PIPE) || !(*cmd)->is_first)
 			reset_cmd_and_jump_to_next(cmd, i, token_lst);
 		else
@@ -61,10 +62,11 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags,
 	if ((*cmd)->r_io[1] != STDOUT_FILENO)
 		ft_close(&(*cmd)->r_io[1]);
 	*token_lst = (*token_lst)->next;
-	(*cmd)->r_io[1] = open(CAST((*token_lst), t_token *)->token, o_flags, 0644);
+	(*cmd)->r_io[1] = open(((t_token *)(*token_lst)->content)->token,
+			o_flags, 0644);
 	if ((*cmd)->r_io[1] < 0)
 	{
-		puterror(CAST((*token_lst), t_token *)->token, strerror(errno), 1);
+		puterror(((t_token *)(*token_lst)->content)->token, strerror(errno), 1);
 		if (is_token_in_list(*token_lst, T_PIPE) || !(*cmd)->is_first)
 			reset_cmd_and_jump_to_next(cmd, i, token_lst);
 		else
@@ -82,11 +84,11 @@ static int	redirect_output(t_list **token_lst, t_cmd **cmd, int o_flags,
 
 int	parse_redirection(t_list **token_lst, t_cmd **cmd, int *i)
 {
-	if (*CAST((*token_lst), t_token *)->token == '<')
+	if (*((t_token *)(*token_lst)->content)->token == '<')
 		return (redirect_input(token_lst, cmd, i));
 	else
 	{
-		if (CAST((*token_lst), t_token *)->token_type == T_DGREAT)
+		if (((t_token *)(*token_lst)->content)->token_type == T_DGREAT)
 			return (redirect_output(token_lst, cmd,
 					O_CREAT | O_APPEND | O_RDWR, i));
 		else
