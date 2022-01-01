@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_savo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:02:44 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 11:27:29 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 12:08:59 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*ft_strdup_sep(char **s, char c)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_savo(char const *s, char c)
 {
 	char	**tab;
 	int		wdcount;
