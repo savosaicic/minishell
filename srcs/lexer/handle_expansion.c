@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/15 14:52:32 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 12:31:31 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	split_buffer_and_add_back(char **buffer, t_list **token_lst)
 	char	**res;
 	int		i;
 
-	res = ft_split(*buffer, ' ');
+	res = ft_split_savo(*buffer, ' ');
 	if (!res)
 		return ;
 	i = 0;
