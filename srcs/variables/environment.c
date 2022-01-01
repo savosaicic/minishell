@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 13:52:15 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 15:17:18 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,22 @@ char	*ft_getenv(t_list *env_lst, char *var_search)
 t_variable	*write_variable(char *var)
 {
 	t_variable	*var_struct;
-	char		**var_split;
+	int			i;
 
 	var_struct = malloc(sizeof(*var_struct));
 	if (!var_struct)
-		exit_failure(NULL, "insufficient memory", 1);
-	var_split = ft_split_savo(var, '=');
-	if (!var_split)
-	{
-		free(var_struct);
-		exit_failure(NULL, "insufficient memory", 1);
-	}
-	var_struct->name = ft_strdup(var_split[0]);
-	if (var_split[1])
-		var_struct->value = ft_strdup(var_split[1]);
-	else
-		var_struct->value = ft_strdup("");
-	free_tab(var_split);
+		return (NULL);
+	i = 0;
+	while (var[i] && var[i] != '=')
+		i++;
+	if (var[i] != '=')
+		return (NULL);
+	var_struct->name = xxmalloc(sizeof(char) * (i + 1));
+	i = 0;
+	while (*var != '=')
+		var_struct->name[i++] = *var++;
+	var_struct->name[i] = '\0';
+	var_struct->value = ft_strdup(++var);
 	return (var_struct);
 }
 
