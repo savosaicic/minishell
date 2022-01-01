@@ -54,7 +54,7 @@ void	wait_all_pids(void)
 
 	i = 0;
 	exit_struct = set_exit_struct();
-	while (exit_struct[i].pid_ret > 0)
+	while (i < g_prg->cmds_len && exit_struct[i].pid_ret > 0)
 	{
 		exit_struct[i].pid_ret = wait(&status);
 		if (WIFEXITED(status))
