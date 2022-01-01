@@ -1,131 +1,79 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_savo.c                                    :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 09:02:44 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/31 14:49:21 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/01 11:27:29 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	ft_wdcount(char const *s, char c)
+static int	word_count(char *s, char c)
 {
-	size_t	i;
-	int		wd;
+	int	wdcount;
 
-	wd = 0;
-	if (s[0] != c && s[0] != '\0')
-		wd++;
-	i = 0;
-	while (i < ft_strlen(s))
+	if (!s)
+		return (0);
+	wdcount = 0;
+	while (*s)
 	{
-		while (s[i] == c && s[i])
+		while (*s == c)
+			s++;
+		if (!*s)
+			return (wdcount);
+		else
 		{
-			if (s[i + 1] != c && s[i + 1] != '\0')
-				wd++;
-			i++;
+			while (*s && *s != c)
+				s++;
+			wdcount++;
 		}
-		i++;
 	}
-	return (wd);
+	return (wdcount);
 }
 
-static	int	*ft_charcount(char const *s, char c)
+static char	*ft_strdup_sep(char **s, char c)
 {
-	int	i;
-	int	j;
-	int	*ccount;
-
-	i = 0;
-	while (s[i] == c)
-		i++;
-	ccount = (int *)malloc(sizeof(int) * ft_wdcount(s, c));
-	if (!ccount)
-		return (NULL);
-	j = 0;
-	while (j < ft_wdcount(s, c))
-	{
-		ccount[j] = 0;
-		while (s[i] == c)
-			i++;
-		while (s[i] != c && s[i])
-		{
-			ccount[j]++;
-			i++;
-		}
-		j++;
-	}
-	return (ccount);
-}
-
-static	char	**ft_filltab(char **tab, char const *s, char c)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	while (s[i] == c)
-		i++;
-	j = 0;
-	while (j < ft_wdcount(s, c))
-	{
-		k = 0;
-		while (s[i] == c)
-			i++;
-		while (s[i] != c && s[i])
-		{
-			tab[j][k] = s[i];
-			i++;
-			k++;
-			if (s[i] == c || s[i] == '\0')
-				tab[j][k] = '\0';
-		}
-		j++;
-	}
-	return (tab);
-}
-
-static	void	*ft_free_tab(char **tab, int wd)
-{
-	int	i;
-
-	i = 0;
-	while (i < wd)
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab[i]);
-	return (NULL);
-}
-
-char	**ft_split_savo(char const *s, char c)
-{
+	char	*str;
 	int		i;
-	int		*charnb;
+
+	i = 0;
+	while (*(*s + i) && *(*s + i) != c)
+		i++;
+	str = malloc(sizeof(char) * (i + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (**s && **s != c)
+		str[i++] = *(*s)++;
+	str[i] = '\0';
+	return (str);
+}
+
+char	**ft_split(char const *s, char c)
+{
 	char	**tab;
+	int		wdcount;
+	int		i;
+	char	*cpy;
 
 	if (!s)
 		return (NULL);
-	tab = (char **)malloc(sizeof(char *) * (ft_wdcount(s, c) + 1));
+	wdcount = word_count((char *)s, c);
+	tab = malloc(sizeof(char *) * (wdcount + 1));
 	if (!tab)
 		return (NULL);
-	charnb = ft_charcount(s, c);
 	i = 0;
-	while (i < ft_wdcount(s, c))
+	cpy = (char *)s;
+	while (i < wdcount)
 	{
-		tab[i] = (char *)malloc(sizeof(char) * (charnb[i] + 1));
-		if (!tab[i])
-			return (ft_free_tab(tab, i));
-		i++;
+		while (*cpy == c)
+			cpy++;
+		tab[i++] = ft_strdup_sep(&cpy, c);
 	}
-	ft_filltab(tab, s, c);
 	tab[i] = NULL;
-	free(charnb);
 	return (tab);
 }
