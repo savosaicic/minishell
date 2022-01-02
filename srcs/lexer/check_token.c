@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/02 10:32:27 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/02 13:22:04 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/02 15:44:23 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	check_pipe(t_token *current, t_token *next, bool is_first)
 {
 	if (ft_strlen(current->token) > 1 || !next || is_first)
 		return (false);
-	else if (next->token_type == T_PIPE)
+	else if (next->token_type == T_PIPE || is_redirect(*next->token))
 		return (false);
 	return (true);
 }
