@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/02 12:40:06 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/02 16:29:24 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <dirent.h>
 # include "libft.h"
 # include "structures.h"
 

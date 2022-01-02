@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/30 16:04:25 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/02 16:32:20 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,27 @@ int	pwd(t_cmd *cmd)
 
 int	cd(t_cmd *cmd, char *home_path)
 {
+	DIR		*directory;
 	char	*tmp;
 
-	if (g_prg->child == TRUE)
-		return (0);
 	if (ft_charlen(cmd->args) > 2)
-		return (puterror(NULL, "too many arguments", 1));
+		return (puterror("cd", "too many arguments", 1));
 	if (!cmd->args[1] || cmd->args[1][0] == '~')
 		tmp = home_path;
 	else
 		tmp = cmd->args[1];
-	if (chdir(tmp) == -1)
-		return (puterror(cmd->args[1], strerror(errno), 1));
+	if (g_prg->child == FALSE)
+	{
+		if (chdir(tmp) == -1)
+			return (puterror(cmd->args[1], strerror(errno), 1));
+	}
+	else if (g_prg->child == TRUE && cmd->args[1]
+		&& ft_strcmp(cmd->args[1], "~") != 0)
+	{
+		directory = opendir(cmd->args[1]);
+		if (!directory)
+			return (puterror(cmd->args[1], strerror(errno), 1));
+		closedir(directory);
+	}
 	return (0);
 }
