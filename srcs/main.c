@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:43:59 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/31 15:24:47 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/02 13:20:42 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,6 @@ t_prg	*init_shell(char **env)
 	g_prg->save_stdin = dup(STDIN_FILENO);
 	g_prg->sig_int = 0;
 	return (g_prg);
-}
-
-int	check_token(t_list *token_lst)
-{
-	int	is_first;
-
-	is_first = 1;
-	while (token_lst)
-	{
-		if (((t_token *)token_lst->content)->token_type == T_PIPE
-			&& (ft_strlen(((t_token *)token_lst->content)->token) > 1
-				|| !token_lst->next || is_first))
-			return (puterror(NULL,
-					"syntax error near unexpected token `|\'", -1));
-		else if (((t_token *)token_lst->content)->token_type == T_REDIRECT
-			&& (ft_strlen(((t_token *)token_lst->content)->token) > 2
-				|| !token_lst->next))
-			return (puterror("syntax error near unexpected token",
-					((t_token *)token_lst->content)->token, -1));
-		token_lst = token_lst->next;
-		is_first = 0;
-	}
-	return (0);
 }
 
 t_list	*get_command_lst(char *cmd_buffer)

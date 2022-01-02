@@ -2,7 +2,10 @@ add_last_cmd	srcs/parser/parsing_utils.c	/^void	add_last_cmd(t_cmd **cmd, t_list
 add_path_slash	srcs/command/get_path.c	/^static void	add_path_slash(char **path)$/
 assign_fd	srcs/piping/plug_pipes.c	/^static t_io	assign_fd(t_io io_struct)$/
 cd	srcs/builtins/directory.c	/^int	cd(t_cmd *cmd, char *home_path)$/
+check_pipe	srcs/lexer/check_token.c	/^static bool	check_pipe(t_token *current, t_token */
 check_quote_and_forbiden_char	srcs/utils/buffer_checks.c	/^int	check_quote_and_forbiden_char(char *buffer)$/
+check_redirect	srcs/lexer/check_token.c	/^static bool	check_redirect(t_token *current, t_tok/
+check_token	srcs/lexer/check_token.c	/^int	check_token(t_list *token_lst)$/
 clear_cmd_struct	srcs/utils/clear.c	/^void	clear_cmd_struct(void *cmd_struct)$/
 clear_prg_struct	srcs/utils/clear.c	/^void	clear_prg_struct(void)$/
 clear_token_struct	srcs/utils/clear.c	/^void	clear_token_struct(void *token_struct)$/
@@ -41,12 +44,13 @@ init_cmd_struct	srcs/parser/parser.c	/^t_cmd	*init_cmd_struct(int args_num, bool
 init_env	srcs/variables/environment.c	/^t_list	*init_env(void)$/
 init_io_struct	srcs/piping/plug_pipes.c	/^t_io	init_io_struct(void)$/
 init_vars	srcs/lexer/handle_quote.c	/^static void	init_vars(char **cmd_buffer, int *i, c/
-is_a_redirection_token	srcs/parser/parser.c	/^static int	is_a_redirection_token(t_ttype token_ty/
 is_builtin	srcs/utils/utils.c	/^int	is_builtin(char *cmd_name)$/
 is_eof_delimiter	srcs/parser/handle_heredoc.c	/^static int	is_eof_delimiter(char *line, char *deli/
 is_line_empty	srcs/utils/utils.c	/^int	is_line_empty(char *line)$/
+is_nflag	srcs/builtins/echo.c	/^static bool	is_nflag(char *s)$/
 is_pipe	srcs/utils/utils_2.c	/^int	is_pipe(char c)$/
 is_redirect	srcs/utils/utils_2.c	/^int	is_redirect(char c)$/
+is_redirect_token	srcs/parser/parser.c	/^static int	is_redirect_token(t_ttype token_type)$/
 is_space	srcs/utils/utils_2.c	/^int	is_space(char c)$/
 is_token_in_list	srcs/parser/parsing_utils.c	/^int	is_token_in_list(t_list *token_lst, t_ttype ty/
 lex_chars	srcs/lexer/expansion.c	/^int	lex_chars(int i, char **cmd_buffer, char **buf/
@@ -86,6 +90,7 @@ sig_int_heredoc	srcs/parser/handle_heredoc.c	/^static int	sig_int_heredoc(char *
 sig_quit	srcs/utils/signal.c	/^void	sig_quit(int sig __attribute__((unused)))$/
 skip_spaces	srcs/utils/utils_2.c	/^void	skip_spaces(char **str)$/
 split_buffer_and_add_back	srcs/lexer/handle_expansion.c	/^static void	split_buffer_and_add_back(char **buffe/
+syntax_error	srcs/lexer/check_token.c	/^static int	syntax_error(t_token *unexpected_token)/
 treat_error_msg	srcs/utils/exit.c	/^char	*treat_error_msg(char *str)$/
 unset	srcs/builtins/var.c	/^int	unset(t_cmd *cmd, t_list *env_lst)$/
 wait_all_pids	srcs/utils/wait_utils.c	/^void	wait_all_pids(void)$/

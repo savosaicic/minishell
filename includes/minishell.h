@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:09:46 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 16:21:22 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/02 12:40:06 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int			lex_quotes(t_list **token_lst, char **cmd_buffer, char **buffer);
 int			lex_operators(t_list **token_lst, char **cmd_buffer, char **buffer);
 int			lex_spaces(t_list **token_lst, char **cmd_buffer, char **buffer);
 int			lex_chars(int i, char **cmd_buffer, char **buffer);
+int			check_token(t_list *token_lst);
 
 /*parser*/
 char		*clean_command_line(char *line_buff);
@@ -116,6 +117,7 @@ int			is_pipe(char c);
 void		skip_spaces(char **str);
 void		*xxmalloc(size_t size);
 void		print_token(t_list *list);
+void		print_cmd_lst(t_list *cmd_lst);
 
 void		print_tab(char **tab);
 void		free_tab(char **tab);
