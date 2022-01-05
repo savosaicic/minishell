@@ -6,7 +6,7 @@
 /*   By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 14:33:29 by jboisser          #+#    #+#             */
-/*   Updated: 2022/01/05 16:00:33 by jboisser         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:27:47 by jboisser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,6 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }				t_list;
-
-typedef struct s_split_next
-{
-	size_t	start;
-	size_t	length;
-}				t_split_next;
 
 int				ft_putchar(char c);
 void			ft_putstr(char *str);
