@@ -14,8 +14,8 @@
 
 int	ft_atoi(const char *str)
 {
-	long long res;
-	long long negative;
+	long long	res;
+	long long	negative;
 
 	if (!str)
 		return (0);
@@ -35,5 +35,3 @@ int	ft_atoi(const char *str)
 	}
 	return (res * negative);
 }
-
-

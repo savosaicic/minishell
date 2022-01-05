@@ -49,9 +49,7 @@ void	delete_variable(t_list *env_lst, char *del)
 	if (!ft_strcmp(((t_variable *)env_lst->content)->name, del))
 	{
 		next = env_lst->next;
-		free(((t_variable *)env_lst->content)->name);
-		free(((t_variable *)env_lst->content)->value);
-		free(env_lst->content);
+		free_lstvar(env_lst);
 		*env_lst = *next;
 		free(next);
 		return ;
@@ -62,9 +60,7 @@ void	delete_variable(t_list *env_lst, char *del)
 		if (!ft_strcmp(((t_variable *)next->content)->name, del))
 		{
 			env_lst->next = next->next;
-			free(((t_variable *)next->content)->name);
-			free(((t_variable *)next->content)->value);
-			free(next->content);
+			free_lstvar(next);
 			free(next);
 			return ;
 		}

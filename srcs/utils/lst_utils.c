@@ -17,7 +17,7 @@ void	ft_envlst_add_back(t_list **alst, t_list *new)
 	t_list	*last;
 
 	if (!new)
-		return;
+		return ;
 	if (alst)
 	{
 		if (*alst)
@@ -50,4 +50,11 @@ t_list	*ft_lstsearch(t_list *lst, char *search)
 		lst = lst->next;
 	}
 	return (NULL);
+}
+
+void	free_lstvar(t_list *env_lst)
+{
+	free(((t_variable *)env_lst->content)->name);
+	free(((t_variable *)env_lst->content)->value);
+	free(env_lst->content);
 }

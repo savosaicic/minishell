@@ -135,6 +135,7 @@ void		ft_lstadd_back2(t_list **alst, t_list *new);
 t_list		*ft_lstsearch(t_list *lst, char *search);
 
 void		ft_envlst_add_back(t_list **alst, t_list *new);
+void		free_lstvar(t_list *env_lst);
 
 /* signal.c */
 void		sig_int(int sig __attribute__((unused)));

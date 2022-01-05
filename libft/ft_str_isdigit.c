@@ -11,11 +11,11 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 int	ft_str_isdigit(char *str)
 {
 	unsigned int	i;
-	int		minus;
+	int				minus;
 
 	i = 0;
 	minus = 0;
