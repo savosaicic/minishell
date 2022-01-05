@@ -6,7 +6,7 @@
 #    By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/20 17:28:41 by jboisser          #+#    #+#              #
-#    Updated: 2021/12/31 14:48:24 by sasaicic         ###   ########.fr        #
+#    Updated: 2022/01/05 16:01:51 by jboisser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,7 @@ SRCS			=	ft_putchar.c ft_putstr.c ft_putstr_len.c ft_isalnum.c ft_isprint.c ft_m
 					ft_strcmp.c ft_str_isdigit.c get_next_line.c get_next_line_utils.c \
 					ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 					ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
-					ft_lstmap.c ft_lstnew.c ft_lstsize.c \
-					ft_split_savo.c
+					ft_lstmap.c ft_lstnew.c ft_lstsize.c
 
 OBJS			= $(SRCS:.c=.o)
 

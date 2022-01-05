@@ -16,7 +16,7 @@ void	print_token(t_list *list)
 {
 	char	**types;
 
-	types = ft_split_savo(
+	types = ft_split(
 			"UNIDENTIFIED WORD REDIRECT DGREAT DLESS PIPE ASSIGN", ' ');
 	printf("\n");
 	while (list)

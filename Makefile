@@ -6,7 +6,7 @@
 #    By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/14 10:03:15 by sasaicic          #+#    #+#              #
-#    Updated: 2022/01/02 12:40:20 by sasaicic         ###   ########.fr        #
+#    Updated: 2022/01/05 15:54:50 by jboisser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ gdb: all
 	gdb -q ./$(NAME)
 
 val: all
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+
+valsup: all
 	valgrind --leak-check=full --show-leak-kinds=all --suppressions=sup_readline.val ./$(NAME)
 
 vgdb: all

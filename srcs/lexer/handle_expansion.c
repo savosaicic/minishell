@@ -46,7 +46,7 @@ static void	split_buffer_and_add_back(char **buffer, t_list **token_lst)
 	char	**res;
 	int		i;
 
-	res = ft_split_savo(*buffer, ' ');
+	res = ft_split(*buffer, ' ');
 	if (!res)
 		return ;
 	i = 0;

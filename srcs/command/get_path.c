@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 12:32:06 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/05 15:53:22 by jboisser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	add_path_slash(char **path)
 {
-	char	*tmp;
 	int		i;
 
 	if (!path)
@@ -22,9 +21,7 @@ static void	add_path_slash(char **path)
 	i = 0;
 	while (path[i])
 	{
-		tmp = path[i];
-		path[i] = ft_strjoin(path[i], "/");
-		free(tmp);
+		path[i] = ft_memjoin(path[i], "/");
 		i++;
 	}
 }
@@ -35,7 +32,7 @@ char	**get_path(void)
 	char	*ptr;
 
 	ptr = ft_getenv(g_prg->env_lst, "PATH");
-	path = ft_split_savo(ptr, ':');
+	path = ft_split(ptr, ':');
 	add_path_slash(path);
 	free(ptr);
 	return (path);

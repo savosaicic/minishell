@@ -72,7 +72,7 @@ void	ft_exit(int status, bool display)
 		ft_putstr_fd("exit\n", 1);
 	rl_clear_history();
 	ft_lstclear(&g_prg->env_lst, clear_var_struct);
-	close(g_prg->save_stdin);
+	ft_close(&g_prg->save_stdin);
 	free(g_prg->env_lst);
 	g_prg->env_lst = NULL;
 	free(g_prg->pwd);
