@@ -31,6 +31,8 @@ int	export(t_cmd *cmd, t_list *env_lst)
 		return (print_env(env_lst, "export "));
 	if (cmd->args[1][0] == '-')
 		return (puterror("-", "not a valid identifier", 1));
+	else if (!cmd->args[1][0])
+		return (puterror("export", "`': not a valid identifier", 1));
 	i = 1;
 	while (cmd->args[i])
 	{

@@ -28,20 +28,21 @@ t_variable	*write_variable(char *var)
 	t_variable	*var_struct;
 	int			i;
 
-	var_struct = malloc(sizeof(*var_struct));
-	if (!var_struct)
+	if (!ft_strchr(var, '='))
 		return (NULL);
+	var_struct = xxmalloc(sizeof(*var_struct));
 	i = 0;
 	while (var[i] && var[i] != '=')
 		i++;
-	if (var[i] != '=')
-		return (NULL);
 	var_struct->name = xxmalloc(sizeof(char) * (i + 1));
 	i = 0;
-	while (*var != '=')
-		var_struct->name[i++] = *var++;
+	while (var[i] && var[i] != '=')
+	{
+		var_struct->name[i] = var[i];
+		i++;
+	}
 	var_struct->name[i] = '\0';
-	var_struct->value = ft_strdup(++var);
+	var_struct->value = ft_strdup(var + i + 1);
 	return (var_struct);
 }
 

@@ -16,6 +16,8 @@ void	ft_envlst_add_back(t_list **alst, t_list *new)
 {
 	t_list	*last;
 
+	if (!new)
+		return;
 	if (alst)
 	{
 		if (*alst)
