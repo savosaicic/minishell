@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/06 12:07:13 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/07 10:45:33 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void	init_vars(char **cmd_buffer, int *i, char *quote, char *buffer)
 int	need_to_expand(char **cmd_buffer, char quote)
 {
 	return (**cmd_buffer == '$' && *(*cmd_buffer + 1) && *(*cmd_buffer + 1)
-		!= '$' && *(*cmd_buffer + 1) != ' ' && *(*cmd_buffer + 1) != '\"' && quote != '\'');
+		!= '$' && *(*cmd_buffer + 1) != ' ' && *(*cmd_buffer + 1) != '\"'
+		&& quote != '\'');
 }
 
 static int	expand(char **cmd_buffer, char *buffer, char quote, int *i)
