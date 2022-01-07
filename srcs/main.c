@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:43:59 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/02 13:20:42 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/07 15:46:44 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ t_list	*get_command_lst(char *cmd_buffer)
 	cmd_lst = NULL;
 	add_history(cmd_buffer);
 	if (check_quote_and_forbiden_char(cmd_buffer) > 0)
+	{
+		g_prg->exit_status = 1;
 		return (NULL);
+	}
 	token_lst = get_token(cmd_buffer);
 	if (token_lst == NULL)
 		return (NULL);
@@ -53,7 +56,10 @@ t_list	*get_command_lst(char *cmd_buffer)
 		cmd_lst = parse_tokens(token_lst);
 	ft_lstclear(&token_lst, clear_token_struct);
 	if (!cmd_lst)
+	{
+		g_prg->exit_status = 2;
 		ft_lstclear(&cmd_lst, clear_cmd_struct);
+	}
 	return (cmd_lst);
 }
 
