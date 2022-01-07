@@ -78,5 +78,7 @@ t_list	*parse_tokens(t_list *token_lst)
 	}
 	if (cmd && cmd->args[0])
 		add_last_cmd(&cmd, &cmd_lst, i);
+	else
+		clear_cmd_struct(cmd);
 	return (cmd_lst);
 }
