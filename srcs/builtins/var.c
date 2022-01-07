@@ -14,10 +14,15 @@
 
 int	print_env(t_list *env_lst, char *str)
 {
+	if (!env_lst->content && !env_lst->next)
+		return (0);
 	while (env_lst)
 	{
-		printf("%s%s=%s\n", str, ((t_variable *)env_lst->content)->name,
-			((t_variable *)env_lst->content)->value);
+		ft_putstr(str);
+		ft_putstr(((t_variable *)env_lst->content)->name);
+		ft_putchar('=');
+		ft_putstr(((t_variable *)env_lst->content)->value);
+		ft_putchar('\n');
 		env_lst = env_lst->next;
 	}
 	return (0);
@@ -50,9 +55,17 @@ void	delete_variable(t_list *env_lst, char *del)
 	{
 		next = env_lst->next;
 		free_lstvar(env_lst);
-		*env_lst = *next;
-		free(next);
-		return ;
+		if (next)
+		{
+			*env_lst = *next;
+			free(next);
+		}
+		else
+		{
+			env_lst->content = NULL;
+			env_lst->next = NULL;
+			return ;
+		}
 	}
 	next = env_lst->next;
 	while (next)

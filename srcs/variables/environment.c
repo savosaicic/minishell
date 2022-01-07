@@ -14,6 +14,8 @@
 
 char	*ft_getenv(t_list *env_lst, char *var_search)
 {
+	if (!env_lst->content && !env_lst->next)
+		return (NULL);
 	while (env_lst)
 	{
 		if (!ft_strcmp(((t_variable *)(env_lst->content))->name, var_search))
