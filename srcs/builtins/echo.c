@@ -40,8 +40,7 @@ int	echo(t_cmd *cmd)
 	}
 	if (!cmd->args[i])
 	{
-		if (newline)
-			ft_putchar('\n');
+		ft_putchar('\n');
 		return (0);
 	}
 	while (cmd->args[i])
