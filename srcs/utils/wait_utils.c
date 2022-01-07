@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 15:37:34 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 15:37:37 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/07 16:12:47 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	wait_pid(pid_t pid)
 	int	ret;
 	int	status;
 
+	status = 0;
 	ret = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
@@ -65,6 +66,7 @@ void	wait_all_pids(void)
 	int		i;
 
 	i = 0;
+	status = 0;
 	exit_struct = set_exit_struct();
 	while (i < g_prg->cmds_len && exit_struct[i].pid_ret > 0)
 	{
