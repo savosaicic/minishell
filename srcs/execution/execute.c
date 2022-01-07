@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/14 10:12:45 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/07 16:02:08 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	execute_command(t_cmd *cmd)
 		if (!cmd->path)
 			return (puterror(cmd->args[0], "command not found", 127));
 		execve(cmd->path, cmd->args, g_prg->env);
-		exit(puterror(cmd->args[0], strerror(errno), 1));
+		exit(puterror(cmd->args[0], strerror(errno), 126));
 	}
 	return (wait_pid(pid));
 }
