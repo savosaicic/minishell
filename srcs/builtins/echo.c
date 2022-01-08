@@ -6,7 +6,7 @@
 /*   By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by jboisser          #+#    #+#             */
-/*   Updated: 2022/01/02 09:05:07 by jboisser         ###   ########.fr       */
+/*   Updated: 2022/01/08 09:39:54 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,6 @@ int	echo(t_cmd *cmd)
 	{
 		newline = false;
 		i++;
-	}
-	if (!cmd->args[i])
-	{
-		if (newline)
-			ft_putchar('\n');
-		return (0);
 	}
 	while (cmd->args[i])
 	{
