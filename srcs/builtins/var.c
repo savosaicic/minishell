@@ -32,6 +32,8 @@ int	export(t_cmd *cmd, t_list *env_lst)
 {
 	int	i;
 
+	if (g_prg->child)
+		return (0);
 	if (ft_charlen(cmd->args) <= 1)
 		return (print_env(env_lst, "export "));
 	if (cmd->args[1][0] == '-')
