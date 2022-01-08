@@ -14,8 +14,6 @@
 
 char	*ft_getenv(t_list *env_lst, char *var_search)
 {
-	// if (!env_lst->content && !env_lst->next)
-		// return (NULL);
 	while (env_lst)
 	{
 		if (!ft_strcmp(((t_variable *)(env_lst->content))->name, var_search))
@@ -62,6 +60,7 @@ t_list	*init_env(void)
 	env_lst = NULL;
 	i = 0;
 	while (g_prg->env[i])
-		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(g_prg->env[i++], false)));
+		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(g_prg->env[i++],
+					false)));
 	return (env_lst);
 }

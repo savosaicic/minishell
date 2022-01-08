@@ -14,8 +14,6 @@
 
 int	print_env(t_list *env_lst, char *str)
 {
-	// if (!env_lst->content && !env_lst->next)
-	// 	return (0);
 	while (env_lst)
 	{
 		ft_putstr(str);
@@ -43,13 +41,14 @@ int	export(t_cmd *cmd, t_list *env_lst)
 	i = 1;
 	while (cmd->args[i])
 	{
-		ft_envlst_add_back(&g_prg->env_lst, ft_lstnew(write_variable(cmd->args[i])));
+		ft_envlst_add_back(&g_prg->env_lst,
+			ft_lstnew(write_variable(cmd->args[i], true)));
 		i++;
 	}
 	return (0);
 }
 
-void	delete_variable(t_list *env_lst, char *del)
+int	delete_first_variable(t_list *env_lst, char *del)
 {
 	t_list	*next;
 
@@ -66,9 +65,18 @@ void	delete_variable(t_list *env_lst, char *del)
 		{
 			free(env_lst);
 			g_prg->env_lst = NULL;
-			return ;
+			return (1);
 		}
 	}
+	return (0);
+}
+
+void	delete_variable(t_list *env_lst, char *del)
+{
+	t_list	*next;
+
+	if (delete_first_variable(env_lst, del))
+		return ;
 	next = env_lst->next;
 	while (next)
 	{

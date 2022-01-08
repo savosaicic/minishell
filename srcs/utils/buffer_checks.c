@@ -36,35 +36,11 @@ static int	write_unclosed_quote_error(char quote)
 	return (write(2, error_buffer, 32));
 }
 
-// static int	check_assign_error(char *buffer)
-// {
-// 	char **buffer_split;
-// 	int i;
-// 	int j;
-// 	bool assign;
-
-// 	buffer_split = ft_split(buffer, '|');
-// 	if (!buffer_split)
-// 		return (0);
-// 	i = 0;
-// 	while (buffer_split[i])
-// 	{
-// 		j = 0;
-// 		assign = true;
-// 		while (buffer_split[i][j])
-// 		{
-
-// 		}
-// 	}
-// 	while (*buffer)
-
-// }
-
 int	check_quote_and_forbiden_char(char *buffer)
 {
 	int	simple_quote;
 	int	double_quote;
-	int 	i;
+	int	i;
 
 	simple_quote = 0;
 	double_quote = 0;
@@ -83,6 +59,5 @@ int	check_quote_and_forbiden_char(char *buffer)
 		return (write_unclosed_quote_error('\''));
 	if (double_quote % 2 != 0)
 		return (write_unclosed_quote_error('\"'));
-	// return (check_assign_error(buffer));
-	return(0);
+	return (0);
 }
