@@ -40,18 +40,20 @@ int	check_quote_and_forbiden_char(char *buffer)
 {
 	int	simple_quote;
 	int	double_quote;
+	int	i;
 
 	simple_quote = 0;
 	double_quote = 0;
-	while (*buffer)
+	i = 0;
+	while (buffer[i])
 	{
-		if (*buffer == '\'')
+		if (buffer[i] == '\'')
 			simple_quote++;
-		else if (*buffer == '\"')
+		else if (buffer[i] == '\"')
 			double_quote++;
-		else if (*buffer == ';' || *buffer == '\\')
-			return (write_forbidden_char_error(*buffer));
-		buffer++;
+		else if (buffer[i] == ';' || buffer[i] == '\\')
+			return (write_forbidden_char_error(buffer[i]));
+		i++;
 	}
 	if (simple_quote % 2 != 0)
 		return (write_unclosed_quote_error('\''));

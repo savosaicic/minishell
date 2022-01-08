@@ -6,3 +6,4 @@ minishell
 .gdb_history
 .nfs*
 out*
+env.sh
