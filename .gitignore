@@ -7,3 +7,4 @@ minishell
 .nfs*
 out*
 env.sh
+tags
