@@ -36,7 +36,7 @@
 
 extern t_prg	*g_prg;
 
-t_variable	*write_variable(char *var);
+t_variable	*write_variable(char *var,  bool replace);
 t_list		*init_env(void);
 
 char		*handle_quote(t_list **token_lst, char **cmd_buffer, char *str);
@@ -146,5 +146,7 @@ int			handle_heredoc(t_list **token_lst, t_cmd **cmd);
 void		ft_exit(int status, bool display);
 int			ft_onlychr(char *str, char c);
 int			wait_pid(pid_t pid);
+void		delete_variable(t_list *env_lst, char *del);
+
 
 #endif

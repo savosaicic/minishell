@@ -25,7 +25,7 @@ char	*ft_getenv(t_list *env_lst, char *var_search)
 	return (NULL);
 }
 
-t_variable	*write_variable(char *var)
+t_variable	*write_variable(char *var, bool replace)
 {
 	t_variable	*var_struct;
 	int			i;
@@ -44,6 +44,10 @@ t_variable	*write_variable(char *var)
 		i++;
 	}
 	var_struct->name[i] = '\0';
+	if (replace && ft_lstsearch(g_prg->env_lst, var_struct->name))
+	{
+		delete_variable(g_prg->env_lst, var_struct->name);
+	}
 	var_struct->value = ft_strdup(var + i + 1);
 	return (var_struct);
 }
@@ -58,6 +62,6 @@ t_list	*init_env(void)
 	env_lst = NULL;
 	i = 0;
 	while (g_prg->env[i])
-		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(g_prg->env[i++])));
+		ft_lstadd_back(&env_lst, ft_lstnew(write_variable(g_prg->env[i++], false)));
 	return (env_lst);
 }
