@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jboisser <jboisser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/02 09:05:07 by sasaicic         ###   ########.fr       */
+/*   Created: 2021/12/14 09:08:19 by jboisser          #+#    #+#             */
+/*   Updated: 2022/01/02 09:05:07 by jboisser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	echo(t_cmd *cmd)
 	}
 	if (!cmd->args[i])
 	{
-		ft_putchar('\n');
+		if (newline)
+			ft_putchar('\n');
 		return (0);
 	}
 	while (cmd->args[i])
