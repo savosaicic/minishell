@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 16:26:04 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/08 09:34:16 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ static void	*heredoc_sigint(t_list **cmd_lst)
 	return (NULL);
 }
 
+static void	add_last_or_clear(t_cmd **cmd, t_list **cmd_lst, int i)
+{
+	if (*cmd && (*cmd)->args[0])
+		add_last_cmd(cmd, cmd_lst, i);
+	else
+		clear_cmd_struct(*cmd);
+}
+
 t_list	*parse_tokens(t_list *token_lst)
 {
 	t_list	*cmd_lst;
@@ -76,9 +84,6 @@ t_list	*parse_tokens(t_list *token_lst)
 		if (g_prg->sig_int)
 			return (heredoc_sigint(&cmd_lst));
 	}
-	if (cmd && cmd->args[0])
-		add_last_cmd(&cmd, &cmd_lst, i);
-	else
-		clear_cmd_struct(cmd);
+	add_last_or_clear(&cmd, &cmd_lst, i);
 	return (cmd_lst);
 }
