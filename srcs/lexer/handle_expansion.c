@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 12:31:31 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/08 13:17:26 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*perform_expansion(t_prg *g_prg, t_list *env_lst, char **cmd_buffer)
 	if (!tmp)
 		expanded_var = ft_strdup("");
 	else
-		expanded_var = ft_strdup(ft_getenv(env_lst, buffer));
+		expanded_var = ft_getenv(env_lst, buffer);
 	free(tmp);
 	return (expanded_var);
 }
