@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2021/12/21 11:58:57 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/08 11:34:36 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ t_ttype	get_token_type(char *token)
 		return (T_REDIRECT);
 	else if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">"))
 		return (T_REDIRECT);
-	else if (ft_strchr(token, '='))
-		return (T_ASSIGN);
 	else
 		return (T_WORD);
 }

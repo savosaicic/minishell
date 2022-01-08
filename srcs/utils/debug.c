@@ -6,7 +6,7 @@
 /*   By: sasaicic <sasaicic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 09:08:19 by sasaicic          #+#    #+#             */
-/*   Updated: 2022/01/01 15:33:43 by sasaicic         ###   ########.fr       */
+/*   Updated: 2022/01/08 12:38:33 by sasaicic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_token(t_list *list)
 	char	**types;
 
 	types = ft_split(
-			"UNIDENTIFIED WORD REDIRECT DGREAT DLESS PIPE ASSIGN", ' ');
+			"UNIDENTIFIED WORD REDIRECT DGREAT DLESS PIPE", ' ');
 	printf("\n");
 	while (list)
 	{
